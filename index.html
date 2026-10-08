@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>교내 인사 내규 생성기</title>
-<meta name="description" content="학교 실정에 맞는 교내 인사 내규를 골라 만들고, 우리 학교 내규에서 빠진 조항을 점검하고, 보직교사 정원과 인사점수를 계산합니다.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교내 인사 내규 길잡이</title>
+<meta name="description" content="우리 학교 교내 인사 내규의 빠진 조항과 충돌을 점검하고, 참고안과 비교해 학교에 맞는 내규를 만들고, 해마다 인사점수 순위표와 보직교사 정원을 계산하는 길잡이입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -58,9 +58,11 @@ nav.tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;margin-inline:-
 nav.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:9px 12px 10px;color:var(--muted);font-weight:600;font-size:15px;cursor:pointer;white-space:nowrap}
 nav.tabs button:hover{color:var(--ink)}
 nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-nav.tabs .tn{font-style:normal;display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:var(--soft);color:var(--muted);font-size:10.5px;font-weight:800;margin-right:5px;vertical-align:1px}
-nav.tabs button[aria-selected="true"] .tn{background:var(--accent);color:var(--accent-ink)}
+nav.tabs .tn{font-style:normal;display:inline-grid;place-items:center;box-sizing:border-box;width:18px;height:18px;border-radius:50%;background:transparent;border:1.4px solid currentColor;color:var(--muted);font-size:10.5px;font-weight:800;margin-right:5px;vertical-align:1px}
+nav.tabs button[aria-selected="true"] .tn{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 nav.tabs .ts{display:none}
+nav.tabs .tab-sep{flex:none;width:1px;align-self:center;height:18px;background:var(--line);margin:0 6px}
+.how .n.yr::before{content:"매년";font-size:15px;letter-spacing:-.02em}
 @media (max-width:560px){nav.tabs .tl{display:none}nav.tabs .ts{display:inline}nav.tabs button{padding:9px 9px 10px;font-size:14.5px}nav.tabs .tn{margin-right:3px}}
 .next-step{margin-top:22px;padding:14px 16px;border-radius:12px;border:1px dashed var(--accent);background:var(--accent-soft);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
 .next-step p{margin:0;font-size:14.5px;line-height:1.6;color:var(--ink)}
@@ -93,12 +95,13 @@ input[type=number]{font-variant-numeric:tabular-nums}
 .btn:active{transform:translateY(1px)}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2)}
-.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--accent-2)}
+.btn.ghost:hover{background:var(--soft,rgba(127,127,127,.08));border-color:transparent}
 .btn.sm{padding:6px 11px;font-size:13.5px;border-radius:8px}
 .btn.lg{padding:13px 20px;font-size:16px;border-radius:10px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .x{border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px}
-.kicker{font-size:12.5px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.kicker{font-size:12.5px;font-weight:700;letter-spacing:.03em;color:var(--accent);text-transform:uppercase}
 
 /* ---------- 소개(첫 화면) ---------- */
 .hero{padding-block:18px 8px}
@@ -106,10 +109,11 @@ input[type=number]{font-variant-numeric:tabular-nums}
 .hero h1 em{font-style:normal;color:var(--seal);background:linear-gradient(transparent 62%,var(--seal-soft) 62%)}
 .hero .lead{font-size:17px;max-width:34em;margin-bottom:22px}
 .hero .cta{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:560px){.hero .cta{display:grid;grid-template-columns:1fr}.hero .cta .btn{width:100%}}
 
 .clause{position:relative;margin:34px 0 8px;background:var(--sheet);border:1px solid var(--line);border-radius:4px;padding:26px 24px 22px;font-family:var(--f-doc);font-size:16px;line-height:2;box-shadow:var(--shadow)}
 .clause::before{content:"";position:absolute;inset:6px;border:1px solid var(--soft);pointer-events:none}
-.clause .cap{font-family:var(--f-ui);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
+.clause .cap{font-family:var(--f-ui);font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--muted);margin-bottom:8px}
 .clause del{color:var(--seal);text-decoration-thickness:1.5px}
 .clause ins{color:var(--seal);text-decoration:none;border-bottom:1.5px solid var(--seal)}
 .clause .seal{position:absolute;right:18px;top:-18px;width:62px;height:62px;border:2.5px solid var(--seal);border-radius:50%;color:var(--seal);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:15px;background:var(--sheet);transform:rotate(-12deg);box-shadow:inset 0 0 0 3px var(--sheet),inset 0 0 0 4.5px color-mix(in srgb,var(--seal) 55%,transparent)}
@@ -127,6 +131,8 @@ input[type=number]{font-variant-numeric:tabular-nums}
 .sym blockquote{margin:12px 0 0;padding:10px 12px;border-left:3px solid var(--line);background:var(--soft);border-radius:0 6px 6px 0;font-family:var(--f-doc);font-size:14.5px;line-height:1.8;color:var(--ink-2)}
 
 .tally{display:grid;grid-template-columns:auto 1fr;gap:18px 22px;align-items:center;background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:24px 24px;margin-top:18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tally{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line)}:root:not([data-theme="light"]) .tally .num{color:var(--accent)}}
+:root[data-theme="dark"] .tally{background:var(--accent-soft);color:var(--ink);border:1px solid var(--line)}:root[data-theme="dark"] .tally .num{color:var(--accent)}
 .tally .num{font-family:var(--f-display);font-weight:800;font-size:54px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
 .tally .num small{font-size:24px;opacity:.75}
 .tally p{font-size:15.5px;line-height:1.7}
@@ -218,7 +224,7 @@ input[type=number]{font-variant-numeric:tabular-nums}
 
 /* ---------- 조문 선택 ---------- */
 .opt-group{margin-top:8px}
-.opt-group h3{font-family:var(--f-ui);font-size:13px;letter-spacing:.1em;color:var(--muted);margin:22px 0 4px;font-weight:700;display:flex;align-items:center;gap:8px}
+.opt-group h3{font-family:var(--f-ui);font-size:13px;letter-spacing:.02em;color:var(--muted);margin:22px 0 4px;font-weight:700;display:flex;align-items:center;gap:8px}
 .opt-group h3::after{content:"";flex:1;height:1px;background:var(--line)}
 .opt{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:13px 0;border-top:1px solid var(--soft)}
 .opt-group h3 + .opt{border-top:0}
@@ -233,6 +239,7 @@ input[type=number]{font-variant-numeric:tabular-nums}
 .opt .extra{grid-column:2;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:14px;color:var(--ink-2);margin-top:4px}
 .opt .extra label{display:inline-flex;align-items:center;gap:5px}
 .opt.off .extra{opacity:.45}
+.badge.sel{color:var(--ink-2);background:var(--soft);border:1px solid var(--line)}
 .badge{font-family:var(--f-ui);font-size:11.5px;font-weight:700;color:var(--seal);background:var(--seal-soft);border-radius:5px;padding:1px 7px;letter-spacing:0}
 
 /* ---------- 배점표 편집 ---------- */
@@ -323,11 +330,16 @@ table.edit textarea{width:200px;min-height:38px;padding:5px 7px;font-size:13px;r
 .result-head .big small{font-size:20px;color:var(--muted)}
 .meter{height:8px;border-radius:99px;background:var(--seal-soft);overflow:hidden;margin:4px 0 14px}
 .meter i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.drop-tip{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.mark-box{display:flex;gap:14px;align-items:center;justify-content:space-between;border:1px solid var(--accent-2);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:14px 0 4px}
+.mark-box b{font-size:15px}.mark-box p{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin-top:3px}
+.mark-box .btn{flex:none}
+@media (max-width:560px){.mark-box{flex-direction:column;align-items:stretch}}
 .sum2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 4px}
 .sum2 a{display:block;cursor:pointer;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel);color:var(--ink)}
 .sum2 a b{display:block;font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
 .sum2 a span{font-size:13px;color:var(--muted)}
-.sum2 .s-miss b{color:var(--seal)} .sum2 .s-cf b{color:var(--warn)}
+.sum2 .s-miss b{color:var(--warn)} .sum2 .s-cf b{color:var(--seal)}
 .cf-list{display:grid;gap:10px;margin-top:8px}
 .cf{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:10px;padding:12px 14px;background:var(--panel)}
 .cf.hi{--c:var(--seal)} .cf.mid{--c:var(--warn)}
@@ -342,18 +354,20 @@ table.edit textarea{width:200px;min-height:38px;padding:5px 7px;font-size:13px;r
 .cf-fix b{color:var(--c)}
 .cf-none{padding:14px;border-radius:10px;background:var(--ok-soft);color:var(--ok);font-weight:600;font-size:14.5px}
 @media (max-width:560px){.sum2{grid-template-columns:1fr 1fr}.sum2 a b{font-size:24px}}
-.chk-g{scroll-margin-top:120px;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin:24px 0 2px;display:flex;align-items:center;gap:8px}
+.chk-g{scroll-margin-top:120px;font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--muted);margin:24px 0 2px;display:flex;align-items:center;gap:8px}
 .chk-g::after{content:"";flex:1;height:1px;background:var(--line)}
-.chk{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:start;padding:11px 0;border-top:1px solid var(--soft)}
+.chk{display:grid;grid-template-columns:98px 1fr auto;gap:2px 12px;align-items:start;padding:11px 0;border-top:1px solid var(--soft)}
 .chk-g + .chk{border-top:0}
 .pill{font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;white-space:nowrap;line-height:1.4;margin-top:1px}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
-.pill.no{background:var(--seal-soft);color:var(--seal)}
+.pill.no{background:var(--warn-soft);color:var(--warn)}
+.chk .pill{justify-self:stretch;text-align:center;padding-inline:6px}
 .pill.opt{background:var(--soft);color:var(--ink-2);border:1px solid var(--line)}
 .on-wrap{display:inline-flex;align-items:center;gap:6px}
 .put-done{font-size:13px;font-weight:700;color:var(--ok)}
 .chk .n{font-weight:600;font-size:15.5px}
 .chk .hit{grid-column:2/4;color:var(--muted);font-size:13.5px;font-family:var(--f-doc);line-height:1.7}
+@media (max-width:560px){.chk{grid-template-columns:86px 1fr;gap:4px 10px}.chk .pill{font-size:11.5px}.chk > .row{grid-column:2;justify-content:flex-start!important;flex-wrap:wrap}.chk > span:empty{display:none}.chk .hit{grid-column:2}}
 .note-box{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.7}
 
 /* ---------- 계산기 ---------- */
@@ -377,9 +391,12 @@ td.tot{font-weight:700;font-size:14px}
 td.rk{font-weight:800;color:var(--accent);min-width:36px;font-size:14px}
 tr.k-우대배정 td.kind select,tr.k-우대배정 .nm{color:var(--accent)}
 tr.k-육아휴직 td.kind select,tr.k-유예 td.kind select{color:var(--warn)}
-.calc-nav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.calc-nav button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow)}
-.calc-nav b{font-size:15.5px;color:var(--accent)} .calc-nav span{font-size:13px;color:var(--muted)}
+.calc-nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px}
+.calc-nav .cn-l{font-size:13px;font-weight:700;color:var(--muted);margin-right:2px}
+.calc-nav button{font:inherit;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:6px 14px;cursor:pointer;display:inline-flex;align-items:baseline;gap:6px;color:var(--ink)}
+.calc-nav button:hover{border-color:var(--accent-2)}
+.calc-nav b{font-size:14px;color:var(--accent)} .calc-nav b::before{content:"↓ ";color:var(--muted);font-weight:600} .calc-nav span{font-size:12.5px;color:var(--muted)}
+@media (max-width:620px){.calc-nav span{display:none}}
 .sc-save{margin:4px 0 14px;padding:10px 12px;border-radius:10px;background:var(--accent-soft);color:var(--ink);font-size:13.5px;line-height:1.65}
 .sc-save > b:first-child{color:var(--accent);margin-right:6px}
 .sc-start{border:2px solid var(--accent);border-radius:14px;padding:14px;background:var(--panel)}
@@ -401,7 +418,7 @@ tr.k-육아휴직 td.kind select,tr.k-유예 td.kind select{color:var(--warn)}
 .sc-kinds{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13.5px;color:var(--ink-2);margin-bottom:8px}
 .sc-kinds > div{width:100%}
 .sc-kinds i{font-style:normal;font-weight:700;border-radius:6px;padding:1px 7px;margin-right:4px}
-.sc-kinds .k1{background:var(--accent-soft);color:var(--accent-2)} .sc-kinds .k2{background:var(--soft);color:var(--ink);border:1px solid var(--line)} .sc-kinds .k3{background:var(--warn-soft);color:var(--warn)}
+.sc-kinds .k1{background:var(--accent-soft);color:var(--accent-2)} .sc-kinds .k2{background:var(--soft);color:var(--ink-2)} .sc-kinds .k3{background:var(--warn-soft);color:var(--warn)}
 .sc-more{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;margin:4px 0 10px;cursor:pointer}
 .sc-rule-sum{display:flex;flex-wrap:wrap;align-items:center;gap:8px;justify-content:space-between}
 .sc-rule-sum p{margin:0;font-size:14px;line-height:1.65;color:var(--ink)}
@@ -414,7 +431,7 @@ table.sc-res tr.det td{background:var(--soft);text-align:left;white-space:normal
 table.sc-res .det-in{position:sticky;left:12px;max-width:min(640px,calc(100vw - 90px));display:flex;flex-wrap:wrap;gap:2px 12px}
 table.sc-res .det-in b{color:var(--accent)}
 table.sc-res td.nm u{text-decoration-style:dotted;text-underline-offset:3px}
-@media (max-width:620px){.calc-nav{grid-template-columns:1fr}.sc-start-b{grid-template-columns:1fr}}
+@media (max-width:620px){.calc-nav{}.sc-start-b{grid-template-columns:1fr}}
 .sc-top{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end;margin-top:6px}
 .sc-top .f{width:170px}
 .sc-span{font-size:14px;color:var(--ink-2);padding-bottom:10px}
@@ -463,11 +480,32 @@ table.sc-res td.ch{color:var(--ink-2);font-weight:700}
 .helper .res{font-family:var(--f-display);font-size:26px;font-weight:800;color:var(--accent);line-height:1.2}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted);margin-top:10px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;background:var(--warn-soft);border:1px solid var(--warn)}
+.lic-fab{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:25;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);border-radius:99px;padding:6px 12px;cursor:pointer;backdrop-filter:blur(6px)}
+.lic-fab:hover{color:var(--ink);border-color:var(--accent-2)}
+body[data-tab="make"] .lic-fab{bottom:calc(var(--dock-h,72px) + 10px)}
+.m-back{bottom:calc(58px + env(safe-area-inset-bottom,0px))!important}
+.lic{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--ink) 40%,transparent);display:flex;align-items:center;justify-content:center;padding:16px}
+.lic-panel{width:min(720px,100%);max-height:min(86vh,900px);overflow-y:auto;background:var(--panel);color:var(--ink);border-radius:14px;box-shadow:var(--shadow);padding:20px 20px 24px;outline:0}
+.lic-head{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:-20px;background:var(--panel);padding:4px 0 8px;margin-top:-4px}
+.lic-head h2{font-size:19px;font-weight:800}
+.lic-lead{font-size:14px;color:var(--ink-2);line-height:1.7;margin:4px 0 12px}
+.lic-tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+.lic-tb{width:100%;border-collapse:collapse;font-size:13px;line-height:1.5;min-width:560px}
+.lic-tb th{background:var(--soft);color:var(--ink-2);text-align:left;padding:8px 10px;font-weight:700;white-space:nowrap}
+.lic-tb td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.lic-tb small{color:var(--muted)}
+.lic-note{font-size:12.5px;color:var(--muted);line-height:1.7;margin:12px 0 4px}
+.lic-h3{font-size:15px;font-weight:700;margin:18px 0 8px}
+.lic-t{border:1px solid var(--line);border-radius:10px;margin-top:8px}
+.lic-t summary{cursor:pointer;padding:10px 12px;font-size:14px;font-weight:600}
+.lic-t pre{margin:0;padding:12px;border-top:1px solid var(--line);font-size:11.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:340px;overflow:auto;background:var(--soft);border-radius:0 0 10px 10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (max-width:560px){.lic-panel{padding:16px 14px 20px}.lic-tb{min-width:0}.lic-tb thead{display:none}.lic-tb tr{display:block;padding:10px 12px;border-top:1px solid var(--line)}.lic-tb tr:first-child{border-top:0}.lic-tb td{display:grid;grid-template-columns:64px 1fr;gap:8px;border:0;padding:2px 0}.lic-tb td:first-child{display:block;margin-bottom:4px}.lic-tb td[data-l]::before{content:attr(data-l);color:var(--muted);font-size:12px}}
+@media print{.lic-fab,.lic{display:none!important}}
 footer{color:var(--muted);font-size:13px;text-align:center;padding-block:18px 24px;line-height:1.6}
 
-/* ---------- 내규 참고안 ---------- */
+/* ---------- 인사 내규 참고안 ---------- */
 .mtype{margin:0 0 18px}
-.mtype-h{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.mtype-h{font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--muted);margin-bottom:8px}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .seg button{text-align:left;border:1.5px solid var(--line);background:var(--panel);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;color:var(--ink-2);min-width:0}
 .seg button b{font-family:var(--f-display);font-size:16.5px;color:var(--ink)}
@@ -581,14 +619,14 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
   <div class="wrap">
     <button class="brand" id="home" type="button" aria-label="첫 화면으로">
       <span class="stamp" aria-hidden="true">인사<br>내규</span>
-      <span><b>교내 인사 내규 생성기</b><small>골라서 만들고 · 점검하고 · 계산하는 학교 인사 도구</small></span>
+      <span><b>교내 인사 내규 길잡이</b><small>점검하고 · 비교하고 · 만들고 · 계산하는 학교 인사 도구</small></span>
     </button>
     <nav class="tabs" role="tablist">
       <button type="button" role="tab" data-tab="home" aria-selected="true">소개</button>
-      <button type="button" role="tab" data-tab="check" aria-selected="false"><i class="tn">1</i><span class="tl">우리 내규 점검</span><span class="ts">점검</span></button>
-      <button type="button" role="tab" data-tab="model" aria-selected="false"><i class="tn">2</i><span class="tl">내규 참고안</span><span class="ts">참고안</span></button>
-      <button type="button" role="tab" data-tab="make" aria-selected="false"><i class="tn">3</i><span class="tl">내규 만들기</span><span class="ts">만들기</span></button>
-      <button type="button" role="tab" data-tab="calc" aria-selected="false"><i class="tn">4</i><span class="tl">계산기</span><span class="ts">계산기</span></button>
+      <button type="button" role="tab" data-tab="check" aria-selected="false"><i class="tn">1</i><span class="tl">우리 학교 내규 점검</span><span class="ts">점검</span></button>
+      <button type="button" role="tab" data-tab="model" aria-selected="false"><i class="tn">2</i><span class="tl">인사 내규 참고안</span><span class="ts">참고안</span></button>
+      <button type="button" role="tab" data-tab="make" aria-selected="false"><i class="tn">3</i><span class="tl">인사 내규 만들기</span><span class="ts">만들기</span></button>
+      <span class="tab-sep" aria-hidden="true"></span><button type="button" role="tab" data-tab="calc" aria-selected="false" title="해마다 쓰는 인사점수 순위표·보직교사 정원"><span class="tl">인사점수 계산</span><span class="ts">인사점수</span></button>
     </nav>
   </div>
 </header>
@@ -601,9 +639,9 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <h1>인사철의 다툼은<br>내규의 <em>빈칸</em>에서 시작됩니다</h1>
       <p class="lead">담임 배정, 부장 임용, 업무분장은 해마다 돌아오지만 내규는 몇 해 전 문장 그대로인 경우가 많습니다. 조항끼리 부딪히거나, 정작 다툼이 생기는 순간을 정해 두지 않으면 결정은 관리자 재량이 되고 결과를 믿기 어려워집니다.</p>
       <div class="cta">
-        <button class="btn primary lg" type="button" data-go="check">① 우리 내규 점검하기</button>
-        <button class="btn lg" type="button" data-go="model">② 내규 참고안 읽기</button>
-        <button class="btn ghost lg" type="button" data-go="make">③ 새 내규 만들기</button>
+        <button class="btn primary lg" type="button" data-go="check">① 우리 학교 내규 점검</button>
+        <button class="btn lg" type="button" data-go="model">② 인사 내규 참고안</button>
+        <button class="btn lg" type="button" data-go="make">③ 인사 내규 만들기</button>
       </div>
     </div>
 
@@ -703,7 +741,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
     <div class="sec">
       <div class="kicker">필수 항목</div>
       <h2>인사 내규에 있어야 할 항목</h2>
-      <p class="lead">우리 내규 점검은 아래 항목을 하나씩 찾습니다. 항목을 누르면 내규 참고안의 해당 조문으로 이동합니다. 테두리만 있는 항목은 학교 사정에 따라 고르는 선택 조항입니다.</p>
+      <p class="lead">우리 학교 내규 점검은 아래 항목을 하나씩 찾습니다. 항목을 누르면 인사 내규 참고안의 해당 조문으로 이동합니다. 테두리만 있는 항목은 학교 사정에 따라 고르는 선택 조항입니다.</p>
       <div class="must" id="home-items"></div>
     </div>
 
@@ -711,23 +749,23 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="kicker">이렇게 쓰세요</div>
       <h2>점검하고, 비교하고, 만들고, 해마다 계산합니다</h2>
       <div class="how" style="margin-top:14px">
-        <div><span class="n" aria-hidden="true"></span><div><h3>우리 내규 점검</h3><p>지금 쓰는 내규 파일(HWP·HWPX·DOCX·TXT)을 올리거나 본문을 붙여넣으면, 50개 점검 항목 중 <b>빠진 조항</b>과 조항끼리 엇갈리는 <b>충돌 의심</b>을 보여 줍니다. 파일이 없으면 예시 내규로 먼저 해 볼 수 있습니다.</p></div></div>
-        <div><span class="n" aria-hidden="true"></span><div><h3>내규 참고안</h3><p>모든 항목을 갖춘 참고 내규를 조문별 해설과 함께 읽습니다. 상황별 길잡이로 “부장 희망자가 모자라면?” 같은 경우에 어떤 조문이 적용되는지 따라가 봅니다.</p></div></div>
-        <div><span class="n" aria-hidden="true"></span><div><h3>내규 만들기</h3><p>조문을 켜고 끄고 숫자와 배점표를 학교에 맞게 고칩니다. 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨지고, 한글(HWPX) 파일로 내려받습니다.</p></div></div>
-        <div><span class="n" aria-hidden="true"></span><div><h3>계산기</h3><p>해마다 업무분장서의 담임 명단을 붙여넣어 <b>인사점수 순위와 학년 선택 순서</b>를 계산하고 엑셀로 내려받아 공개합니다. 학급 수로 보직교사 정원도 확인합니다.</p></div></div>
+        <div><span class="n" aria-hidden="true"></span><div><h3>우리 학교 내규 점검</h3><p>지금 쓰는 내규 파일(HWP·HWPX·DOCX·TXT)을 올리거나 본문을 붙여넣으면, 50개 점검 항목 중 <b>빠진 조항</b>과 조항끼리 엇갈리는 <b>충돌 의심</b>을 보여 줍니다. 파일이 없으면 예시 내규로 먼저 해 볼 수 있습니다.</p></div></div>
+        <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 참고안</h3><p>모든 항목을 갖춘 참고 내규를 조문별 해설과 함께 읽습니다. 상황별 길잡이로 “부장 희망자가 모자라면?” 같은 경우에 어떤 조문이 적용되는지 따라가 봅니다.</p></div></div>
+        <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 만들기</h3><p>조문을 켜고 끄고 숫자와 배점표를 학교에 맞게 고칩니다. 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨지고, 한글(HWPX) 파일로 내려받습니다.</p></div></div>
+        <div><span class="n yr" aria-hidden="true"></span><div><h3>인사점수 계산 <small style="font-size:13px;color:var(--muted);font-weight:600">해마다 따로 쓰는 메뉴</small></h3><p>해마다 업무분장서의 담임 명단을 붙여넣어 <b>인사점수 순위와 학년 선택 순서</b>를 계산하고 엑셀로 내려받아 공개합니다. 학급 수로 보직교사 정원도 확인합니다.</p></div></div>
       </div>
       <div class="privacy"><span aria-hidden="true">●</span><span><b>파일은 서버로 보내지 않습니다.</b> 올린 내규와 입력한 교사 정보는 이 브라우저 안에서만 읽고 계산합니다.</span></div>
       <div class="end-cta">
-        <button class="btn primary lg" type="button" data-go="check">① 우리 내규 점검부터 시작하기</button>
-        <button class="btn lg" type="button" data-go="calc">④ 계산기 바로 쓰기</button>
+        <button class="btn primary lg" type="button" data-go="check">① 우리 학교 내규 점검부터 시작하기</button>
+        <button class="btn lg" type="button" data-go="calc">인사점수 계산 바로 쓰기</button>
       </div>
     </div>
   </div>
 
-  <!-- ========== 내규 참고안 ========== -->
+  <!-- ========== 인사 내규 참고안 ========== -->
   <div id="tab-model" hidden>
     <section class="panel m-intro">
-      <div class="kicker">내규 참고안</div>
+      <div class="kicker">인사 내규 참고안</div>
       <h2>모든 항목을 갖춘 교내 인사 내규</h2>
       <div class="m-stats" id="m-stats"></div>
       <p class="lead">점검 항목 50개를 모두 갖춘 교내 인사 내규 참고안입니다. 그대로 따르는 정답이 아니라, 학교 실정에 맞게 고쳐 쓰는 출발점으로 활용하세요. 조문마다 왜 필요한지 해설을 붙였고, 본문 속 조 번호를 누르면 그 조로 이동합니다. 우리 학교에 맞게 고칠 곳은 표시를 보고 찾으세요.</p>
@@ -740,7 +778,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="row">
         <button class="btn primary" type="button" id="m-dl">참고안 HWPX 내려받기</button>
         <button class="btn" type="button" id="m-copy-all">전문 복사</button>
-        <button class="btn ghost" type="button" id="m-to-make">이 내규로 만들기 시작</button>
+        <button class="btn" type="button" id="m-to-make">③ 이 참고안으로 만들기 시작</button>
       </div>
     </section>
 
@@ -758,10 +796,10 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="count" id="m-count"></div>
     </div>
     <div class="sheet-wrap"><div class="m-doc" id="model-doc"></div></div>
-    <section class="panel"><div class="next-step" style="margin-top:0"><p><b>다음 단계</b> 이 참고안을 우리 학교에 맞게 고쳐 한글 파일로 내려받으세요.</p><button class="btn primary sm" type="button" data-go="make">③ 내규 만들기 →</button></div></section>
+    <section class="panel"><div class="next-step" style="margin-top:0"><p><b>다음 단계</b> 이 참고안을 우리 학교에 맞게 고쳐 한글 파일로 내려받으세요.</p><button class="btn primary sm" type="button" data-go="make">③ 인사 내규 만들기 →</button></div></section>
   </div>
 
-  <!-- ========== 내규 만들기 ========== -->
+  <!-- ========== 인사 내규 만들기 ========== -->
   <div id="tab-make" hidden>
     <div class="note-box" style="margin-bottom:14px"><b>처음이라면</b> ① 학교명과 학년도만 고치고 ⑤ 미리보기를 확인한 뒤 아래 <b>HWPX 내려받기</b>를 누르면 됩니다. ②~④는 학교 사정이 참고안과 다를 때만 고치세요. 바꾼 내용은 이 브라우저에 저장됩니다.</div>
     <section class="panel">
@@ -776,14 +814,14 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 
     <section class="panel">
       <div class="ph"><span class="no">2</span><h2>조문 구성</h2></div>
-      <p class="lead s">기본 문안은 ‘내규 참고안’과 같습니다. 조문을 끄면 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨집니다.</p>
+      <p class="lead s">기본 문안은 ‘인사 내규 참고안’과 같습니다. 조문을 끄면 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨집니다.</p>
       <div class="opt-group" id="opts-base"><h3>기본 구조</h3></div>
-      <div class="opt-group" id="opts-b"><h3>배려·예외 조항 <span class="badge">선택</span></h3></div>
+      <div class="opt-group" id="opts-b"><h3>배려·예외 조항 <span class="badge sel">선택</span></h3></div>
     </section>
 
     <section class="panel">
       <div class="ph"><span class="no">3</span><h2>숫자 기준</h2></div>
-      <p class="lead s">내규 본문 문장 속 숫자를 바꿉니다. (계산기의 인사점수는 계산기에서 학년도별 배점을 따로 정합니다.)</p>
+      <p class="lead s">내규 본문 문장 속 숫자를 바꿉니다. (‘인사점수 계산’ 메뉴는 학년도별 배점을 따로 정합니다.)</p>
       <div class="grid2">
         <label class="f">본교 경력점(1개월당)<input type="number" step="0.01" id="v-ownPt"></label>
         <label class="f">본교 경력점 상한<input type="number" step="0.1" id="v-ownCap"></label>
@@ -798,7 +836,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 
     <section class="panel">
       <div class="ph"><span class="no">4</span><h2>담임 경력 배점표</h2></div>
-      <p class="lead s">연도별 학년 점수와 부장 가산점입니다. 비고를 비워 두면 “보직교사 +○, 학교 임명 부장 +○”로 자동 작성됩니다. 계산기는 처음에 이 표를 가져가고, 그 뒤로는 계산기의 학년도별 배점을 씁니다.</p>
+      <p class="lead s">연도별 학년 점수와 부장 가산점입니다. 비고를 비워 두면 “보직교사 +○, 학교 임명 부장 +○”로 자동 작성됩니다. ‘인사점수 계산’ 메뉴는 처음에 이 표를 가져가고, 그 뒤로는 그 메뉴의 학년도별 배점을 씁니다.</p>
       <div class="scroll"><table class="edit" id="score-table"></table></div>
       <div class="row" style="margin-top:12px">
         <button class="btn sm" type="button" id="add-year">연도 추가</button>
@@ -814,11 +852,11 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <p class="lead s">내려받는 HWPX 파일과 같은 내용입니다.</p>
       <div class="sheet-wrap"><div class="sheet" id="preview" aria-live="polite"></div></div>
       <details class="gloss" data-gloss><summary>낯선 낱말 풀이</summary><dl></dl></details>
-      <div class="next-step"><p><b>다음 단계</b> 내규가 확정되면 해마다 계산기로 인사점수 순위표를 만들어 공개하세요.</p><button class="btn primary sm" type="button" data-go="calc">④ 계산기 →</button></div>
+      <div class="next-step"><p><b>다음 단계</b> 내규가 확정되면 해마다 ‘인사점수 계산’ 메뉴로 순위표를 만들어 공개하세요.</p><button class="btn primary sm" type="button" data-go="calc">인사점수 계산 →</button></div>
     </section>
   </div>
 
-  <!-- ========== 우리 내규 점검 ========== -->
+  <!-- ========== 우리 학교 내규 점검 ========== -->
   <div id="tab-check" hidden>
     <section class="panel">
       <div class="ph"><h2>우리 학교 내규 점검</h2></div>
@@ -827,6 +865,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
         <span class="ico" aria-hidden="true"></span>
         <b>내규 파일을 끌어다 놓거나 눌러서 고르세요</b>
         <span>HWP · HWPX · DOCX · TXT</span>
+        <small class="drop-tip">점검 결과를 붉게 표시한 한글 파일도 받을 수 있습니다. 원래 서식을 살리려면 HWPX로 올리세요.</small>
       </label>
       <input type="file" id="file" accept=".hwp,.hwpx,.docx,.txt" hidden>
       <details style="margin-top:14px">
@@ -837,15 +876,15 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="row" style="margin-top:12px;align-items:center"><button class="btn sm" type="button" id="check-sample">예시 내규로 점검해 보기</button><span style="font-size:13px;color:var(--muted)">문제를 일부러 넣은 가상의 내규입니다.</span></div>
       <div id="check-out"></div>
       <details class="gloss" data-gloss><summary>낯선 낱말 풀이</summary><dl></dl></details>
-      <div class="next-step"><p><b>다음 단계</b> 빠진 조항과 충돌을 확인했다면, 참고안에서 모범 조문을 읽어 보세요.</p><button class="btn primary sm" type="button" data-go="model">② 내규 참고안 보기 →</button></div>
+      <div class="next-step"><p><b>다음 단계</b> 빠진 조항과 충돌을 확인했다면, 참고안에서 모범 조문을 읽어 보세요.</p><button class="btn primary sm" type="button" data-go="model">② 인사 내규 참고안 보기 →</button></div>
     </section>
   </div>
 
   <!-- ========== 계산기 ========== -->
   <div id="tab-calc" hidden>
-    <nav class="calc-nav" aria-label="계산기 바로가기">
-      <button type="button" data-cgo="calc-score"><b>인사점수 순위표</b><span>담임 경력으로 학년 배정 순위와 엑셀 만들기</span></button>
-      <button type="button" data-cgo="calc-quota"><b>보직교사 정원</b><span>학급 수로 보직교사 정원 확인</span></button>
+    <nav class="calc-nav" aria-label="인사점수 계산 바로가기"><span class="cn-l">바로가기</span>
+      <button type="button" data-cgo="calc-score"><b>인사점수 순위표</b><span>학년 배정 순위·엑셀</span></button>
+      <button type="button" data-cgo="calc-quota"><b>보직교사 정원</b><span>학급 수로 확인</span></button>
     </nav>
     <section class="panel" id="calc-score">
       <div class="ph"><h2>인사점수 순위표</h2></div>
@@ -926,6 +965,386 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
     </section>
 
   </div>
+<!--LIC-->
+<button type="button" class="lic-fab" id="lic-open" aria-haspopup="dialog">ⓘ 오픈소스 라이선스</button>
+<div class="lic" id="lic" hidden><div class="lic-panel" role="dialog" aria-modal="true" aria-labelledby="lic-h" tabindex="-1">
+<div class="lic-head"><h2 id="lic-h">오픈소스 라이선스</h2><button type="button" class="btn sm ghost" id="lic-close" aria-label="닫기">닫기 ✕</button></div>
+<p class="lic-lead">이 사이트의 기획·문구·화면 구성·점검 규칙은 만든이(최창훈)가 직접 만들었습니다. 파일을 읽고 만드는 기능과 화면 글꼴에는 아래 오픈소스를 각 라이선스 조건에 따라 그대로 불러와 씁니다. 수정하지 않았으며, 각 저작권은 원저작자에게 있습니다.</p>
+<div class="lic-tw"><table class="lic-tb"><thead><tr><th>구성 요소</th><th>쓰는 곳</th><th>라이선스</th><th>저작권자</th></tr></thead><tbody><tr><td><b>ExcelJS</b> <small>4.4.0</small></td><td data-l="쓰는 곳"><span>인사점수 순위표 엑셀 파일 만들기</span></td><td data-l="라이선스"><span>MIT</span></td><td data-l="저작권자"><span>Copyright (c) 2014-2019 Guyon Roche</span></td></tr><tr><td><b>JSZip</b> <small>3.10.1</small></td><td data-l="쓰는 곳"><span>한글(HWPX) 파일 만들기, HWPX·DOCX·엑셀 파일 읽기</span></td><td data-l="라이선스"><span>MIT<br><small>MIT·GPLv3 이중 라이선스 중 MIT 선택</small></span></td><td data-l="저작권자"><span>Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso</span></td></tr><tr><td><b>pako</b> <small>2.1.0</small></td><td data-l="쓰는 곳"><span>한글(HWP) 파일 압축 풀기</span></td><td data-l="라이선스"><span>MIT AND Zlib</span></td><td data-l="저작권자"><span>Copyright (C) 2014-2017 Vitaly Puzrin and Andrei Tuputcyn<br>(C) 1995-2013 Jean-loup Gailly and Mark Adler (zlib)</span></td></tr><tr><td><b>cfb</b> <small>1.2.2</small></td><td data-l="쓰는 곳"><span>한글(HWP) 파일 구조 읽기</span></td><td data-l="라이선스"><span>Apache-2.0</span></td><td data-l="저작권자"><span>Copyright (C) 2013-present SheetJS LLC</span></td></tr><tr><td><b>Noto Sans KR</b> <small>Google Fonts</small></td><td data-l="쓰는 곳"><span>화면 글꼴</span></td><td data-l="라이선스"><span>SIL OFL 1.1</span></td><td data-l="저작권자"><span>Copyright Google Inc. / Adobe (Source Han Sans 기반, Reserved Font Name ‘Source’)</span></td></tr></tbody></table></div>
+<p class="lic-note">한글·HWP·HWPX는 ㈜한글과컴퓨터, Excel·Word·DOCX는 Microsoft Corporation의 상표 또는 파일 형식 이름이며, 이 사이트는 해당 회사와 관계가 없습니다. 법령 조문(보직교사 배치 기준 등)은 저작권법 제7조에 따라 보호받지 않는 저작물입니다.</p>
+<h3 class="lic-h3">라이선스 전문</h3>
+<details class="lic-t" id="lic-mit-exceljs"><summary>MIT License — ExcelJS</summary><pre>The MIT License (MIT)
+
+Copyright (c) 2014-2019 Guyon Roche
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</pre></details><details class="lic-t" id="lic-mit-jszip"><summary>MIT License — JSZip</summary><pre>The MIT License
+
+Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</pre></details><details class="lic-t" id="lic-mit-pako"><summary>MIT License — pako</summary><pre>(The MIT License)
+
+Copyright (C) 2014-2017 by Vitaly Puzrin and Andrei Tuputcyn
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</pre></details><details class="lic-t" id="lic-zlib"><summary>Zlib License — pako(zlib 이식 부분)</summary><pre>(C) 1995-2013 Jean-loup Gailly and Mark Adler
+(C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+
+This software is provided &#x27;as-is&#x27;, without any express or implied
+warranty. In no event will the authors be held liable for any damages
+arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+  claim that you wrote the original software. If you use this software
+  in a product, an acknowledgment in the product documentation would be
+  appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+  misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.</pre></details><details class="lic-t" id="lic-apache"><summary>Apache License 2.0 — cfb</summary><pre>                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets &quot;{}&quot;
+      replaced with your own identifying information. (Don&#x27;t include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same &quot;printed page&quot; as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright (C) 2013-present   SheetJS LLC
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</pre></details><details class="lic-t" id="lic-ofl"><summary>SIL Open Font License 1.1 — Noto Sans KR</summary><pre>Google Inc.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.</pre></details>
+</div></div>
+<!--/LIC-->
   <footer>만든이 2026 최창훈<br>이 도구가 만든 문안은 학교 협의를 거쳐 확정하는 초안입니다.</footer>
 </main>
 
@@ -1457,6 +1876,23 @@ var ENGINE = (function () {
     return out.join('');
   }
 
+  /* 올린 본문(HWP·DOCX·TXT)을 서식 틀에 옮긴 단순 HWPX 본문 */
+  function plainSectionXml(TPL, text) {
+    var lines = String(text).replace(/\r/g, '').split('\n'), out = [TPL.secOpen], first = true;
+    lines.forEach(function (raw) {
+      var t = raw.replace(/\s+$/, '').replace(/\t/g, '    '), s = t.trim();
+      if (first) { if (!s) return; out.push(TPL.para0.replace('{{TITLE}}', esc(s))); first = false; return; }
+      if (!s) { out.push(P('132', [{ c: '92', t: '' }])); return; }
+      if (/^제\s*\d+\s*장/.test(s) || /^부\s*칙\s*$/.test(s)) { out.push(P('59', [{ c: '93', t: s }])); return; }
+      var m = /^(제\s*\d+\s*조(?:\s*의\s*\d+)?\s*\([^)]*\))\s*(.*)$/.exec(s);
+      if (m) { out.push(P('121', [{ c: '91', t: m[1] }].concat(m[2] ? [{ c: '92', t: ' ' + m[2] }] : []))); return; }
+      out.push(P('132', [{ c: '92', t: t }]));
+    });
+    if (first) out.push(TPL.para0.replace('{{TITLE}}', ''));
+    out.push('</hs:sec>');
+    return out.join('');
+  }
+
   /* ---------- 업로드 파일 텍스트 추출 ---------- */
   function hwpParaText(u8) {
     var s = '', i = 0, n = u8.length;
@@ -1866,7 +2302,7 @@ var ENGINE = (function () {
     var ys = res.ys, iys = res.iys, last = res.last;
     var NAVY = 'FF1F3A6B', HEAD = 'FFDCE4F2', BU = 'FFFFF2CC', RANK = 'FFFCE4D6', ZEBRA = 'FFF7F9FC', LINE = 'FFB8C3D4', BLUE = 'FF2F56B0', PURP = 'FF7030A0', GRAY = 'FF5F6A7A';
     var FONT = '맑은 고딕';
-    var wb = new XL.Workbook(); wb.creator = '교내 인사 내규 생성기'; wb.created = new Date();
+    var wb = new XL.Workbook(); wb.creator = '교내 인사 내규 길잡이'; wb.created = new Date();
     var thin = { style: 'thin', color: { argb: LINE } }, box = { top: thin, left: thin, bottom: thin, right: thin };
     function fill(c) { return { type: 'pattern', pattern: 'solid', fgColor: { argb: c } }; }
     function put(cell, v, o) {
@@ -2127,15 +2563,15 @@ var ENGINE = (function () {
   function checkConflicts(text) {
     var P = parseRules(text), out = [], seen = {};
     function add(o) { var k = o.type + '|' + (o.a && o.a.t) + '|' + (o.b && o.b.t); if (seen[k]) return; seen[k] = 1; out.push(o); }
-    function ref(L, hl) { return { at: L.at, t: clip(L.t, 140), hl: hl || [] }; }
+    function ref(L, hl) { return { at: L.at, t: clip(L.t, 140), hl: hl || [], idx: L.idx, full: L.t }; }
     var body = P.lines.filter(function (L) { return L.zone === 'body'; });
 
     /* ① 조 번호 순서 */
     var prev = 0;
     P.arts.forEach(function (A) {
       if (A.sub) return;
-      if (A.dup) add({ lv: 'hi', type: '조 번호', why: J(A.at, '가', '가') + ' 두 번 나옵니다.', fix: '조 번호를 다시 매기고, 이 조를 가리키는 다른 조문도 함께 고칩니다.', a: { at: A.at, t: A.at + '(' + A.title + ')', hl: [A.at] }, b: null });
-      else if (prev && A.no !== prev + 1) add({ lv: 'hi', type: '조 번호', why: '제' + prev + '조 다음이 ' + A.at + '입니다. 중간 조가 빠져 있어 다른 조문의 참조가 어긋났을 수 있습니다.', fix: '조 번호를 차례대로 다시 매기고 참조 조문을 함께 고칩니다.', a: { at: A.at, t: A.at + '(' + A.title + ')', hl: [A.at] }, b: null });
+      if (A.dup) add({ lv: 'hi', type: '조 번호', why: J(A.at, '가', '가') + ' 두 번 나옵니다.', fix: '조 번호를 다시 매기고, 이 조를 가리키는 다른 조문도 함께 고칩니다.', a: { at: A.at, t: A.at + '(' + A.title + ')', hl: [A.at], idx: A.lines[0] ? A.lines[0].idx : -1, full: A.lines[0] ? A.lines[0].t : null }, b: null });
+      else if (prev && A.no !== prev + 1) add({ lv: 'hi', type: '조 번호', why: '제' + prev + '조 다음이 ' + A.at + '입니다. 중간 조가 빠져 있어 다른 조문의 참조가 어긋났을 수 있습니다.', fix: '조 번호를 차례대로 다시 매기고 참조 조문을 함께 고칩니다.', a: { at: A.at, t: A.at + '(' + A.title + ')', hl: [A.at], idx: A.lines[0] ? A.lines[0].idx : -1, full: A.lines[0] ? A.lines[0].t : null }, b: null });
       prev = Math.max(prev, A.no);
     });
 
@@ -2155,7 +2591,7 @@ var ENGINE = (function () {
         var rest = nsp(s.slice(m.index + m[0].length, m.index + m[0].length + 30)).replace(/^[\(의에]+/, '').replace(/^제?\d+항\(?/, '');
         var named = null;
         for (var i = 0; i < titles.length; i++) { if (rest.indexOf(titles[i].n) === 0) { named = titles[i]; break; } }
-        if (named && named.key !== key && named.n !== nsp(T.title)) add({ lv: 'hi', type: '조문 참조', why: T.at + '의 제목은 ‘' + T.title + '’인데 문장은 ‘' + named.t + '’을 말합니다. ' + J(named.at, '을', '를') + ' 가리키려던 것으로 보입니다.', fix: J(tag, '을', '를') + ' ' + named.at + '로 고칩니다.', a: ref(L, [m[0]]), b: null });
+        if (named && named.key !== key && named.n !== nsp(T.title)) add({ lv: 'hi', type: '조문 참조', why: T.at + '의 제목은 ‘' + T.title + '’인데 문장은 ‘' + named.t + '’을 말합니다. ' + J(named.at, '을', '를') + ' 가리키려던 것으로 보입니다.', fix: J(tag, '을', '를') + ' ' + named.at + '로 고칩니다.', a: ref(L, [m[0]]), b: null, rep: { from: m[0], to: named.at } });
       }
       /* 같은 조 안의 "N항" */
       if (L.art) {
@@ -2285,7 +2721,7 @@ var ENGINE = (function () {
 
   return {
     DEFAULT_V: DEFAULT_V, OPTIONS: OPTIONS, BOARD_ROWS: BOARD_ROWS, BOARD_NOTE: BOARD_NOTE, boardQuota: boardQuota,
-    blocks: blocks, plainText: plainText, stripRich: function (t) { return String(t).replace(/[\uE000](.*?)[\uE001]/g, '').replace(/[\uE002\uE003\uE004]/g, ''); }, sectionXml: sectionXml, tableNote: tableNote,
+    blocks: blocks, plainText: plainText, stripRich: function (t) { return String(t).replace(/[\uE000](.*?)[\uE001]/g, '').replace(/[\uE002\uE003\uE004]/g, ''); }, sectionXml: sectionXml, plainSectionXml: plainSectionXml, tableNote: tableNote,
     hwpToText: hwpToText, owpmlToText: owpmlToText, docxToText: docxToText, checkText: checkText, checkConflicts: checkConflicts, TOPICS: TOPICS,
     cellPoint: cellPoint, ownPoint: ownPoint, round1: round1, rankRows: rankRows,
     scoreRoster: scoreRoster, ruleOf: ruleOf, ruleFromTable: ruleFromTable, ruleText: ruleText, scoreXlsxFiles: scoreXlsxFiles, scoreWorkbook: scoreWorkbook, xlsxSheetRows: xlsxSheetRows, xlsxShared: xlsxShared, rosterFromRows: rosterFromRows, ROSTER_FIELDS: ROSTER_FIELDS, SCORE_KINDS: SCORE_KINDS
@@ -2296,7 +2732,7 @@ if (typeof module !== 'undefined') module.exports = ENGINE;
 </script>
 <script>
 var TPL = {"secOpen": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><hs:sec xmlns:ha=\"http://www.hancom.co.kr/hwpml/2011/app\" xmlns:hp=\"http://www.hancom.co.kr/hwpml/2011/paragraph\" xmlns:hp10=\"http://www.hancom.co.kr/hwpml/2016/paragraph\" xmlns:hs=\"http://www.hancom.co.kr/hwpml/2011/section\" xmlns:hc=\"http://www.hancom.co.kr/hwpml/2011/core\" xmlns:hh=\"http://www.hancom.co.kr/hwpml/2011/head\" xmlns:hhs=\"http://www.hancom.co.kr/hwpml/2011/history\" xmlns:hm=\"http://www.hancom.co.kr/hwpml/2011/master-page\" xmlns:hpf=\"http://www.hancom.co.kr/schema/2011/hpf\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:opf=\"http://www.idpf.org/2007/opf/\" xmlns:ooxmlchart=\"http://www.hancom.co.kr/hwpml/2016/ooxmlchart\" xmlns:hwpunitchar=\"http://www.hancom.co.kr/hwpml/2016/HwpUnitChar\" xmlns:epub=\"http://www.idpf.org/2007/ops\" xmlns:config=\"urn:oasis:names:tc:opendocument:xmlns:config:1.0\">", "para0": "<hp:p id=\"0\" paraPrIDRef=\"78\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"76\"><hp:secPr id=\"\" textDirection=\"HORIZONTAL\" spaceColumns=\"1134\" tabStop=\"8000\" tabStopVal=\"4000\" tabStopUnit=\"HWPUNIT\" outlineShapeIDRef=\"0\" memoShapeIDRef=\"0\" textVerticalWidthHead=\"0\" masterPageCnt=\"0\"><hp:grid lineGrid=\"0\" charGrid=\"0\" wonggojiFormat=\"0\"/><hp:startNum pageStartsOn=\"BOTH\" page=\"0\" pic=\"0\" tbl=\"0\" equation=\"0\"/><hp:visibility hideFirstHeader=\"0\" hideFirstFooter=\"0\" hideFirstMasterPage=\"0\" border=\"SHOW_ALL\" fill=\"SHOW_ALL\" hideFirstPageNum=\"0\" hideFirstEmptyLine=\"1\" showLineNumber=\"0\"/><hp:lineNumberShape restartType=\"0\" countBy=\"0\" distance=\"0\" startNumber=\"0\"/><hp:pagePr landscape=\"WIDELY\" width=\"59528\" height=\"84188\" gutterType=\"LEFT_ONLY\"><hp:margin header=\"4251\" footer=\"2551\" gutter=\"0\" left=\"7086\" right=\"7086\" top=\"3685\" bottom=\"3685\"/></hp:pagePr><hp:footNotePr><hp:autoNumFormat type=\"DIGIT\" userChar=\"\" prefixChar=\"\" suffixChar=\")\" supscript=\"0\"/><hp:noteLine length=\"-1\" type=\"SOLID\" width=\"0.12 mm\" color=\"#000000\"/><hp:noteSpacing betweenNotes=\"284\" belowLine=\"568\" aboveLine=\"852\"/><hp:numbering type=\"CONTINUOUS\" newNum=\"1\"/><hp:placement place=\"EACH_COLUMN\" beneathText=\"0\"/></hp:footNotePr><hp:endNotePr><hp:autoNumFormat type=\"DIGIT\" userChar=\"\" prefixChar=\"\" suffixChar=\")\" supscript=\"0\"/><hp:noteLine length=\"0\" type=\"NONE\" width=\"0.12 mm\" color=\"#000000\"/><hp:noteSpacing betweenNotes=\"0\" belowLine=\"576\" aboveLine=\"864\"/><hp:numbering type=\"CONTINUOUS\" newNum=\"1\"/><hp:placement place=\"END_OF_DOCUMENT\" beneathText=\"0\"/></hp:endNotePr><hp:pageBorderFill type=\"BOTH\" borderFillIDRef=\"8\" textBorder=\"PAPER\" headerInside=\"0\" footerInside=\"0\" fillArea=\"PAPER\"><hp:offset left=\"0\" right=\"0\" top=\"0\" bottom=\"0\"/></hp:pageBorderFill><hp:pageBorderFill type=\"EVEN\" borderFillIDRef=\"1\" textBorder=\"PAPER\" headerInside=\"0\" footerInside=\"0\" fillArea=\"PAPER\"><hp:offset left=\"1417\" right=\"1417\" top=\"1417\" bottom=\"1417\"/></hp:pageBorderFill><hp:pageBorderFill type=\"ODD\" borderFillIDRef=\"1\" textBorder=\"PAPER\" headerInside=\"0\" footerInside=\"0\" fillArea=\"PAPER\"><hp:offset left=\"1417\" right=\"1417\" top=\"1417\" bottom=\"1417\"/></hp:pageBorderFill></hp:secPr><hp:ctrl><hp:colPr id=\"\" type=\"NEWSPAPER\" layout=\"LEFT\" colCount=\"1\" sameSz=\"1\" sameGap=\"0\"/></hp:ctrl></hp:run><hp:run charPrIDRef=\"76\"><hp:ctrl><hp:pageNum pos=\"BOTTOM_CENTER\" formatType=\"DIGIT\" sideChar=\"\"/></hp:ctrl><hp:t><hp:fwSpace/></hp:t><hp:container id=\"1832707917\" zOrder=\"0\" numberingType=\"PICTURE\" textWrap=\"IN_FRONT_OF_TEXT\" textFlow=\"BOTH_SIDES\" lock=\"0\" dropcapstyle=\"None\" href=\"\" groupLevel=\"0\" instid=\"758966094\"><hp:offset x=\"0\" y=\"0\"/><hp:orgSz width=\"11550\" height=\"2500\"/><hp:curSz width=\"19380\" height=\"0\"/><hp:flip horizontal=\"0\" vertical=\"0\"/><hp:rotationInfo angle=\"0\" centerX=\"9690\" centerY=\"1250\" rotateimage=\"0\"/><hp:renderingInfo><hc:transMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:scaMatrix e1=\"1.677922\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:rotMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/></hp:renderingInfo><hp:rect id=\"0\" zOrder=\"0\" numberingType=\"NONE\" textWrap=\"TOP_AND_BOTTOM\" textFlow=\"BOTH_SIDES\" lock=\"0\" dropcapstyle=\"None\" href=\"\" groupLevel=\"1\" instid=\"758966095\" ratio=\"20\"><hp:offset x=\"0\" y=\"0\"/><hp:orgSz width=\"19700\" height=\"2500\"/><hp:curSz width=\"33055\" height=\"0\"/><hp:flip horizontal=\"0\" vertical=\"0\"/><hp:rotationInfo angle=\"0\" centerX=\"9690\" centerY=\"1250\" rotateimage=\"0\"/><hp:renderingInfo><hc:transMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:scaMatrix e1=\"1.677922\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:rotMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:scaMatrix e1=\"0.586294\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:rotMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/></hp:renderingInfo><hp:lineShape color=\"#939393\" width=\"169\" style=\"SOLID\" endCap=\"FLAT\" headStyle=\"NORMAL\" tailStyle=\"NORMAL\" headfill=\"1\" tailfill=\"1\" headSz=\"MEDIUM_MEDIUM\" tailSz=\"MEDIUM_MEDIUM\" outlineStyle=\"NORMAL\" alpha=\"0\"/><hp:shadow type=\"NONE\" color=\"#000000\" offsetX=\"0\" offsetY=\"0\" alpha=\"0\"/><hp:drawText lastWidth=\"19380\" name=\"\" editable=\"0\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"78\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"27\"/></hp:p></hp:subList><hp:textMargin left=\"283\" right=\"283\" top=\"283\" bottom=\"283\"/></hp:drawText><hc:pt0 x=\"0\" y=\"0\"/><hc:pt1 x=\"19700\" y=\"0\"/><hc:pt2 x=\"19700\" y=\"2500\"/><hc:pt3 x=\"0\" y=\"2500\"/></hp:rect><hp:rect id=\"0\" zOrder=\"0\" numberingType=\"NONE\" textWrap=\"TOP_AND_BOTTOM\" textFlow=\"BOTH_SIDES\" lock=\"0\" dropcapstyle=\"None\" href=\"\" groupLevel=\"1\" instid=\"758966096\" ratio=\"20\"><hp:offset x=\"225\" y=\"275\"/><hp:orgSz width=\"19700\" height=\"2500\"/><hp:curSz width=\"33055\" height=\"0\"/><hp:flip horizontal=\"0\" vertical=\"0\"/><hp:rotationInfo angle=\"0\" centerX=\"9271\" centerY=\"983\" rotateimage=\"0\"/><hp:renderingInfo><hc:transMatrix e1=\"1\" e2=\"0\" e3=\"225\" e4=\"0\" e5=\"1\" e6=\"275\"/><hc:scaMatrix e1=\"1.677922\" e2=\"0\" e3=\"152.532468\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:rotMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/><hc:scaMatrix e1=\"0.560914\" e2=\"0\" e3=\"25\" e4=\"0\" e5=\"0.7864\" e6=\"0\"/><hc:rotMatrix e1=\"1\" e2=\"0\" e3=\"0\" e4=\"0\" e5=\"1\" e6=\"0\"/></hp:renderingInfo><hp:lineShape color=\"#000000\" width=\"42\" style=\"DASH\" endCap=\"FLAT\" headStyle=\"NORMAL\" tailStyle=\"NORMAL\" headfill=\"1\" tailfill=\"1\" headSz=\"MEDIUM_MEDIUM\" tailSz=\"MEDIUM_MEDIUM\" outlineStyle=\"NORMAL\" alpha=\"0\"/><hp:shadow type=\"NONE\" color=\"#000000\" offsetX=\"0\" offsetY=\"0\" alpha=\"0\"/><hp:drawText lastWidth=\"18542\" name=\"\" editable=\"0\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"80\" styleIDRef=\"3\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"8\"><hp:t>{{TITLE}}</hp:t></hp:run></hp:p></hp:subList><hp:textMargin left=\"283\" right=\"283\" top=\"283\" bottom=\"283\"/></hp:drawText><hc:pt0 x=\"0\" y=\"0\"/><hc:pt1 x=\"19700\" y=\"0\"/><hc:pt2 x=\"19700\" y=\"2500\"/><hc:pt3 x=\"0\" y=\"2500\"/></hp:rect><hp:sz width=\"19380\" widthRelTo=\"ABSOLUTE\" height=\"2500\" heightRelTo=\"ABSOLUTE\" protect=\"0\"/><hp:pos treatAsChar=\"1\" affectLSpacing=\"0\" flowWithText=\"0\" allowOverlap=\"1\" holdAnchorAndSO=\"0\" vertRelTo=\"PARA\" horzRelTo=\"PARA\" vertAlign=\"TOP\" horzAlign=\"LEFT\" vertOffset=\"0\" horzOffset=\"0\"/><hp:outMargin left=\"0\" right=\"0\" top=\"0\" bottom=\"0\"/></hp:container><hp:t><hp:titleMark ignore=\"1\"/> </hp:t></hp:run></hp:p>", "tblPre": "<hp:p id=\"2147483648\" paraPrIDRef=\"125\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"94\"><hp:tbl id=\"1326637481\" zOrder=\"1\" numberingType=\"TABLE\" textWrap=\"TOP_AND_BOTTOM\" textFlow=\"BOTH_SIDES\" lock=\"0\" dropcapstyle=\"None\" pageBreak=\"NONE\" repeatHeader=\"1\" rowCnt=\"{{ROWS}}\" colCnt=\"9\" cellSpacing=\"0\" borderFillIDRef=\"4\" noAdjust=\"0\"><hp:sz width=\"44113\" widthRelTo=\"ABSOLUTE\" height=\"{{H}}\" heightRelTo=\"ABSOLUTE\" protect=\"0\"/><hp:pos treatAsChar=\"1\" affectLSpacing=\"0\" flowWithText=\"1\" allowOverlap=\"0\" holdAnchorAndSO=\"0\" vertRelTo=\"PARA\" horzRelTo=\"PARA\" vertAlign=\"TOP\" horzAlign=\"LEFT\" vertOffset=\"0\" horzOffset=\"0\"/><hp:outMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/><hp:inMargin left=\"140\" right=\"140\" top=\"140\" bottom=\"140\"/>", "tblHeader": "<hp:tr><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"11\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>학년 </hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"0\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"4324\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>1</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"1\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>2</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"2\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2909\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>3</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"3\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>4</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"4\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>5</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"5\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2626\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>6</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"6\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2630\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"12\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>교담</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"7\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"8652\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc><hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"13\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\"><hp:p id=\"2147483648\" paraPrIDRef=\"59\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\"><hp:run charPrIDRef=\"7\"><hp:t>비고</hp:t></hp:run></hp:p></hp:subList><hp:cellAddr colAddr=\"8\" rowAddr=\"0\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"14233\" height=\"2046\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc></hp:tr>", "tblMid": [{"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"14\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C0}}</hp:subList><hp:cellAddr colAddr=\"0\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"4324\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C1}}</hp:subList><hp:cellAddr colAddr=\"1\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C2}}</hp:subList><hp:cellAddr colAddr=\"2\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2909\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C3}}</hp:subList><hp:cellAddr colAddr=\"3\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C4}}</hp:subList><hp:cellAddr colAddr=\"4\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C5}}</hp:subList><hp:cellAddr colAddr=\"5\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2626\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C6}}</hp:subList><hp:cellAddr colAddr=\"6\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2630\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"10\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C7}}</hp:subList><hp:cellAddr colAddr=\"7\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"8652\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"15\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C8}}</hp:subList><hp:cellAddr colAddr=\"8\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"14233\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}], "tblLast": [{"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"16\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C0}}</hp:subList><hp:cellAddr colAddr=\"0\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"4324\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"144\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C1}}</hp:subList><hp:cellAddr colAddr=\"1\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C2}}</hp:subList><hp:cellAddr colAddr=\"2\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2909\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C3}}</hp:subList><hp:cellAddr colAddr=\"3\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C4}}</hp:subList><hp:cellAddr colAddr=\"4\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2913\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C5}}</hp:subList><hp:cellAddr colAddr=\"5\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2626\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C6}}</hp:subList><hp:cellAddr colAddr=\"6\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"2630\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"17\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C7}}</hp:subList><hp:cellAddr colAddr=\"7\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"8652\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}, {"xml": "<hp:tc name=\"\" header=\"0\" hasMargin=\"0\" protect=\"0\" editable=\"0\" dirty=\"0\" borderFillIDRef=\"18\"><hp:subList id=\"\" textDirection=\"HORIZONTAL\" lineWrap=\"BREAK\" vertAlign=\"CENTER\" linkListIDRef=\"0\" linkListNextIDRef=\"0\" textWidth=\"0\" textHeight=\"0\" hasTextRef=\"0\" hasNumRef=\"0\">{{C8}}</hp:subList><hp:cellAddr colAddr=\"8\" rowAddr=\"{{R}}\"/><hp:cellSpan colSpan=\"1\" rowSpan=\"1\"/><hp:cellSz width=\"14233\" height=\"2592\"/><hp:cellMargin left=\"141\" right=\"141\" top=\"141\" bottom=\"141\"/></hp:tc>", "p": "<hp:p id=\"2147483648\" paraPrIDRef=\"143\" styleIDRef=\"0\" pageBreak=\"0\" columnBreak=\"0\" merged=\"0\">", "run": "<hp:run charPrIDRef=\"103\">"}], "tblSuf": "</hp:tbl><hp:t/></hp:run></hp:p>", "hdrH": 2046, "rowH": 2592};
-var PKG_B64 = "UEsDBBQAAAAAAISBRl2C8EFHEwAAABMAAAAIAAAAbWltZXR5cGVhcHBsaWNhdGlvbi9od3AremlwUEsDBBQAAAAIAISBRl0AAAAAAgAAAAAAAAAJAAAAQ29udGVudHMvAwBQSwMEFAAAAAgAhIFGXQAAAAACAAAAAAAAABUAAABDb250ZW50cy9zZWN0aW9uMC54bWwDAFBLAwQUAAAACACEgUZdpT0I7ao0AABFagYAEwAAAENvbnRlbnRzL2hlYWRlci54bWztfV2TG8d57v35Faj1haQLcNE936zQKYoiRdoUqeJHFF25wN3ZXYRYAAGwppgrWaZdcsk5iRJKUVSUSqrIlqOjqsOSlQpdR/4zzh0X/A9nBsBiegY9g2lgBtPd81AXWuzODLrfeZ+n3+73ebv/6q/fOe42fu4PR51+78JL5FzrpYbf2+vvd3qHF166e+dK032pMRq3e/vtbr/nX3jpoT966a9//L/+6ujo/JHf3m8Et/dG54/aF3aOxuPB+d3dBw8enDtqB484PrfXP3d/uHv0YHDc3aUtQnbbg8HO2R2DXHcM2sP24bA9OIruI60cd9qcO0e5vnHk740DWyzu2st1115/6C9uOcp1S2i+6JZ8jTvqjMb94cPFbce57jpuj8b+sDloH0ZtHByk3zraO/KP2/NvHByc3bMfmWJwMuye6w8Pd/f3dv2uf+z3xqNdco7snl3bTzy/sz84mN5AWy1nN/hrdGU/+P/eUXs4zvVao8sXXXkwOOl1xuHvcj3h6oPB3eD6S8H1Z4/wByf3Mps7Ortyr9876Bxe2DkZ9s7326PO6HyvfeyPzo/3gi77vf3+3klojPPs1ecDVO0sMLZDzlk7jcDLLvWCHpOdH4dQuucfdno3To4b4TsKf9s46PfHvf549iF48OLnQWdv+v/xve7sb39/0h7PHryzO33Y0D+4HvjJ9OeDfm980N7zR43O2D+efqWzE/tLo9sOoL5z9eKN1+9eD7+3N55eZjDXNTr7F3aCPoTXX9h5/l/fn/7+h6AFDwfBpzt3ruw0OqPLx/f8/X1/et30vvCv13oH/eCm40734Z3pxVcuXbzzs9dv3rl67dJO44HfOTwKvskOOjXsD/rDWTeC7wnsNh4GTjv9MBoP+/f9v2kPO4t+NtrD49vjh92ZRbr+OHDvg/7wePrxuLPf7fRmf3rn6vw7prbZnXcn3i9y1q/Tp49f/PIjbfpF4/2afPd9aV3zttw146xrLz56Mvl/3zcmv348+fx/N94orYMG20Eq2EEq3kEz6uAfJt+/f/rltyU7p7nlN2gtOvjk+9M//PD8j1+cPi6wd1a1vbPjvTv95leTL59q0zvnrHdX337+3bdFd65i1nSjzk0++EKzznlM5z59dvr735z+06PySHPrA3mL6d5XHxbNKVX3jkS9e/FvX53+65PTz36YfPZMo/e3iFh+tPT6rl65s2HnWoKda7Gda8U712I612I618ro3CJmiXOKeMfeePvujdd/clOeni2ClRlhNk4fPz5975PT//iDRn20En3U0EHtRBdf/PKJdq66CF0mH384+fzbxuTps8n7//dVfV6iy86MPv4wiM90c1NvqYe6eSltJbr4389OP//kxeM/r9/F27cv37p2RZ4ekngPlyJtDV4iTXRRuwGDLiKa5uTJV7POkdB3s8PR0cm90fhK+BB2CWfl8kbjXqfXHj68NvaPr712yz+4sDNf7VRm2kwXcdLFUaede3KZtNfK1dcCLFX1yqXFWir3GkN1niVqr6KRaLP2WorbYK+kvZyYvT779vTrz1ZOo+trrUVMGUzsJl+/O/nkF5PPvp989706Jtv28j31oqHx17+V27sqHhWNFieKMBBFpNqLsPaaET2irgx70fiyhlbjYtG2WkT0k0dPJp8+CyKJcO752Q/M3BNGSxrNXDJa4GYwV5q5YrH96a/CpY3rsFaataJF2feenv7TbydfPDn906OGxAYztk/3Zz+FXeVJm65fvHPtBqtscqFsUrpfUDZB2SS/sklHdYwddU4/dQyja9JQHcMKm7QTxzDCJk21MYsY5U7n2B81bvgPGrf6x+3edgYGi9NDk+2hlT4wGEwPzTz6Jh3VP1HIolmeM9I1BTOUyaOANr998fiRPi+uBHGTZMn4MrRN0nlpNI/WVPjjsBMHLYU/y9Im7bg0qW3ST/jTivdQR+FPUtukXTATSZuuXrrWuNrvdh8e9ffu69M/g+3fm/3B4KFG7mly8q3IH+bUIkG1lVeFBNWWoAoJqq3cOiSotnJYaxFLQrW1hhQJqi0BFRJUW/lVSFBtCSqRziKuF//+0eTz351++Im8RqtaLGIyS7EQi4hokaB3W0eSBL1bDnPFonzo3cTlW1cv3vjJRVa+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";
+var PKG_B64 = "UEsDBBQAAAAAAISBRl2C8EFHEwAAABMAAAAIAAAAbWltZXR5cGVhcHBsaWNhdGlvbi9od3AremlwUEsDBBQAAAAIAISBRl0AAAAAAgAAAAAAAAAJAAAAQ29udGVudHMvAwBQSwMEFAAAAAgAhIFGXQAAAAACAAAAAAAAABUAAABDb250ZW50cy9zZWN0aW9uMC54bWwDAFBLAwQUAAAACACEgUZdpT0I7ao0AABFagYAEwAAAENvbnRlbnRzL2hlYWRlci54bWztfV2TG8d57v35Faj1haQLcNE936zQKYoiRdoUqeJHFF25wN3ZXYRYAAGwppgrWaZdcsk5iRJKUVSUSqrIlqOjqsOSlQpdR/4zzh0X/A9nBsBiegY9g2lgBtPd81AXWuzODLrfeZ+n3+73ebv/6q/fOe42fu4PR51+78JL5FzrpYbf2+vvd3qHF166e+dK032pMRq3e/vtbr/nX3jpoT966a9//L/+6ujo/JHf3m8Et/dG54/aF3aOxuPB+d3dBw8enDtqB484PrfXP3d/uHv0YHDc3aUtQnbbg8HO2R2DXHcM2sP24bA9OIruI60cd9qcO0e5vnHk740DWyzu2st1115/6C9uOcp1S2i+6JZ8jTvqjMb94cPFbce57jpuj8b+sDloH0ZtHByk3zraO/KP2/NvHByc3bMfmWJwMuye6w8Pd/f3dv2uf+z3xqNdco7snl3bTzy/sz84mN5AWy1nN/hrdGU/+P/eUXs4zvVao8sXXXkwOOl1xuHvcj3h6oPB3eD6S8H1Z4/wByf3Mps7Ortyr9876Bxe2DkZ9s7326PO6HyvfeyPzo/3gi77vf3+3klojPPs1ecDVO0sMLZDzlk7jcDLLvWCHpOdH4dQuucfdno3To4b4TsKf9s46PfHvf549iF48OLnQWdv+v/xve7sb39/0h7PHryzO33Y0D+4HvjJ9OeDfm980N7zR43O2D+efqWzE/tLo9sOoL5z9eKN1+9eD7+3N55eZjDXNTr7F3aCPoTXX9h5/l/fn/7+h6AFDwfBpzt3ruw0OqPLx/f8/X1/et30vvCv13oH/eCm40734Z3pxVcuXbzzs9dv3rl67dJO44HfOTwKvskOOjXsD/rDWTeC7wnsNh4GTjv9MBoP+/f9v2kPO4t+NtrD49vjh92ZRbr+OHDvg/7wePrxuLPf7fRmf3rn6vw7prbZnXcn3i9y1q/Tp49f/PIjbfpF4/2afPd9aV3zttw146xrLz56Mvl/3zcmv348+fx/N94orYMG20Eq2EEq3kEz6uAfJt+/f/rltyU7p7nlN2gtOvjk+9M//PD8j1+cPi6wd1a1vbPjvTv95leTL59q0zvnrHdX337+3bdFd65i1nSjzk0++EKzznlM5z59dvr735z+06PySHPrA3mL6d5XHxbNKVX3jkS9e/FvX53+65PTz36YfPZMo/e3iFh+tPT6rl65s2HnWoKda7Gda8U712I612I618ro3CJmiXOKeMfeePvujdd/clOeni2ClRlhNk4fPz5975PT//iDRn20En3U0EHtRBdf/PKJdq66CF0mH384+fzbxuTps8n7//dVfV6iy86MPv4wiM90c1NvqYe6eSltJbr4389OP//kxeM/r9/F27cv37p2RZ4ekngPlyJtDV4iTXRRuwGDLiKa5uTJV7POkdB3s8PR0cm90fhK+BB2CWfl8kbjXqfXHj68NvaPr712yz+4sDNf7VRm2kwXcdLFUaede3KZtNfK1dcCLFX1yqXFWir3GkN1niVqr6KRaLP2WorbYK+kvZyYvT779vTrz1ZOo+trrUVMGUzsJl+/O/nkF5PPvp989706Jtv28j31oqHx17+V27sqHhWNFieKMBBFpNqLsPaaET2irgx70fiyhlbjYtG2WkT0k0dPJp8+CyKJcO752Q/M3BNGSxrNXDJa4GYwV5q5YrH96a/CpY3rsFaataJF2feenv7TbydfPDn906OGxAYztk/3Zz+FXeVJm65fvHPtBqtscqFsUrpfUDZB2SS/sklHdYwddU4/dQyja9JQHcMKm7QTxzDCJk21MYsY5U7n2B81bvgPGrf6x+3edgYGi9NDk+2hlT4wGEwPzTz6Jh3VP1HIolmeM9I1BTOUyaOANr998fiRPi+uBHGTZMn4MrRN0nlpNI/WVPjjsBMHLYU/y9Im7bg0qW3ST/jTivdQR+FPUtukXTATSZuuXrrWuNrvdh8e9ffu69M/g+3fm/3B4KFG7mly8q3IH+bUIkG1lVeFBNWWoAoJqq3cOiSotnJYaxFLQrW1hhQJqi0BFRJUW/lVSFBtCSqRziKuF//+0eTz351++Im8RqtaLGIyS7EQi4hokaB3W0eSBL1bDnPFonzo3cTlW1cv3vjJRVa+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";
 </script>
 <script>
 (function(){
@@ -2323,6 +2759,8 @@ function persist(){ save(KEY_GEN, { V: V, opt: opt, markRed: markRed }); }
 var current = 'home';
 function showTab(name, push){
   current = name;
+  document.body.dataset.tab = name;
+  if (name === 'make') setTimeout(function(){ var d = document.getElementById('dock'); if (d) document.body.style.setProperty('--dock-h', d.offsetHeight + 'px'); }, 0);
   document.querySelector('main').classList.toggle('home-mode', name === 'home');
   ['home','model','make','check','calc'].forEach(function(n){ $('#tab-' + n).hidden = n !== name; });
   document.querySelectorAll('nav.tabs button').forEach(function(b){ b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false'); });
@@ -2530,7 +2968,7 @@ $('#copy-text').addEventListener('click', function(){
   function fallback(){ var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch(e2){ toast('복사하지 못했습니다. 미리보기에서 직접 선택해 주세요.'); } ta.remove(); }
 });
 
-/* ---------- 우리 내규 점검 ---------- */
+/* ---------- 우리 학교 내규 점검 ---------- */
 var drop = $('#drop');
 ['dragenter','dragover'].forEach(function(n){ drop.addEventListener(n, function(ev){ ev.preventDefault(); drop.classList.add('on'); }); });
 ['dragleave','drop'].forEach(function(n){ drop.addEventListener(n, function(ev){ ev.preventDefault(); drop.classList.remove('on'); }); });
@@ -2586,7 +3024,7 @@ async function readFile(f){
       if ((text.match(/\uFFFD/g) || []).length > 5) { try { text = new TextDecoder('euc-kr').decode(buf); } catch(e){} }
     } else throw new Error('HWP, HWPX, DOCX, TXT 파일만 읽을 수 있습니다.');
     if (text.replace(/\s/g, '').length < 50) throw new Error('읽은 본문이 너무 짧습니다. 파일 내용을 확인해 주세요.');
-    showCheck(text, f.name);
+    showCheck(text, f.name, { ext: ext, buf: buf });
   } catch (e) {
     out.innerHTML = '<div class="note-box" style="margin-top:14px">' + esc(e && e.message || e) + '</div>';
   }
@@ -2599,26 +3037,31 @@ function cfCard(x){
   return '<div class="cf ' + x.lv + '"><div class="cf-top"><span class="pill ' + x.lv + '">' + (x.lv === 'hi' ? '충돌' : '확인 필요') + '</span><b>' + esc(x.type) + '</b></div>' +
     '<p class="cf-why">' + esc(x.why) + '</p>' + q(x.b ? '문장 A' : '문장', x.a) + q('문장 B', x.b) + '<p class="cf-fix"><b>고칠 방향</b> ' + esc(x.fix) + '</p></div>';
 }
-function showCheck(text, name){
+function showCheck(text, name, src){
   var r = E.checkText(text), ok = r.filter(function(x){ return x.ok; }).length;
   lastMissingOpts = r.filter(function(x){ return !x.ok && x.opt; }).map(function(x){ return x.opt; });
   var h = '<div class="result-head"><span class="big">' + ok + '<small> / ' + r.length + '</small></span><span style="color:var(--muted)">' + esc(name) + '에서 확인된 항목</span></div>' +
     '<div class="meter" aria-hidden="true"><i style="width:' + Math.round(ok / r.length * 100) + '%"></i></div>';
   var cf = E.checkConflicts(text), cfHi = cf.filter(function(x){ return x.lv === 'hi'; }).length;
+  lastCheck = { name: name, ext: src && src.ext || 'txt', buf: src && src.buf || null, text: text, r: r, cf: cf };
   h += '<div class="sum2"><a role="button" tabindex="0" data-jump="cf-sec" class="s-cf"><b>' + cf.length + '</b><span>충돌 의심' + (cf.length ? ' (확실 ' + cfHi + ' · 확인 필요 ' + (cf.length - cfHi) + ')' : '') + '</span></a><a role="button" tabindex="0" data-jump="miss-sec" class="s-miss"><b>' + (r.length - ok) + '</b><span>빠진 항목 (보충 필요 ' + r.filter(function(x){ return !x.ok && !isSoftTopic(x); }).length + ' · 필요 시 추가 ' + r.filter(function(x){ return !x.ok && isSoftTopic(x); }).length + ')</span></a></div>';
-  h += '<p class="lead s" style="margin:8px 0 0"><b>보충 필요</b>는 대부분의 학교에 있어야 할 항목이고, <b>필요 시 추가</b>는 학교 사정에 따라 고르는 배려·예외 조항입니다. <b>내규 만들기에 넣기</b>는 올린 파일이 아니라 ③ 내규 만들기의 문안에 그 조항을 켭니다.</p>';
+  h += '<p class="lead s" style="margin:8px 0 0"><b>보충 필요</b>는 대부분의 학교에 있어야 할 항목이고, <b>필요 시 추가</b>는 학교 사정에 따라 고르는 배려·예외 조항입니다. <b>인사 내규 만들기에 넣기</b>는 올린 파일이 아니라 ③ 인사 내규 만들기의 문안에 그 조항을 켭니다.</p>';
+  var keepFmt = lastCheck.ext === 'hwpx';
+  h += '<div class="mark-box"><div><b>점검 표시본 내려받기</b><p>' + (keepFmt ? '올린 HWPX의 서식은 그대로 두고, 점검 결과를 붉은색으로 표시한 한글 파일을 만듭니다.' : (lastCheck.ext === 'hwp' ? 'HWP는 직접 고쳐 쓸 수 없어 본문만 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다. 원래 서식을 살리려면 한글에서 ‘다른 이름으로 저장 → HWPX’로 바꿔 올리세요.' : '본문을 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다.')) + ' 원문은 지우지 않고 충돌 메모, 고칠 곳이 분명한 수정안(취소선), 문서 끝의 보충 조항을 붙입니다.</p></div><button class="btn primary" type="button" id="mark-dl">점검 표시본 HWPX 내려받기</button></div>';
   h += '<div class="note-box">낱말과 규칙으로 판단하는 자동 점검이라 실제 내용과 다를 수 있습니다. 결과는 원문에서 한 번 더 확인하고, 최종 판단은 사람이 합니다.</div>';
   h += '<div class="chk-g" id="cf-sec">충돌 의심</div>';
   if (!cf.length) h += '<div class="cf-none">규칙으로 찾은 충돌 의심이 없습니다.</div>';
   else h += '<div class="cf-list">' + cf.map(cfCard).join('') + '</div>';
   h += '<div class="chk-g" id="miss-sec">빠진 조항 점검</div>';
-  if (lastMissingOpts.length) h += '<div class="row" style="margin-top:12px"><button class="btn primary sm" type="button" id="apply-missing">빠진 선택 조항 ' + lastMissingOpts.length + '개를 내규 만들기에 넣고 이동</button></div>';
-  var g = '';
-  r.forEach(function(x, i){
-    if (x.g !== g) { g = x.g; h += '<div class="chk-g">' + esc(g) + '</div>'; }
+  if (lastMissingOpts.length) h += '<div class="row" style="margin-top:12px"><button class="btn primary sm" type="button" id="apply-missing">빠진 선택 조항 ' + lastMissingOpts.length + '개를 인사 내규 만들기에 넣고 이동</button></div>';
+  var g = '', gOrd = [];
+  r.forEach(function(x){ if (gOrd.indexOf(x.g) < 0) gOrd.push(x.g); });
+  r.map(function(x, i){ return { x: x, i: i }; }).sort(function(a, b){ return (gOrd.indexOf(a.x.g) - gOrd.indexOf(b.x.g)) || (a.i - b.i); }).forEach(function(o){
+    var x = o.x, i = o.i;
+    if (x.g !== g) { g = x.g; h += '<div class="chk-g">' + esc(g === '기타' ? '그 밖의 운영' : g) + '</div>'; }
     var soft = !x.ok && isSoftTopic(x);
     h += '<div class="chk"><span class="pill ' + (x.ok ? 'ok">있음' : soft ? 'opt">필요 시 추가' : 'no">보충 필요') + '</span><span class="n">' + esc(x.n) + '</span>' +
-      (!x.ok ? '<span class="row" style="gap:6px;justify-content:flex-end">' + (TOPIC_ART[x.n] ? '<button class="btn sm" type="button" data-mv="' + i + '">참고 조문</button>' : '') + (x.opt ? '<span class="on-wrap"><button class="btn sm" type="button" data-on="' + x.opt + '" title="③ 내규 만들기의 조문 구성에서 이 조항을 켭니다. 올린 파일은 바뀌지 않습니다.">내규 만들기에 넣기</button></span>' : '') + '</span>' : '<span></span>') +
+      (!x.ok ? '<span class="row" style="gap:6px;justify-content:flex-end">' + (TOPIC_ART[x.n] ? '<button class="btn sm" type="button" data-mv="' + i + '">참고 조문</button>' : '') + (x.opt ? '<span class="on-wrap"><button class="btn sm" type="button" data-on="' + x.opt + '" title="③ 인사 내규 만들기의 조문 구성에서 이 조항을 켭니다. 올린 파일은 바뀌지 않습니다.">인사 내규 만들기에 넣기</button></span>' : '') + '</span>' : '<span></span>') +
       (x.ok && x.hit ? '<span class="hit">“' + esc(x.hit) + '”</span>' : '') +
       (!x.ok && TOPIC_ART[x.n] ? '<div class="model-box" hidden data-mvbox="' + i + '"><pre>' + esc(GROUP_TEXT[targetId(TOPIC_ART[x.n])] || '') + '</pre><div class="row"><button class="btn sm" type="button" data-mcopy="' + esc(targetId(TOPIC_ART[x.n])) + '">이 조문 복사</button><button class="btn sm ghost" type="button" data-mgo="' + esc(targetId(TOPIC_ART[x.n])) + '">참고안에서 보기</button></div></div>' : '') + '</div>';
   });
@@ -2627,13 +3070,222 @@ function showCheck(text, name){
 $('#check-out').addEventListener('click', function(ev){
   var t = ev.target;
   var jp = t.closest && t.closest('[data-jump]'); if (jp) { var el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-  if (t.id === 'apply-missing') { lastMissingOpts.forEach(enableOpt); renderOpts(); changed(); showTab('make', true); toast('빠진 선택 조항을 내규 만들기에 넣었습니다. 미리보기에서 붉은색으로 확인하세요.'); }
-  else if (t.dataset && t.dataset.on) { enableOpt(t.dataset.on); renderOpts(); changed(); t.parentNode.innerHTML = '<span class="put-done">넣었음</span><button class="btn sm ghost" type="button" data-go="make">가서 보기</button>'; toast('③ 내규 만들기에 이 조항을 넣었습니다. 올린 파일은 바뀌지 않습니다.'); }
+  if (t.id === 'apply-missing') { lastMissingOpts.forEach(enableOpt); renderOpts(); changed(); showTab('make', true); toast('빠진 선택 조항을 인사 내규 만들기에 넣었습니다. 미리보기에서 붉은색으로 확인하세요.'); }
+  else if (t.dataset && t.dataset.on) { enableOpt(t.dataset.on); renderOpts(); changed(); t.parentNode.innerHTML = '<span class="put-done">넣었음</span><button class="btn sm ghost" type="button" data-go="make">가서 보기</button>'; toast('③ 인사 내규 만들기에 이 조항을 넣었습니다. 올린 파일은 바뀌지 않습니다.'); }
   else if (t.dataset && t.dataset.mv != null) { var b = document.querySelector('[data-mvbox="' + t.dataset.mv + '"]'); if (b) { b.hidden = !b.hidden; t.textContent = b.hidden ? '참고 조문' : '접기'; } }
   else if (t.dataset && t.dataset.mcopy) copyText(GROUP_TEXT[t.dataset.mcopy] || '', '참고 조문을 복사했습니다.');
   else if (t.dataset && t.dataset.mgo) openModelAt(t.dataset.mgo);
 });
 function enableOpt(k){ opt[k] = true; var o = E.OPTIONS.filter(function(x){ return x.key === k; })[0]; if (o && o.need) opt[o.need] = true; }
+
+/* ---------- 점검 표시본 HWPX ---------- */
+var lastCheck = null;
+var HX = { hp: 'http://www.hancom.co.kr/hwpml/2011/paragraph', hh: 'http://www.hancom.co.kr/hwpml/2011/head' };
+function hxWa(w){ var c = String(w).charCodeAt(w.length - 1); return w + ((c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28) ? '과' : '와'); }
+function hxNsp(s){ return String(s || '').replace(/\s+/g, ''); }
+function hxIs(el, ns, local){ return el && el.nodeType === 1 && el.namespaceURI === ns && el.localName === local; }
+function hxKids(el, ns, local){ var o = []; for (var c = el.firstChild; c; c = c.nextSibling) if (hxIs(c, ns, local)) o.push(c); return o; }
+function hxParaOf(n){ for (var x = n.parentNode; x; x = x.parentNode) if (hxIs(x, HX.hp, 'p')) return x; return null; }
+function hxOwnText(p){
+  var ts = p.getElementsByTagNameNS(HX.hp, 't'), s = '';
+  for (var i = 0; i < ts.length; i++) if (hxParaOf(ts[i]) === p) s += ts[i].textContent;
+  return s;
+}
+function hxPostOrder(el, out){ for (var c = el.firstChild; c; c = c.nextSibling) if (c.nodeType === 1) hxPostOrder(c, out); if (hxIs(el, HX.hp, 'p')) out.push(el); return out; }
+function hxTop(p){ var x = p; while (x.parentNode && !(x.parentNode === x.ownerDocument.documentElement)) { x = x.parentNode; } return hxIs(x, HX.hp, 'p') ? x : p; }
+/* 글자 모양 복제(붉은색·굵게·취소선) */
+function hxCharFactory(hdoc){
+  var cps = hdoc.getElementsByTagNameNS(HX.hh, 'charProperties')[0];
+  var list = cps ? hxKids(cps, HX.hh, 'charPr') : [], byId = {}, next = 0, cache = {};
+  list.forEach(function(c){ byId[c.getAttribute('id')] = c; next = Math.max(next, +c.getAttribute('id') + 1); });
+  function put(c, local, el){
+    var order = ['fontRef','ratio','spacing','relSz','offset','italic','bold','underline','strikeout','outline','shadow','emboss','engrave','supscript','subscript'];
+    var at = order.indexOf(local), ref = null;
+    for (var k = c.firstChild; k; k = k.nextSibling) if (k.nodeType === 1 && order.indexOf(k.localName) > at) { ref = k; break; }
+    c.insertBefore(el, ref);
+  }
+  return function(base, mode){
+    base = byId[base] ? base : Object.keys(byId)[0];
+    var key = base + '|' + mode; if (cache[key]) return cache[key];
+    if (!cps || !byId[base]) return base;
+    var c = byId[base].cloneNode(true), id = String(next++);
+    c.setAttribute('id', id); c.setAttribute('textColor', '#E00000');
+    if (mode === 'bold' && !hxKids(c, HX.hh, 'bold').length) put(c, 'bold', hdoc.createElementNS(HX.hh, 'hh:bold'));
+    if (mode === 'del') {
+      var s = hxKids(c, HX.hh, 'strikeout')[0];
+      if (!s) { s = hdoc.createElementNS(HX.hh, 'hh:strikeout'); put(c, 'strikeout', s); }
+      s.setAttribute('shape', 'SOLID'); s.setAttribute('color', '#E00000');
+    }
+    cps.appendChild(c); cps.setAttribute('itemCnt', String(hxKids(cps, HX.hh, 'charPr').length));
+    return (cache[key] = id);
+  };
+}
+function hxNewPara(doc, pp, st, runs){
+  var p = doc.createElementNS(HX.hp, 'hp:p');
+  [['id','2147483648'],['paraPrIDRef',pp],['styleIDRef',st],['pageBreak','0'],['columnBreak','0'],['merged','0']].forEach(function(a){ p.setAttribute(a[0], a[1]); });
+  runs.forEach(function(r){ var ru = doc.createElementNS(HX.hp, 'hp:run'); ru.setAttribute('charPrIDRef', r.c); var t = doc.createElementNS(HX.hp, 'hp:t'); t.textContent = r.t; ru.appendChild(t); p.appendChild(ru); });
+  return p;
+}
+/* 문단의 글자를 한 글자씩 펼침(단순 문단만) */
+function hxChars(p){
+  var out = [];
+  for (var c = p.firstChild; c; c = c.nextSibling) {
+    if (c.nodeType !== 1) continue;
+    if (hxIs(c, HX.hp, 'linesegarray')) continue;
+    if (!hxIs(c, HX.hp, 'run')) return null;
+    for (var k = c.firstChild; k; k = k.nextSibling) {
+      if (k.nodeType !== 1) continue;
+      if (!hxIs(k, HX.hp, 't')) return null;
+      for (var z = k.firstChild; z; z = z.nextSibling) if (z.nodeType !== 3) return null;
+      var tx = k.textContent, cid = c.getAttribute('charPrIDRef');
+      for (var i = 0; i < tx.length; i++) out.push({ ch: tx[i], c: cid, m: '' });
+    }
+  }
+  return out;
+}
+function hxSetRuns(p, chars, cf){
+  var doc = p.ownerDocument;
+  Array.prototype.slice.call(p.childNodes).forEach(function(c){ if (c.nodeType !== 1 || hxIs(c, HX.hp, 'run') || hxIs(c, HX.hp, 'linesegarray')) p.removeChild(c); });
+  var runs = [];
+  chars.forEach(function(x){ var id = x.m ? cf(x.c, x.m) : x.c; if (runs.length && runs[runs.length - 1].c === id) runs[runs.length - 1].t += x.ch; else runs.push({ c: id, t: x.ch }); });
+  runs.forEach(function(r){ var ru = doc.createElementNS(HX.hp, 'hp:run'); ru.setAttribute('charPrIDRef', r.c); var t = doc.createElementNS(HX.hp, 'hp:t'); t.textContent = r.t; ru.appendChild(t); p.appendChild(ru); });
+}
+function hxFind(chars, s){ var str = chars.map(function(x){ return x.ch; }).join(''); return s ? str.indexOf(s) : -1; }
+function refArticleText(id){
+  var t = GROUP_TEXT[targetId(id)] || '';
+  return t.replace(/^(\s*)제\s*\d+\s*조(의\s*\d+)?(?=\s*\()/, '$1제○조').replace(/제\s*(\d+)\s*조/g, function(m, n, i){ return i < 4 ? m : '참고안 제' + n + '조'; });
+}
+async function buildMarkedHwpx(LC){
+  var src;
+  if (LC.ext === 'hwpx') src = await JSZip.loadAsync(LC.buf);
+  else {
+    src = await JSZip.loadAsync(PKG_B64, { base64: true });
+    src.file('Contents/section0.xml', E.plainSectionXml(TPL, LC.text));
+    src.file('Preview/PrvText.txt', LC.text.slice(0, 1024));
+  }
+  var parser = new DOMParser(), ser = new XMLSerializer();
+  var hName = Object.keys(src.files).filter(function(n){ return /^Contents\/header\.xml$/i.test(n); })[0];
+  if (!hName) throw new Error('HWPX 서식 정보(header.xml)를 찾지 못했습니다.');
+  var hdoc = parser.parseFromString(await src.file(hName).async('string'), 'application/xml');
+  var cf = hxCharFactory(hdoc);
+  var sNames = Object.keys(src.files).filter(function(n){ return /^Contents\/section\d+\.xml$/i.test(n); }).sort(function(a, b){ return (+a.match(/\d+/)[0]) - (+b.match(/\d+/)[0]); });
+  var secs = [];
+  for (var i = 0; i < sNames.length; i++) secs.push({ name: sNames[i], doc: parser.parseFromString(await src.file(sNames[i]).async('string'), 'application/xml') });
+  if (!secs.length) throw new Error('HWPX 본문을 찾지 못했습니다.');
+  /* 문단 목록과 본문 문단 모양 */
+  var paras = [], freqP = {}, freqC = {};
+  secs.forEach(function(S){ hxPostOrder(S.doc.documentElement, []).forEach(function(p){ var t = hxOwnText(p); paras.push({ p: p, n: hxNsp(t) });
+    if (p.parentNode === S.doc.documentElement && t.trim().length > 15) { var k = p.getAttribute('paraPrIDRef') + '|' + (p.getAttribute('styleIDRef') || '0'); freqP[k] = (freqP[k] || 0) + 1;
+      hxKids(p, HX.hp, 'run').forEach(function(r){ if (hxKids(r, HX.hp, 't').length) freqC[r.getAttribute('charPrIDRef')] = (freqC[r.getAttribute('charPrIDRef')] || 0) + 1; }); } }); });
+  function top(o){ var k = Object.keys(o).sort(function(a, b){ return o[b] - o[a]; })[0]; return k; }
+  var pk = (top(freqP) || (secs[0].doc.documentElement.getElementsByTagNameNS(HX.hp, 'p')[0].getAttribute('paraPrIDRef') + '|0')).split('|');
+  var PP = pk[0], ST = pk[1], BC = top(freqC) || '0';
+  if (LC.ext !== 'hwpx') { PP = '78'; ST = '0'; BC = '92'; }
+  var cRed = cf(BC, 'red'), cBold = cf(BC, 'bold');
+  /* 줄 번호 → 문단 */
+  var lines = LC.text.replace(/\r/g, '').split('\n');
+  function locate(idx, full){
+    if (idx == null || idx < 0) idx = lines.length;
+    var target = hxNsp(full != null ? full : lines[idx]); if (!target) return null;
+    var k = 0; for (var j = 0; j < idx && j < lines.length; j++) if (hxNsp(lines[j]) === target) k++;
+    var hits = paras.filter(function(x){ return x.n === target; });
+    if (hits.length) return hits[Math.min(k, hits.length - 1)].p;
+    var part = paras.filter(function(x){ return x.n && x.n.indexOf(target) >= 0; });
+    if (part.length) return part[0].p;
+    var sub = paras.filter(function(x){ return x.n.length >= 6 && target.indexOf(x.n) >= 0; });
+    return sub.length ? sub[0].p : null;
+  }
+  var cf0 = LC.cf, notes = new Map(), inl = new Map(), lost = [], fixed = 0;
+  function addNote(p, t){ var tp = hxTop(p); if (!notes.has(tp)) notes.set(tp, []); notes.get(tp).push(t); }
+  function addInl(p, op){ if (!inl.has(p)) inl.set(p, []); inl.get(p).push(op); }
+  cf0.forEach(function(x, i){
+    var no = i + 1, lab = x.lv === 'hi' ? '충돌' : '확인 필요';
+    var pa = x.a ? locate(x.a.idx, x.a.full) : null, pb = x.b ? locate(x.b.idx, x.b.full) : null;
+    var msg = '[점검 ' + no + ' · ' + lab + '] ' + x.why + ' → 고칠 방향: ' + x.fix;
+    if (pa) {
+      addNote(pa, msg);
+      (x.a.hl || []).forEach(function(h){ addInl(pa, { hl: h }); });
+      if (x.rep) addInl(pa, { from: x.rep.from, to: x.rep.to, no: no });
+    } else lost.push(msg + (x.a ? ' (' + x.a.at + ')' : ''));
+    if (pb && pb !== pa) { addNote(pb, '[점검 ' + no + '] 위 문장은 ' + (x.a ? hxWa(x.a.at) : '다른 조항과') + ' 함께 보세요.'); (x.b.hl || []).forEach(function(h){ addInl(pb, { hl: h }); }); }
+  });
+  /* 문단 안 표시: 붉은 글씨, 확실한 수정은 취소선 + 붉은 새 글자 */
+  inl.forEach(function(ops, p){
+    var ch = hxChars(p); if (!ch) return;
+    var changed = false;
+    ops.forEach(function(o){
+      if (o.hl) { var a = hxFind(ch, o.hl); if (a < 0) return; for (var q = a; q < a + o.hl.length; q++) if (!ch[q].m) ch[q].m = 'red'; changed = true; }
+    });
+    ops.forEach(function(o){
+      if (!o.from) return;
+      var s = ch.map(function(x){ return x.ch; }).join('');
+      var a = s.indexOf(o.from); if (a < 0 || s.indexOf(o.from, a + 1) >= 0) return;
+      for (var q = a; q < a + o.from.length; q++) ch[q].m = 'del';
+      var base = ch[a + o.from.length - 1].c;
+      ch.splice.apply(ch, [a + o.from.length, 0].concat(o.to.split('').map(function(c){ return { ch: c, c: base, m: 'red' }; })));
+      changed = true; fixed++;
+    });
+    if (changed) hxSetRuns(p, ch, cf);
+  });
+  notes.forEach(function(arr, tp){
+    var ref = tp.nextSibling;
+    arr.forEach(function(t){ tp.parentNode.insertBefore(hxNewPara(tp.ownerDocument, PP, ST, [{ c: cRed, t: t }]), ref); });
+  });
+  /* 첫머리 요약 */
+  var r = LC.r, ok = r.filter(function(x){ return x.ok; }).length, miss = r.filter(function(x){ return !x.ok; });
+  var hard = miss.filter(function(x){ return !isSoftTopic(x); }), soft = miss.filter(isSoftTopic), hi = cf0.filter(function(x){ return x.lv === 'hi'; }).length;
+  var d = new Date(), today = d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.';
+  var sum = [
+    { c: cBold, t: '[자동 점검 결과] 교내 인사 내규 길잡이 · ' + today },
+    { c: cRed, t: '점검 항목 ' + r.length + '개 중 ' + ok + '개 확인 · 충돌 의심 ' + cf0.length + '건(충돌 ' + hi + ' · 확인 필요 ' + (cf0.length - hi) + ') · 빠진 항목 ' + miss.length + '개(보충 필요 ' + hard.length + ' · 필요 시 추가 ' + soft.length + ')' + (fixed ? ' · 바로 고친 곳 ' + fixed + '곳' : '') },
+    { c: cRed, t: '붉은 [점검] 문단은 충돌 의심 메모, 취소선과 붉은 글자는 고칠 곳이 분명한 수정안, 문서 끝은 보충이 필요한 조항입니다. 원문은 지우지 않았습니다.' },
+    { c: cRed, t: '낱말과 규칙으로 판단한 자동 점검이라 실제와 다를 수 있습니다. 협의를 거쳐 확정한 뒤 [점검] 문단은 지우고 붉은 글씨는 검정으로 바꾸세요.' }
+  ];
+  lost.forEach(function(t){ sum.push({ c: cRed, t: t }); });
+  var root0 = secs[0].doc.documentElement, tops = hxKids(root0, HX.hp, 'p'), after = tops[0];
+  for (var a2 = 0; a2 < Math.min(tops.length, 5); a2++) { var tt = tops[a2].getElementsByTagNameNS(HX.hp, 't'), all = ''; for (var q2 = 0; q2 < tt.length; q2++) all += tt[q2].textContent; if (all.trim()) { after = tops[a2]; break; } }
+  var ref0 = after ? after.nextSibling : null;
+  [{ c: cRed, t: '' }].concat(sum, [{ c: cRed, t: '' }]).forEach(function(x){ root0.insertBefore(hxNewPara(secs[0].doc, PP, ST, [x]), ref0); });
+  /* 문서 끝: 보충 조항 */
+  var rootN = secs[secs.length - 1].doc.documentElement, add = function(c, t){ rootN.appendChild(hxNewPara(secs[secs.length - 1].doc, PP, ST, [{ c: c, t: t }])); };
+  if (miss.length) {
+    add(cRed, ''); add(cBold, '[자동 점검] 보충이 필요한 조항');
+    add(cRed, '아래 조문은 「교내 인사 내규 길잡이」의 인사 내규 참고안에서 가져왔습니다. 조 번호(제○조)와 위원회·팀 이름, 숫자는 우리 학교 내규에 맞게 고쳐 넣으세요.');
+    [['보충 필요 — 대부분의 학교에 있어야 할 항목', hard], ['필요 시 추가 — 학교 사정에 따라 고르는 배려·예외 항목', soft]].forEach(function(G){
+      if (!G[1].length) return;
+      add(cRed, ''); add(cBold, '■ ' + G[0]);
+      var byArt = [], seen = {};
+      G[1].forEach(function(x){ var id = TOPIC_ART[x.n]; if (!id) { byArt.push({ id: null, ns: [x.n] }); return; } if (seen[id]) { seen[id].ns.push(x.n); return; } seen[id] = { id: id, ns: [x.n] }; byArt.push(seen[id]); });
+      byArt.forEach(function(A){
+        add(cRed, ''); add(cBold, '▸ 빠진 항목: ' + A.ns.join(', '));
+        if (A.id) refArticleText(A.id).split('\n').forEach(function(l){ add(cRed, l); });
+      });
+    });
+  }
+  /* 다시 묶기 */
+  var z = new JSZip();
+  z.file('mimetype', 'application/hwp+zip', { compression: 'STORE' });
+  var names = Object.keys(src.files);
+  for (var n2 = 0; n2 < names.length; n2++) {
+    var nm = names[n2], f = src.files[nm];
+    if (f.dir || nm === 'mimetype') continue;
+    var data = nm === hName ? ser.serializeToString(hdoc) : null;
+    secs.forEach(function(S){ if (S.name === nm) data = ser.serializeToString(S.doc); });
+    if (data && !/^<\?xml/.test(data)) data = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>' + data;
+    z.file(nm, data != null ? data : await f.async('uint8array'), { compression: 'DEFLATE' });
+  }
+  return { blob: await z.generateAsync({ type: 'blob', mimeType: 'application/hwp+zip' }), fixed: fixed, lost: lost.length, notes: cf0.length };
+}
+$('#check-out').addEventListener('click', async function(ev){
+  var b = ev.target.closest && ev.target.closest('#mark-dl'); if (!b || !lastCheck) return;
+  b.disabled = true; var old = b.textContent; b.textContent = '만드는 중…';
+  try {
+    var o = await buildMarkedHwpx(lastCheck);
+    var base = lastCheck.name.replace(/\.[^.]+$/, '').replace(/[\\/:*?"<>|]/g, '').trim() || '교내 인사 내규';
+    await offer(o.blob, base + ' (점검 표시본).hwpx', true);
+  } catch (e) { toast('점검 표시본을 만들지 못했습니다: ' + (e && e.message || e)); }
+  finally { b.disabled = false; b.textContent = old; }
+});
 
 /* ---------- 계산기: 보직교사 정원 ---------- */
 function renderQuota(){
@@ -2688,7 +3340,7 @@ function renderScoreCalc(){
   $('#s-last').value = S.last;
   var ys = scoreYears();
   if (ys.indexOf(+S.cur) < 0) S.cur = ys[0];
-  $('#s-span').innerHTML = '→ <b>' + ys[ys.length - 1] + '~' + ys[0] + '학년도</b>(최근 ' + ys.length + '년)의 담임 경력으로 <b>' + (S.last + 1) + '학년도</b> 학년 배정 순위를 만듭니다.<br><small style="color:var(--muted)">‘최근 ○년’은 내규 만들기의 산정 기간 값입니다. 해가 바뀌면 아래 ‘+ 새 학년도’를 누르세요.</small>';
+  $('#s-span').innerHTML = '→ <b>' + ys[ys.length - 1] + '~' + ys[0] + '학년도</b>(최근 ' + ys.length + '년)의 담임 경력으로 <b>' + (S.last + 1) + '학년도</b> 학년 배정 순위를 만듭니다.<br><small style="color:var(--muted)">‘최근 ○년’은 인사 내규 만들기의 산정 기간 값입니다. 해가 바뀌면 아래 ‘+ 새 학년도’를 누르세요.</small>';
   $('#s-step2').textContent = S.cur + '학년도 명단 붙여넣기';
   var res = E.scoreRoster(S, V), wy = {};
   res.warn.forEach(function(w){ var m = /^(\d{4})학년도/.exec(w); if (m) wy[m[1]] = 1; });
@@ -2884,7 +3536,7 @@ function refreshCalcHelper(){ renderScoreCalc(); }
 function renderCalc(){ renderScoreCalc(); }
 
 
-/* ---------- 내규 참고안 ---------- */
+/* ---------- 인사 내규 참고안 ---------- */
 var MODEL_OPT = {}; E.OPTIONS.forEach(function(o){ MODEL_OPT[o.key] = true; });
 var MODEL_V = clone(E.DEFAULT_V);
 var MODEL, MODEL_PLAIN, MODEL_GROUPS, PLAIN_GROUPS, GROUP_TEXT;
@@ -2915,7 +3567,7 @@ var NOTES = {
   duty: '위원회가 무엇을 자문하는지 목록으로 정해 두어야, 목록 밖의 사안을 학교장이 처리하는 근거도 분명해집니다.',
   convene: '누가 요청하면 누가 소집하는지를 한 조문에 모읍니다. 실제로 점검한 내규에는 소집 규정이 두 조에 겹쳐 있었습니다.',
   vote: '위원장이 표결에도 참여하고 가부동수일 때 결정까지 하면 사실상 두 번 투표하게 됩니다. 방학 중 서면 자문과 본인이 당사자인 사안의 제척도 이 조에 둡니다.',
-  policy: '학년과 업무를 묶은 배정표(업무분장서 안)를 먼저 공개하고 인사점수 순으로 고르게 하면, 학년 희망서와 업무 희망서를 따로 받지 않고 한 번에 업무분장서를 확정할 수 있습니다. 희망서 방식을 쓰는 학교는 내규 만들기에서 바꿀 수 있습니다. 경합 시 우대 조항, 6학년 규정, 인사점수 중 무엇을 먼저 볼지도 순서를 밝혀 둡니다.',
+  policy: '학년과 업무를 묶은 배정표(업무분장서 안)를 먼저 공개하고 인사점수 순으로 고르게 하면, 학년 희망서와 업무 희망서를 따로 받지 않고 한 번에 업무분장서를 확정할 수 있습니다. 희망서 방식을 쓰는 학교는 인사 내규 만들기에서 바꿀 수 있습니다. 경합 시 우대 조항, 6학년 규정, 인사점수 중 무엇을 먼저 볼지도 순서를 밝혀 둡니다.',
   criteria: '‘인사점수를 고려하여’라고만 적으면 높은 순인지 낮은 순인지 다툼이 생깁니다. 신규 교사 보호와 연속 담임 제한은 학교 사정에 따라 고르는 선택 조항입니다.',
   pref: '우대는 ‘가급적 … 할 수 있다’로 두어 학교 사정에 맞게 조정할 여지를 남깁니다. 우대 사유가 되는 개인 사정은 배정 자료를 공개할 때 빼도록 정해 두었습니다.',
   points: '인사점수가 무엇으로 이루어지는지를 첫 항에 밝혀야 다른 조항에서 ‘인사점수’를 쓸 때 해석이 하나로 모입니다. 휴직·파견 기간이 있어도 산정 기간을 늘리지 않도록 한 점에 주의하세요.',
@@ -2936,7 +3588,7 @@ var NOTES = {
   tAppoint: '선발 순위를 따른 결과를 협의회에 보고하는 방식이라, 추천과 순위가 엇갈리는 문제를 막습니다.',
   award1: '가산점 대상자는 별도 선정위원회가 기준을 정하고 인사자문위원회 심의를 거쳐 학교장이 확정합니다.',
   prize1: '경합 때 ‘다득표자’만 적으면 같은 표가 나오거나 과반이 안 될 때 결론이 나지 않습니다. 과반 득표와 결선 투표를 정해 둡니다.',
-  prize2: '실제로 점검한 내규에서는 이 조가 엉뚱하게 ‘제3조(임기)’를 가리키고 있었습니다. 이 생성기는 조 번호가 바뀌어도 참조를 자동으로 고칩니다.',
+  prize2: '실제로 점검한 내규에서는 이 조가 엉뚱하게 ‘제3조(임기)’를 가리키고 있었습니다. 이 사이트는 조 번호가 바뀌어도 참조를 자동으로 고칩니다.',
   innov1: '전보 유예를 교무업무전담팀이나 보직을 맡겠다는 희망과 연결했습니다. 교무업무전담팀에는 우선 임용하지만, 부장 보직은 다른 희망자가 있으면 유예자를 맨 뒤로 둡니다. 유예자는 희망자가 없거나 모자란 보직을 맡을 때 우선합니다.',
   cut1: '전보 유예가 확정된 교원을 전출 대상에서 빼야 유예 제도의 취지가 살아납니다.',
   secretArt: '건강, 임신, 육아, 피해 사실 같은 개인 사정은 우대나 제외의 근거가 되지만 공개되어서는 안 됩니다.',
@@ -3231,7 +3883,7 @@ $('#m-search').addEventListener('input', function(){ var v = this.value; clearTi
 $('#toc-open').addEventListener('click', function(){ $('#toc').hidden = false; });
 $('#toc-close').addEventListener('click', function(){ $('#toc').hidden = true; });
 $('#toc').addEventListener('click', function(ev){ if (ev.target.id === 'toc') this.hidden = true; });
-$('#m-copy-all').addEventListener('click', function(){ copyText(E.plainText(MODEL_PLAIN, MODEL_V), '내규 참고안 전문을 복사했습니다.'); });
+$('#m-copy-all').addEventListener('click', function(){ copyText(E.plainText(MODEL_PLAIN, MODEL_V), '인사 내규 참고안 전문을 복사했습니다.'); });
 $('#m-dl').addEventListener('click', async function(){
   var btn = this; btn.disabled = true; var old = btn.textContent; btn.textContent = '만드는 중…';
   try { var blob = await buildHwpx(MODEL_OPT, MODEL_V, true); await offer(blob, '교내 인사 내규 참고안.hwpx', true); }
@@ -3286,6 +3938,21 @@ setHdr(); window.addEventListener('resize', setHdr);
 
 /* ---------- 시작 ---------- */
 renderOpts(); renderScore(); renderPreview(); renderQuota(); renderCalc(); renderGloss(); showTab('home', false);
+})();
+/* ---------- 오픈소스 라이선스 ---------- */
+(function(){
+  var box = document.getElementById('lic'), btn = document.getElementById('lic-open'), last = null;
+  if (!box || !btn) return;
+  var dock = document.getElementById('dock');
+  function dockH(){ if (dock && !dock.hidden) document.body.style.setProperty('--dock-h', dock.offsetHeight + 'px'); }
+  if (dock && window.ResizeObserver) new ResizeObserver(dockH).observe(dock);
+  window.addEventListener('resize', dockH);
+  function open(){ last = document.activeElement; box.hidden = false; document.body.style.overflow = 'hidden'; box.querySelector('.lic-panel').focus(); }
+  function close(){ box.hidden = true; document.body.style.overflow = ''; if (last && last.focus) last.focus(); }
+  btn.addEventListener('click', open);
+  document.getElementById('lic-close').addEventListener('click', close);
+  box.addEventListener('click', function(ev){ if (ev.target === box) close(); });
+  document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape' && !box.hidden) close(); });
 })();
 </script>
 
