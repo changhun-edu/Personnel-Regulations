@@ -349,6 +349,9 @@ table.edit textarea{width:200px;min-height:38px;padding:5px 7px;font-size:13px;r
 .pill{font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;white-space:nowrap;line-height:1.4;margin-top:1px}
 .pill.ok{background:var(--ok-soft);color:var(--ok)}
 .pill.no{background:var(--seal-soft);color:var(--seal)}
+.pill.opt{background:var(--soft);color:var(--ink-2);border:1px solid var(--line)}
+.on-wrap{display:inline-flex;align-items:center;gap:6px}
+.put-done{font-size:13px;font-weight:700;color:var(--ok)}
 .chk .n{font-weight:600;font-size:15.5px}
 .chk .hit{grid-column:2/4;color:var(--muted);font-size:13.5px;font-family:var(--f-doc);line-height:1.7}
 .note-box{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.7}
@@ -1556,7 +1559,7 @@ var ENGINE = (function () {
     { g: '기타', n: '내규 개정 절차', re: [/(내규|규정)의?\s*개정은|개정\s*(절차|발의)|개정안을\s*마련/] },
     { g: '기타', n: '용어의 정의', re: [/용어의?\s*정의/] },
     { g: '배려·예외', n: '신규·저경력 교사 보호', re: [/신규\s*(교사|교원)|임용\s*후\s*\d+\s*년\s*이내|저경력\s*교사/], opt: 'newT' },
-    { g: '배려·예외', n: '같은 학년 연속 담임 제한', re: [/연속\s*\d\s*년|연임/], opt: 'consec' },
+    { g: '배려·예외', n: '같은 학년 연속 담임 제한', re: [/(같은|동일)\s*학년[^.]{0,30}연속|연속\s*\d\s*년/], not: /만\s*\d+\s*세|원로|보직|부장|전담팀|업무/, opt: 'consec' },
     { g: '배려·예외', n: '모성보호·육아시간 사용자 배려', re: [/육아\s*시간|모성\s*보호/], opt: 'parent' },
     { g: '배려·예외', n: '교육활동 침해 피해 교원 배려', re: [/교육\s*활동\s*침해|교권\s*침해/], opt: 'victim' },
     { g: '배려·예외', n: '휴직·복직 교원 배정', re: [/복직|휴직\s*(예정|대체)/], opt: 'leave' },
@@ -2589,6 +2592,7 @@ async function readFile(f){
   }
 }
 var lastMissingOpts = [];
+function isSoftTopic(x){ if (x.g === '배려·예외') return true; var o = x.opt && E.OPTIONS.filter(function(z){ return z.key === x.opt; })[0]; return !!(o && o.group === 'b'); }
 function markHl(t, hl){ var s = esc(t); (hl || []).forEach(function(w){ if (!w) return; var e = esc(w); var i = s.indexOf(e); if (i >= 0) s = s.slice(0, i) + '<mark>' + e + '</mark>' + s.slice(i + e.length); }); return s; }
 function cfCard(x){
   var q = function(lab, o){ return o ? '<q><i>' + lab + ' · ' + esc(o.at) + '</i>' + markHl(o.t, o.hl) + '</q>' : ''; };
@@ -2601,18 +2605,20 @@ function showCheck(text, name){
   var h = '<div class="result-head"><span class="big">' + ok + '<small> / ' + r.length + '</small></span><span style="color:var(--muted)">' + esc(name) + '에서 확인된 항목</span></div>' +
     '<div class="meter" aria-hidden="true"><i style="width:' + Math.round(ok / r.length * 100) + '%"></i></div>';
   var cf = E.checkConflicts(text), cfHi = cf.filter(function(x){ return x.lv === 'hi'; }).length;
-  h += '<div class="sum2"><a role="button" tabindex="0" data-jump="cf-sec" class="s-cf"><b>' + cf.length + '</b><span>충돌 의심' + (cf.length ? ' (확실 ' + cfHi + ' · 확인 필요 ' + (cf.length - cfHi) + ')' : '') + '</span></a><a role="button" tabindex="0" data-jump="miss-sec" class="s-miss"><b>' + (r.length - ok) + '</b><span>빠진 항목(보충 필요)</span></a></div>';
+  h += '<div class="sum2"><a role="button" tabindex="0" data-jump="cf-sec" class="s-cf"><b>' + cf.length + '</b><span>충돌 의심' + (cf.length ? ' (확실 ' + cfHi + ' · 확인 필요 ' + (cf.length - cfHi) + ')' : '') + '</span></a><a role="button" tabindex="0" data-jump="miss-sec" class="s-miss"><b>' + (r.length - ok) + '</b><span>빠진 항목 (보충 필요 ' + r.filter(function(x){ return !x.ok && !isSoftTopic(x); }).length + ' · 필요 시 추가 ' + r.filter(function(x){ return !x.ok && isSoftTopic(x); }).length + ')</span></a></div>';
+  h += '<p class="lead s" style="margin:8px 0 0"><b>보충 필요</b>는 대부분의 학교에 있어야 할 항목이고, <b>필요 시 추가</b>는 학교 사정에 따라 고르는 배려·예외 조항입니다. <b>내규 만들기에 넣기</b>는 올린 파일이 아니라 ③ 내규 만들기의 문안에 그 조항을 켭니다.</p>';
   h += '<div class="note-box">낱말과 규칙으로 판단하는 자동 점검이라 실제 내용과 다를 수 있습니다. 결과는 원문에서 한 번 더 확인하고, 최종 판단은 사람이 합니다.</div>';
   h += '<div class="chk-g" id="cf-sec">충돌 의심</div>';
   if (!cf.length) h += '<div class="cf-none">규칙으로 찾은 충돌 의심이 없습니다.</div>';
   else h += '<div class="cf-list">' + cf.map(cfCard).join('') + '</div>';
   h += '<div class="chk-g" id="miss-sec">빠진 조항 점검</div>';
-  if (lastMissingOpts.length) h += '<div class="row" style="margin-top:12px"><button class="btn primary sm" type="button" id="apply-missing">빠진 선택 조항 ' + lastMissingOpts.length + '개 켜고 내규 만들기로 이동</button></div>';
+  if (lastMissingOpts.length) h += '<div class="row" style="margin-top:12px"><button class="btn primary sm" type="button" id="apply-missing">빠진 선택 조항 ' + lastMissingOpts.length + '개를 내규 만들기에 넣고 이동</button></div>';
   var g = '';
   r.forEach(function(x, i){
     if (x.g !== g) { g = x.g; h += '<div class="chk-g">' + esc(g) + '</div>'; }
-    h += '<div class="chk"><span class="pill ' + (x.ok ? 'ok">있음' : 'no">보충 필요') + '</span><span class="n">' + esc(x.n) + '</span>' +
-      (!x.ok ? '<span class="row" style="gap:6px;justify-content:flex-end">' + (TOPIC_ART[x.n] ? '<button class="btn sm" type="button" data-mv="' + i + '">참고 조문</button>' : '') + (x.opt ? '<button class="btn sm" type="button" data-on="' + x.opt + '">이 조항 켜기</button>' : '') + '</span>' : '<span></span>') +
+    var soft = !x.ok && isSoftTopic(x);
+    h += '<div class="chk"><span class="pill ' + (x.ok ? 'ok">있음' : soft ? 'opt">필요 시 추가' : 'no">보충 필요') + '</span><span class="n">' + esc(x.n) + '</span>' +
+      (!x.ok ? '<span class="row" style="gap:6px;justify-content:flex-end">' + (TOPIC_ART[x.n] ? '<button class="btn sm" type="button" data-mv="' + i + '">참고 조문</button>' : '') + (x.opt ? '<span class="on-wrap"><button class="btn sm" type="button" data-on="' + x.opt + '" title="③ 내규 만들기의 조문 구성에서 이 조항을 켭니다. 올린 파일은 바뀌지 않습니다.">내규 만들기에 넣기</button></span>' : '') + '</span>' : '<span></span>') +
       (x.ok && x.hit ? '<span class="hit">“' + esc(x.hit) + '”</span>' : '') +
       (!x.ok && TOPIC_ART[x.n] ? '<div class="model-box" hidden data-mvbox="' + i + '"><pre>' + esc(GROUP_TEXT[targetId(TOPIC_ART[x.n])] || '') + '</pre><div class="row"><button class="btn sm" type="button" data-mcopy="' + esc(targetId(TOPIC_ART[x.n])) + '">이 조문 복사</button><button class="btn sm ghost" type="button" data-mgo="' + esc(targetId(TOPIC_ART[x.n])) + '">참고안에서 보기</button></div></div>' : '') + '</div>';
   });
@@ -2621,8 +2627,8 @@ function showCheck(text, name){
 $('#check-out').addEventListener('click', function(ev){
   var t = ev.target;
   var jp = t.closest && t.closest('[data-jump]'); if (jp) { var el = document.getElementById(jp.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-  if (t.id === 'apply-missing') { lastMissingOpts.forEach(enableOpt); renderOpts(); changed(); showTab('make', true); toast('빠진 조항을 켰습니다. 미리보기에서 확인하세요.'); }
-  else if (t.dataset && t.dataset.on) { enableOpt(t.dataset.on); renderOpts(); changed(); t.textContent = '켰음'; t.disabled = true; }
+  if (t.id === 'apply-missing') { lastMissingOpts.forEach(enableOpt); renderOpts(); changed(); showTab('make', true); toast('빠진 선택 조항을 내규 만들기에 넣었습니다. 미리보기에서 붉은색으로 확인하세요.'); }
+  else if (t.dataset && t.dataset.on) { enableOpt(t.dataset.on); renderOpts(); changed(); t.parentNode.innerHTML = '<span class="put-done">넣었음</span><button class="btn sm ghost" type="button" data-go="make">가서 보기</button>'; toast('③ 내규 만들기에 이 조항을 넣었습니다. 올린 파일은 바뀌지 않습니다.'); }
   else if (t.dataset && t.dataset.mv != null) { var b = document.querySelector('[data-mvbox="' + t.dataset.mv + '"]'); if (b) { b.hidden = !b.hidden; t.textContent = b.hidden ? '참고 조문' : '접기'; } }
   else if (t.dataset && t.dataset.mcopy) copyText(GROUP_TEXT[t.dataset.mcopy] || '', '참고 조문을 복사했습니다.');
   else if (t.dataset && t.dataset.mgo) openModelAt(t.dataset.mgo);
