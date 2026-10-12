@@ -335,6 +335,13 @@ table.edit textarea{width:200px;min-height:38px;padding:5px 7px;font-size:13px;r
 .result-head .big small{font-size:20px;color:var(--muted)}
 .meter{height:8px;border-radius:99px;background:var(--seal-soft);overflow:hidden;margin:4px 0 14px}
 .meter i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.hwp-how{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;background:var(--panel)}
+.hwp-how summary{cursor:pointer;font-weight:700;color:var(--ink-2)}
+.hwp-how ol{margin:10px 0 6px 20px;line-height:1.8}
+.hwp-how p{color:var(--muted);font-size:13px;line-height:1.6}
+.hwp-guide{margin-top:14px;border:1px solid var(--warn);background:var(--warn-soft);border-radius:12px;padding:14px 16px;font-size:14.5px;line-height:1.7}
+.hwp-guide b{color:var(--warn)}
+.hwp-guide ol{margin:8px 0 0 20px}
 .drop-tip{display:block;margin-top:6px;font-size:12.5px;color:var(--muted)}
 .pm-row{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin-top:12px;font-size:14px}
 .pm-row b{width:100%;font-size:13.5px;color:var(--ink-2)}
@@ -757,7 +764,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="kicker">이렇게 쓰세요</div>
       <h2>점검하고, 비교하고, 만들고, 해마다 계산합니다</h2>
       <div class="how" style="margin-top:14px">
-        <div><span class="n" aria-hidden="true"></span><div><h3>우리 학교 내규 점검</h3><p>지금 쓰는 내규 파일(HWP·HWPX·DOCX·TXT)을 올리거나 본문을 붙여넣으면, 58개 점검 항목 중 <b>빠진 조항</b>과 조항끼리 엇갈리는 <b>충돌 의심</b>을 보여 줍니다. 파일이 없으면 예시 내규로 먼저 해 볼 수 있습니다.</p></div></div>
+        <div><span class="n" aria-hidden="true"></span><div><h3>우리 학교 내규 점검</h3><p>지금 쓰는 내규 파일(한글 HWPX)을 올리거나 본문을 붙여넣으면, 58개 점검 항목 중 <b>빠진 조항</b>과 조항끼리 엇갈리는 <b>충돌 의심</b>을 보여 줍니다. 파일이 없으면 예시 내규로 먼저 해 볼 수 있습니다.</p></div></div>
         <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 참고안</h3><p>모든 항목을 갖춘 참고 내규를 조문별 해설과 함께 읽습니다. 상황별 길잡이로 “부장 희망자가 모자라면?” 같은 경우에 어떤 조문이 적용되는지 따라가 봅니다.</p></div></div>
         <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 만들기</h3><p>조문을 켜고 끄고 숫자와 배점표를 학교에 맞게 고칩니다. 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨지고, 한글(HWPX) 파일로 내려받습니다.</p></div></div>
         <div><span class="n yr" aria-hidden="true"></span><div><h3>인사점수 계산 <small style="font-size:13px;color:var(--muted);font-weight:600">해마다 따로 쓰는 메뉴</small></h3><p>해마다 업무분장서의 담임 명단을 붙여넣어 <b>인사점수 순위와 학년 선택 순서</b>를 계산하고 엑셀로 내려받아 공개합니다. 학급 수로 보직교사 정원도 확인합니다.</p></div></div>
@@ -885,10 +892,20 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <label class="drop" id="drop" for="file">
         <span class="ico" aria-hidden="true"></span>
         <b>내규 파일을 끌어다 놓거나 눌러서 고르세요</b>
-        <span>HWP · HWPX · DOCX · TXT</span>
-        <small class="drop-tip">점검 결과를 붉게 표시한 한글 파일도 받을 수 있습니다. 원래 서식을 살리려면 HWPX로 올리세요.</small>
+        <span>한글 HWPX 파일</span>
+        <small class="drop-tip">한글(HWP) 파일은 한글에서 HWPX로 저장한 뒤 올리세요. 점검 결과를 붉게 표시한 한글 파일도 받을 수 있습니다.</small>
       </label>
-      <input type="file" id="file" accept=".hwp,.hwpx,.docx,.txt" hidden>
+      <input type="file" id="file" accept=".hwpx,.hwp" hidden>
+      <details class="hwp-how">
+        <summary>HWP 파일을 HWPX로 바꾸는 방법</summary>
+        <ol>
+          <li>한글 프로그램에서 내규 파일(.hwp)을 엽니다.</li>
+          <li>[파일] → [다른 이름으로 저장하기]를 누릅니다. (단축키 Alt+V)</li>
+          <li>‘파일 형식’에서 <b>HWPX 문서(*.hwpx)</b>를 고르고 저장합니다.</li>
+          <li>저장한 .hwpx 파일을 위 칸에 끌어다 놓습니다.</li>
+        </ol>
+        <p>HWPX로 올리면 학교 원본의 글꼴·표·쪽 모양을 그대로 둔 채 점검 결과를 붉게 표시한 파일을 받을 수 있습니다.</p>
+      </details>
       <details style="margin-top:14px">
         <summary style="cursor:pointer;color:var(--ink-2);font-size:14.5px;font-weight:600">본문을 직접 붙여넣기</summary>
         <textarea id="paste" rows="6" style="margin-top:10px" placeholder="내규 본문을 붙여넣으세요"></textarea>
@@ -991,8 +1008,8 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 <div class="lic" id="lic" hidden><div class="lic-panel" role="dialog" aria-modal="true" aria-labelledby="lic-h" tabindex="-1">
 <div class="lic-head"><h2 id="lic-h">오픈소스 라이선스</h2><button type="button" class="btn sm ghost" id="lic-close" aria-label="닫기">닫기 ✕</button></div>
 <p class="lic-lead">이 사이트의 기획·문구·화면 구성·점검 규칙은 만든이(최창훈)가 직접 만들었습니다. 파일을 읽고 만드는 기능과 화면 글꼴에는 아래 오픈소스를 각 라이선스 조건에 따라 그대로 불러와 씁니다. 수정하지 않았으며, 각 저작권은 원저작자에게 있습니다.</p>
-<div class="lic-tw"><table class="lic-tb"><thead><tr><th>구성 요소</th><th>쓰는 곳</th><th>라이선스</th><th>저작권자</th></tr></thead><tbody><tr><td><b>ExcelJS</b> <small>4.4.0</small></td><td data-l="쓰는 곳"><span>인사점수 순위표 엑셀 파일 만들기</span></td><td data-l="라이선스"><span>MIT</span></td><td data-l="저작권자"><span>Copyright (c) 2014-2019 Guyon Roche</span></td></tr><tr><td><b>JSZip</b> <small>3.10.1</small></td><td data-l="쓰는 곳"><span>한글(HWPX) 파일 만들기, HWPX·DOCX·엑셀 파일 읽기</span></td><td data-l="라이선스"><span>MIT<br><small>MIT·GPLv3 이중 라이선스 중 MIT 선택</small></span></td><td data-l="저작권자"><span>Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso</span></td></tr><tr><td><b>pako</b> <small>2.1.0</small></td><td data-l="쓰는 곳"><span>한글(HWP) 파일 압축 풀기</span></td><td data-l="라이선스"><span>MIT AND Zlib</span></td><td data-l="저작권자"><span>Copyright (C) 2014-2017 Vitaly Puzrin and Andrei Tuputcyn<br>(C) 1995-2013 Jean-loup Gailly and Mark Adler (zlib)</span></td></tr><tr><td><b>cfb</b> <small>1.2.2</small></td><td data-l="쓰는 곳"><span>한글(HWP) 파일 구조 읽기</span></td><td data-l="라이선스"><span>Apache-2.0</span></td><td data-l="저작권자"><span>Copyright (C) 2013-present SheetJS LLC</span></td></tr><tr><td><b>Noto Sans KR</b> <small>Google Fonts</small></td><td data-l="쓰는 곳"><span>화면 글꼴</span></td><td data-l="라이선스"><span>SIL OFL 1.1</span></td><td data-l="저작권자"><span>Copyright Google Inc. / Adobe (Source Han Sans 기반, Reserved Font Name ‘Source’)</span></td></tr></tbody></table></div>
-<p class="lic-note">한글·HWP·HWPX는 ㈜한글과컴퓨터, Excel·Word·DOCX는 Microsoft Corporation의 상표 또는 파일 형식 이름이며, 이 사이트는 해당 회사와 관계가 없습니다. 법령 조문(보직교사 배치 기준 등)은 저작권법 제7조에 따라 보호받지 않는 저작물입니다.</p>
+<div class="lic-tw"><table class="lic-tb"><thead><tr><th>구성 요소</th><th>쓰는 곳</th><th>라이선스</th><th>저작권자</th></tr></thead><tbody><tr><td><b>ExcelJS</b> <small>4.4.0</small></td><td data-l="쓰는 곳"><span>인사점수 순위표 엑셀 파일 만들기</span></td><td data-l="라이선스"><span>MIT</span></td><td data-l="저작권자"><span>Copyright (c) 2014-2019 Guyon Roche</span></td></tr><tr><td><b>JSZip</b> <small>3.10.1</small></td><td data-l="쓰는 곳"><span>한글(HWPX) 파일 읽기·만들기, 엑셀 파일 읽기</span></td><td data-l="라이선스"><span>MIT<br><small>MIT·GPLv3 이중 라이선스 중 MIT 선택</small></span></td><td data-l="저작권자"><span>Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso</span></td></tr><tr><td><b>Noto Sans KR</b> <small>Google Fonts</small></td><td data-l="쓰는 곳"><span>화면 글꼴</span></td><td data-l="라이선스"><span>SIL OFL 1.1</span></td><td data-l="저작권자"><span>Copyright Google Inc. / Adobe (Source Han Sans 기반, Reserved Font Name ‘Source’)</span></td></tr></tbody></table></div>
+<p class="lic-note">한글·HWP·HWPX는 ㈜한글과컴퓨터, Excel은 Microsoft Corporation의 상표 또는 파일 형식 이름이며, 이 사이트는 해당 회사와 관계가 없습니다. 법령 조문(보직교사 배치 기준 등)은 저작권법 제7조에 따라 보호받지 않는 저작물입니다.</p>
 <h3 class="lic-h3">라이선스 전문</h3>
 <details class="lic-t" id="lic-mit-exceljs"><summary>MIT License — ExcelJS</summary><pre>The MIT License (MIT)
 
@@ -1034,244 +1051,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</pre></details><details class="lic-t" id="lic-mit-pako"><summary>MIT License — pako</summary><pre>(The MIT License)
-
-Copyright (C) 2014-2017 by Vitaly Puzrin and Andrei Tuputcyn
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</pre></details><details class="lic-t" id="lic-zlib"><summary>Zlib License — pako(zlib 이식 부분)</summary><pre>(C) 1995-2013 Jean-loup Gailly and Mark Adler
-(C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
-
-This software is provided &#x27;as-is&#x27;, without any express or implied
-warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
-
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must not
-  claim that you wrote the original software. If you use this software
-  in a product, an acknowledgment in the product documentation would be
-  appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-  misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.</pre></details><details class="lic-t" id="lic-apache"><summary>Apache License 2.0 — cfb</summary><pre>                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
-
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
-
-   1. Definitions.
-
-      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
-
-      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
-
-      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      &quot;control&quot; means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
-
-      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
-
-      &quot;Source&quot; form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
-
-      &quot;Object&quot; form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
-
-      &quot;Work&quot; shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
-
-      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
-
-      &quot;Contribution&quot; shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
-
-      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
-
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
-
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
-
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
-
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
-
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
-
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
-
-      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
-
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
-
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
-
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
-
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
-
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
-
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
-
-   END OF TERMS AND CONDITIONS
-
-   APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets &quot;{}&quot;
-      replaced with your own identifying information. (Don&#x27;t include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same &quot;printed page&quot; as the copyright notice for easier
-      identification within third-party archives.
-
-   Copyright (C) 2013-present   SheetJS LLC
-
-   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.</pre></details><details class="lic-t" id="lic-ofl"><summary>SIL Open Font License 1.1 — Noto Sans KR</summary><pre>Google Inc.
+THE SOFTWARE.</pre></details><details class="lic-t" id="lic-ofl"><summary>SIL Open Font License 1.1 — Noto Sans KR</summary><pre>Google Inc.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
@@ -1384,8 +1164,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.</pre></details>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/cfb@1.2.2/dist/cfb.min.js"></script>
 <script>
 /* ===== 교내 인사 내규 생성 엔진 (브라우저·node 공용) ===== */
 var ENGINE = (function () {
@@ -3144,20 +2922,16 @@ async function readFile(f){
   var out = $('#check-out'); out.innerHTML = '<p class="lead" style="margin-top:14px">' + esc(f.name) + ' 읽는 중…</p>';
   try {
     var ext = (f.name.split('.').pop() || '').toLowerCase(), buf = new Uint8Array(await f.arrayBuffer()), text = '';
-    if (ext === 'hwp') text = E.hwpToText(buf, CFB, pako.inflateRaw);
-    else if (ext === 'hwpx') {
+    if (ext === 'hwp') {
+      out.innerHTML = '<div class="hwp-guide"><b>HWP 파일은 바로 점검하지 않습니다.</b> 한글에서 HWPX로 저장한 뒤 다시 올려 주세요. HWPX로 올리면 원본 서식을 그대로 둔 채 점검 결과를 붉게 표시한 파일도 받을 수 있습니다.<ol><li>한글에서 ' + esc(f.name) + ' 파일을 엽니다.</li><li>[파일] → [다른 이름으로 저장하기](Alt+V)를 누릅니다.</li><li>‘파일 형식’에서 <b>HWPX 문서(*.hwpx)</b>를 고르고 저장합니다.</li><li>저장한 .hwpx 파일을 위 칸에 올립니다.</li></ol></div>';
+      return;
+    }
+    if (ext === 'hwpx') {
       var z = await JSZip.loadAsync(buf);
       var secs = Object.keys(z.files).filter(function(n){ return /^Contents\/section\d+\.xml$/i.test(n); }).sort(function(a, b){ return (+a.match(/\d+/)[0]) - (+b.match(/\d+/)[0]); });
       if (!secs.length) throw new Error('HWPX 본문을 찾지 못했습니다.');
       for (var i = 0; i < secs.length; i++) text += E.owpmlToText(await z.file(secs[i]).async('string')) + '\n';
-    } else if (ext === 'docx') {
-      var zd = await JSZip.loadAsync(buf); var d = zd.file('word/document.xml');
-      if (!d) throw new Error('워드 본문을 찾지 못했습니다.');
-      text = E.docxToText(await d.async('string'));
-    } else if (ext === 'txt') {
-      text = new TextDecoder('utf-8').decode(buf);
-      if ((text.match(/\uFFFD/g) || []).length > 5) { try { text = new TextDecoder('euc-kr').decode(buf); } catch(e){} }
-    } else throw new Error('HWP, HWPX, DOCX, TXT 파일만 읽을 수 있습니다.');
+    } else throw new Error('한글 HWPX 파일만 올릴 수 있습니다. 다른 형식이면 본문을 복사해 ‘본문을 직접 붙여넣기’를 이용하세요.');
     if (text.replace(/\s/g, '').length < 50) throw new Error('읽은 본문이 너무 짧습니다. 파일 내용을 확인해 주세요.');
     showCheck(text, f.name, { ext: ext, buf: buf });
   } catch (e) {
@@ -3183,7 +2957,7 @@ function showCheck(text, name, src){
   h += '<div class="sum2"><a role="button" tabindex="0" data-jump="cf-sec" class="s-cf"><b>' + cf.length + '</b><span>충돌 의심' + (cf.length ? ' (확실 ' + cfHi + ' · 확인 필요 ' + (cf.length - cfHi) + ')' : '') + '</span></a><a role="button" tabindex="0" data-jump="miss-sec" class="s-miss"><b>' + (r.length - ok) + '</b><span>빠진 항목 (보충 필요 ' + r.filter(function(x){ return !x.ok && !isSoftTopic(x); }).length + ' · 필요 시 추가 ' + r.filter(function(x){ return !x.ok && isSoftTopic(x); }).length + ')</span></a></div>';
   h += '<p class="lead s" style="margin:8px 0 0"><b>보충 필요</b>는 대부분의 학교에 있어야 할 항목이고, <b>필요 시 추가</b>는 학교 사정에 따라 고르는 배려·예외 조항입니다. <b>인사 내규 만들기에 넣기</b>는 올린 파일이 아니라 ③ 인사 내규 만들기의 문안에 그 조항을 켭니다.</p>';
   var keepFmt = lastCheck.ext === 'hwpx';
-  h += '<div class="mark-box"><div><b>점검 표시본 내려받기</b><p>' + (keepFmt ? '올린 HWPX의 서식은 그대로 두고, 점검 결과를 붉은색으로 표시한 한글 파일을 만듭니다.' : (lastCheck.ext === 'hwp' ? 'HWP는 직접 고쳐 쓸 수 없어 본문만 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다. 원래 서식을 살리려면 한글에서 ‘다른 이름으로 저장 → HWPX’로 바꿔 올리세요.' : '본문을 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다.')) + ' 원문은 지우지 않고 충돌 메모, 고칠 곳이 분명한 수정안(취소선), 문서 끝의 보충 조항을 붙입니다.</p></div><button class="btn primary" type="button" id="mark-dl">점검 표시본 HWPX 내려받기</button></div>';
+  h += '<div class="mark-box"><div><b>점검 표시본 내려받기</b><p>' + (keepFmt ? '올린 HWPX의 서식은 그대로 두고, 점검 결과를 붉은색으로 표시한 한글 파일을 만듭니다.' : '붙여넣은 본문을 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다.') + ' 원문은 지우지 않고 충돌 메모, 고칠 곳이 분명한 수정안(취소선), 문서 끝의 보충 조항을 붙입니다.</p></div><button class="btn primary" type="button" id="mark-dl">점검 표시본 HWPX 내려받기</button></div>';
   h += '<div class="note-box">낱말과 규칙으로 판단하는 자동 점검이라 실제 내용과 다를 수 있습니다. 결과는 원문에서 한 번 더 확인하고, 최종 판단은 사람이 합니다.</div>';
   h += '<div class="chk-g" id="cf-sec">충돌 의심</div>';
   if (!cf.length) h += '<div class="cf-none">규칙으로 찾은 충돌 의심이 없습니다.</div>';
