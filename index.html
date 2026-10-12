@@ -349,6 +349,7 @@ table.edit textarea{width:200px;min-height:38px;padding:5px 7px;font-size:13px;r
 .mark-box{display:flex;gap:14px;align-items:center;justify-content:space-between;border:1px solid var(--accent-2);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin:14px 0 4px}
 .mark-box b{font-size:15px}.mark-box p{font-size:13.5px;color:var(--ink-2);line-height:1.65;margin-top:3px}
 .mark-box .btn{flex:none}
+.mark-btns{display:flex;gap:8px;flex:none;flex-wrap:wrap}
 @media (max-width:560px){.mark-box{flex-direction:column;align-items:stretch}}
 .sum2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 4px}
 .sum2 a{display:block;cursor:pointer;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel);color:var(--ink)}
@@ -893,7 +894,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
         <span class="ico" aria-hidden="true"></span>
         <b>내규 파일을 끌어다 놓거나 눌러서 고르세요</b>
         <span>한글 HWPX 파일</span>
-        <small class="drop-tip">한글(HWP) 파일은 한글에서 HWPX로 저장한 뒤 올리세요. 점검 결과를 붉게 표시한 한글 파일도 받을 수 있습니다.</small>
+        <small class="drop-tip">한글(HWP) 파일은 한글에서 HWPX로 저장한 뒤 올리세요. 점검 뒤 신구조문 대비표와 수정안을 한글 파일로 받을 수 있습니다.</small>
       </label>
       <input type="file" id="file" accept=".hwpx,.hwp" hidden>
       <details class="hwp-how">
@@ -904,7 +905,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
           <li>‘파일 형식’에서 <b>HWPX 문서(*.hwpx)</b>를 고르고 저장합니다.</li>
           <li>저장한 .hwpx 파일을 위 칸에 끌어다 놓습니다.</li>
         </ol>
-        <p>HWPX로 올리면 학교 원본의 글꼴·표·쪽 모양을 그대로 둔 채 점검 결과를 붉게 표시한 파일을 받을 수 있습니다.</p>
+        <p>HWPX로 올리면 학교 원본의 글꼴·표·쪽 모양을 그대로 둔 채 고칠 곳만 표시한 수정안을 받을 수 있습니다.</p>
       </details>
       <details style="margin-top:14px">
         <summary style="cursor:pointer;color:var(--ink-2);font-size:14.5px;font-weight:600">본문을 직접 붙여넣기</summary>
@@ -1726,6 +1727,44 @@ var ENGINE = (function () {
       '<hp:sz width="' + TW + '" widthRelTo="ABSOLUTE" height="' + H + '" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="140" right="140" top="140" bottom="140"/>' +
       rows.join('') + '</hp:tbl><hp:t/></hp:run></hp:p>';
   }
+  /* 신구조문 대비표: groups [{title, rows:[{no, cur:[para], neu:[para], why:[para]}]}], para = [{t, k:'n'|'del'|'add'|'b'}] */
+  function compareSectionXml(TPL, title, intro, groups, outro) {
+    var W = [2600, 14400, 15200, 11913], TW = 44113, K = { n: '94', del: '__DEL__', add: '119', b: '91' };
+    function lines(paras, w) { var per = Math.max(4, Math.floor((w - 600) / 1150)), n = 0; paras.forEach(function (p) { var len = p.reduce(function (s, r) { return s + String(r.t).length; }, 0); n += Math.max(1, Math.ceil(len / per)); }); return Math.max(1, n); }
+    function cell(paras, col, row, span, bf, pp, h, head) {
+      var w = 0; for (var i = col; i < col + span; i++) w += W[i];
+      var body = (paras.length ? paras : [[{ t: '', k: 'n' }]]).map(function (p) {
+        return '<hp:p id="2147483648" paraPrIDRef="' + pp + '" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0">' +
+          p.map(function (r) { return '<hp:run charPrIDRef="' + (K[r.k] || '94') + '"><hp:t>' + esc(r.t) + '</hp:t></hp:run>'; }).join('') + '</hp:p>';
+      }).join('');
+      return '<hp:tc name="" header="' + (head ? 1 : 0) + '" hasMargin="0" protect="0" editable="0" dirty="0" borderFillIDRef="' + bf + '"><hp:subList id="" textDirection="HORIZONTAL" lineWrap="BREAK" vertAlign="CENTER" linkListIDRef="0" linkListNextIDRef="0" textWidth="0" textHeight="0" hasTextRef="0" hasNumRef="0">' + body + '</hp:subList>' +
+        '<hp:cellAddr colAddr="' + col + '" rowAddr="' + row + '"/><hp:cellSpan colSpan="' + span + '" rowSpan="1"/><hp:cellSz width="' + w + '" height="' + h + '"/><hp:cellMargin left="141" right="141" top="141" bottom="141"/></hp:tc>';
+    }
+    var rows = [], H = 0, ri = 0;
+    var hh = 2046; H += hh;
+    rows.push('<hp:tr>' + [['번호', 0], ['현행', 1], ['개정안', 2], ['사유', 3]].map(function (c) { return cell([[{ t: c[0], k: 'b' }]], c[1], 0, 1, '12', '59', hh, 1); }).join('') + '</hp:tr>');
+    groups.forEach(function (G) {
+      if (!G.rows.length) return;
+      ri++; var gh = 1900; H += gh;
+      rows.push('<hp:tr>' + cell([[{ t: G.title, k: 'b' }]], 0, ri, 4, '12', '143', gh) + '</hp:tr>');
+      G.rows.forEach(function (r) {
+        ri++;
+        var n = Math.max(lines(r.cur, W[1]), lines(r.neu, W[2]), lines(r.why, W[3]));
+        var h = 600 + n * 1750; H += h;
+        rows.push('<hp:tr>' + cell([[{ t: String(r.no), k: 'n' }]], 0, ri, 1, '10', '59', h) + cell(r.cur, 1, ri, 1, '10', '143', h) + cell(r.neu, 2, ri, 1, '10', '143', h) + cell(r.why, 3, ri, 1, '10', '143', h) + '</hp:tr>');
+      });
+    });
+    var tbl = '<hp:p id="2147483648" paraPrIDRef="125" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="94"><hp:tbl id="1326637491" zOrder="3" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="CELL" repeatHeader="1" rowCnt="' + rows.length + '" colCnt="4" cellSpacing="0" borderFillIDRef="4" noAdjust="0">' +
+      '<hp:sz width="' + TW + '" widthRelTo="ABSOLUTE" height="' + H + '" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="140" right="140" top="140" bottom="140"/>' +
+      rows.join('') + '</hp:tbl><hp:t/></hp:run></hp:p>';
+    var out = [TPL.secOpen, TPL.para0.replace('{{TITLE}}', esc(title)), P('21', [{ c: '88', t: '' }])];
+    (intro || []).forEach(function (t) { out.push(P('132', [{ c: '92', t: t }])); });
+    out.push(P('132', [{ c: '92', t: '' }]));
+    out.push(tbl);
+    (outro || []).forEach(function (t) { out.push(P('132', [{ c: typeof t === 'object' ? (t.red ? '106' : t.b ? '91' : '92') : '92', t: typeof t === 'object' ? t.t : t }])); });
+    out.push('</hs:sec>');
+    return out.join('');
+  }
   function sectionXml(TPL, res, V, markRed) {
     var out = [TPL.secOpen];
     res.blocks.forEach(function (b) {
@@ -2451,6 +2490,10 @@ var ENGINE = (function () {
   function jong(w) { var c = String(w).replace(/[’'\s)]+$/, '').slice(-1).charCodeAt(0); if (c >= 0xAC00 && c <= 0xD7A3) return (c - 0xAC00) % 28; return /[013678]$/.test(String(w)) ? 1 : 0; }
   function J(w, a, b) { return w + (jong(w) ? a : b); }
   function clip(s, n) { s = String(s); return s.length > (n || 110) ? s.slice(0, (n || 110) - 1) + '…' : s; }
+  var NAME_GROUPS = [
+    { n: '교무업무전담팀', v: [['교무업무전담팀', /교무\s*업무\s*전담팀/g], ['교원업무전담팀', /교원\s*업무\s*전담팀/g], ['업무지원팀', /업무\s*지원팀/g]] },
+    { n: '인사자문위원회', v: [['인사자문위원회', /인사\s*자문\s*위원회/g], ['인사위원회', /인사\s*위원회/g]] }
+  ];
   function checkConflicts(text) {
     var P = parseRules(text), out = [], seen = {};
     function add(o) { var k = o.type + '|' + (o.a && o.a.t) + '|' + (o.b && o.b.t); if (seen[k]) return; seen[k] = 1; out.push(o); }
@@ -2533,12 +2576,12 @@ var ENGINE = (function () {
         up.forEach(function (u) { dn.forEach(function (d) {
           if (u.L.blk !== d.L.blk) return;
           if (u.L === d.L && /경우|동일|같은/.test(u.L.t) && D.n !== '생년월일') return;
-          add({ lv: 'hi', type: '반대 기준', why: '같은 순위 목록 안에서 ' + J(D.n, '을', '를') + ' 한 번은 ‘' + u.lab + '’, 한 번은 ‘' + d.lab + '’으로 정합니다.', fix: '어느 쪽이 맞는지 정해 하나로 통일하거나, 각각 적용되는 경우를 문장에 밝힙니다.', a: ref(u.L, [u.w]), b: u.L === d.L ? null : ref(d.L, [d.w]) });
+          add({ lv: 'hi', type: '반대 기준', why: '같은 순위 목록 안에서 ' + J(D.n, '을', '를') + ' 한 번은 ‘' + u.lab + '’, 한 번은 ‘' + d.lab + '’으로 정합니다.', fix: '어느 쪽이 맞는지 정해 하나로 통일하거나, 각각 적용되는 경우를 문장에 밝힙니다.', a: ref(u.L, [u.w]), b: u.L === d.L ? null : ref(d.L, [d.w]), dn: D.n, labs: [u.lab, d.lab] });
         }); });
         var vUp = via.filter(function (x) { return x.d === D.n && x.k === 0; }), vDn = via.filter(function (x) { return x.d === D.n && x.k === 1; });
         function scoped(d, v) { return /희망자가\s*없/.test(d.L.t) && /경합|희망자\s*간/.test(v.from.t) || new RegExp('제\\s*' + d.L.item + '\\s*항').test(v.from.t); }
-        dn.forEach(function (d) { vUp.forEach(function (v) { if (scoped(d, v)) return; add({ lv: 'mid', type: '반대 기준', why: J(d.L.at, '은', '는') + ' ' + J(D.n, '을', '를') + ' ‘' + d.lab + '’으로 정하는데, 같은 조의 ' + J(v.from.at, '이', '가') + ' 가리키는 ' + J(v.L.art.at, '은', '는') + ' ‘' + v.lab + '’입니다.', fix: '두 경우에 서로 다른 기준을 쓰려는 것인지 확인하고, 아니면 하나로 맞춥니다.', a: ref(d.L, [d.w]), b: ref(v.L, [v.w]) }); }); });
-        up.forEach(function (u) { vDn.forEach(function (v) { if (scoped(u, v)) return; add({ lv: 'mid', type: '반대 기준', why: J(u.L.at, '은', '는') + ' ' + J(D.n, '을', '를') + ' ‘' + u.lab + '’으로 정하는데, 같은 조의 ' + J(v.from.at, '이', '가') + ' 가리키는 ' + J(v.L.art.at, '은', '는') + ' ‘' + v.lab + '’입니다.', fix: '두 경우에 서로 다른 기준을 쓰려는 것인지 확인하고, 아니면 하나로 맞춥니다.', a: ref(u.L, [u.w]), b: ref(v.L, [v.w]) }); }); });
+        dn.forEach(function (d) { vUp.forEach(function (v) { if (scoped(d, v)) return; add({ lv: 'mid', type: '반대 기준', why: J(d.L.at, '은', '는') + ' ' + J(D.n, '을', '를') + ' ‘' + d.lab + '’으로 정하는데, 같은 조의 ' + J(v.from.at, '이', '가') + ' 가리키는 ' + J(v.L.art.at, '은', '는') + ' ‘' + v.lab + '’입니다.', fix: '두 경우에 서로 다른 기준을 쓰려는 것인지 확인하고, 아니면 하나로 맞춥니다.', a: ref(d.L, [d.w]), b: ref(v.L, [v.w]), dn: D.n, labs: [d.lab, v.lab] }); }); });
+        up.forEach(function (u) { vDn.forEach(function (v) { if (scoped(u, v)) return; add({ lv: 'mid', type: '반대 기준', why: J(u.L.at, '은', '는') + ' ' + J(D.n, '을', '를') + ' ‘' + u.lab + '’으로 정하는데, 같은 조의 ' + J(v.from.at, '이', '가') + ' 가리키는 ' + J(v.L.art.at, '은', '는') + ' ‘' + v.lab + '’입니다.', fix: '두 경우에 서로 다른 기준을 쓰려는 것인지 확인하고, 아니면 하나로 맞춥니다.', a: ref(u.L, [u.w]), b: ref(v.L, [v.w]), dn: D.n, labs: [u.lab, v.lab] }); }); });
       });
     });
 
@@ -2571,7 +2614,7 @@ var ENGINE = (function () {
       P.lines.forEach(function (L) { if (filt && !filt.test(L.t)) return; re.lastIndex = 0; var m; while ((m = re.exec(L.t))) hits.push({ L: L, v: m[1], w: m[0] }); });
       var vals = {}; hits.forEach(function (h) { (vals[h.v] = vals[h.v] || []).push(h); });
       var ks = Object.keys(vals);
-      if (ks.length > 1) { var a = vals[ks[0]][0], b = vals[ks[1]][0]; add({ lv: 'mid', type: '숫자 불일치', why: why + '이 조항마다 다릅니다(' + ks.map(function (k) { return k + label; }).join(', ') + ').', fix: '같은 기준이면 하나로 맞추고, 일부러 다르게 둔 것이면 이유가 드러나게 적습니다.', a: ref(a.L, [a.w]), b: ref(b.L, [b.w]) }); }
+      if (ks.length > 1) { var a = vals[ks[0]][0], b = vals[ks[1]][0]; add({ lv: 'mid', type: '숫자 불일치', why: why + '이 조항마다 다릅니다(' + ks.map(function (k) { return k + label; }).join(', ') + ').', fix: '같은 기준이면 하나로 맞추고, 일부러 다르게 둔 것이면 이유가 드러나게 적습니다.', a: ref(a.L, [a.w]), b: ref(b.L, [b.w]), vals: ks.map(function (k) { return k + label; }), what: why }); }
     }
     nums(/(?:최근|최대)\s*(\d+)\s*년/g, /경력/, '년', '경력 산정 기간');
     nums(/(\d+)\s*일\s*이내/g, /이의/, '일', '이의신청 기간');
@@ -2585,14 +2628,11 @@ var ENGINE = (function () {
     });
 
     /* ⑦ 같은 대상을 다른 이름으로 */
-    var NAMES = [
-      { n: '교무업무전담팀', v: [['교무업무전담팀', /교무\s*업무\s*전담팀/g], ['교원업무전담팀', /교원\s*업무\s*전담팀/g], ['업무지원팀', /업무\s*지원팀/g]] },
-      { n: '인사자문위원회', v: [['인사자문위원회', /인사\s*자문\s*위원회/g], ['인사위원회', /인사\s*위원회/g]] }
-    ];
+    var NAMES = NAME_GROUPS;
     NAMES.forEach(function (N) {
       var found = [];
       N.v.forEach(function (v) { var L0 = null, c = 0; P.lines.forEach(function (L) { v[1].lastIndex = 0; var k = (L.t.match(v[1]) || []).length; if (k) { c += k; if (!L0) L0 = L; } }); if (c) found.push({ name: v[0], c: c, L: L0 }); });
-      if (found.length > 1) add({ lv: 'mid', type: '이름 혼용', why: '같은 대상을 여러 이름으로 섞어 씁니다: ' + found.map(function (f) { return '‘' + f.name + '’ ' + f.c + '번'; }).join(', ') + '.', fix: '‘' + N.n + '’ 하나로 통일하거나 용어의 정의에 같은 뜻임을 밝힙니다.', a: ref(found[1].L, [found[1].name]), b: ref(found[0].L, [found[0].name]) });
+      if (found.length > 1) add({ lv: 'mid', type: '이름 혼용', why: '같은 대상을 여러 이름으로 섞어 씁니다: ' + found.map(function (f) { return '‘' + f.name + '’ ' + f.c + '번'; }).join(', ') + '.', fix: '‘' + N.n + '’ 하나로 통일하거나 용어의 정의에 같은 뜻임을 밝힙니다.', a: ref(found[1].L, [found[1].name]), b: ref(found[0].L, [found[0].name]), group: N.n });
     });
 
     /* ⑧ 거의 같은 문장 */
@@ -2616,7 +2656,91 @@ var ENGINE = (function () {
     return out;
   }
 
+  /* ---------- 점검 결과 → 수정 제안 ---------- */
+  function proposeFixes(text) {
+    var P = parseRules(text), cf = checkConflicts(text), recs = [], lines = P.lines;
+    var byIdx = {}; lines.forEach(function (L) { byIdx[L.idx] = L; });
+    function E1(L, pos, len, to) { return { idx: L.idx, full: L.t, pos: pos, len: len, from: L.t.substr(pos, len), to: to }; }
+    function findIn(L, w) { var i = L ? L.t.indexOf(w) : -1; return i; }
+    function lineOf(r) { return r && byIdx[r.idx]; }
+    /* 조 번호 다시 매기기 */
+    var map = null, renumRec = null, hasSub = P.arts.some(function (A) { return A.sub; });
+    var numConf = cf.filter(function (x) { return x.type === '조 번호'; });
+    if (numConf.length && !hasSub) {
+      map = {}; var seq = {}, changed = false;
+      P.arts.forEach(function (A) { seq[A.part] = (seq[A.part] || 0) + 1; var k = A.part + '|' + A.no; if (!(k in map)) map[k] = seq[A.part]; A.newNo = seq[A.part]; if (A.newNo !== A.no) changed = true; });
+      if (!changed) map = null;
+    }
+    var repTargets = {};
+    cf.forEach(function (x) { if (x.rep && x.a) repTargets[x.a.idx + '|' + x.rep.from] = 1; });
+    if (map) {
+      var ed = [], heads = [];
+      P.arts.forEach(function (A) { if (A.newNo === A.no) return; var L = A.lines[0]; var m = /^제\s*\d+\s*조/.exec(L.t); if (m) { ed.push(E1(L, 0, m[0].length, '제' + A.newNo + '조')); heads.push([A.no, A.newNo]); } });
+      lines.forEach(function (L) {
+        if (L.zone !== 'body' && L.zone !== 'def' && L.zone !== 'annex') return;
+        var re = /제\s*(\d+)\s*조(?!\s*의\s*\d)/g, m;
+        while ((m = re.exec(L.t))) {
+          if (m.index === 0 && L.head) continue;
+          if (/(」|법률?|시행령|시행규칙|령|규정|규칙|지침|조례)\s*$/.test(L.t.slice(Math.max(0, m.index - 12), m.index))) continue;
+          if (repTargets[L.idx + '|' + m[0]]) continue;
+          var nn = map[L.part + '|' + m[1]]; if (!nn || nn === +m[1]) continue;
+          ed.push(E1(L, m.index, m[0].length, '제' + nn + '조'));
+        }
+      });
+      renumRec = { type: '조 번호', lv: 'hi', apply: true, edits: ed, heads: heads, why: '조 번호가 빠지거나 겹쳐 있어 차례대로 다시 매기고, 본문 속 참조 번호도 함께 고칩니다.', refCount: ed.length - heads.length };
+    }
+    var renumDone = false;
+    cf.forEach(function (x, i) {
+      var R = { no: 0, cfi: i, type: x.type, lv: x.lv, why: x.why, fix: x.fix, a: x.a, b: x.b, edits: [], options: null, apply: false };
+      var La = lineOf(x.a), Lb = lineOf(x.b);
+      if (x.type === '조 번호') { if (renumRec) { if (renumDone) return; renumDone = true; R = Object.assign(R, renumRec); R.cfi = i; R.fix = '조 번호를 차례대로 다시 매기고 본문 속 참조 번호도 함께 고칩니다.'; } recs.push(R); return; }
+      if (x.rep && La) {
+        var p = findIn(La, x.rep.from), to = x.rep.to;
+        if (map) { var mm = /제\s*(\d+)\s*조/.exec(to); if (mm && map[La.part + '|' + mm[1]]) { to = '제' + map[La.part + '|' + mm[1]] + '조'; if (to !== x.rep.to) R.why = R.why.split(x.rep.to).join(to + '(새 번호)'); } }
+        if (p >= 0) { R.edits.push(E1(La, p, x.rep.from.length, to)); R.apply = true; R.fix = x.rep.from + '를 ' + to + '로 고칩니다.'; }
+      } else if (x.type === '이름 혼용' && x.group) {
+        var G = NAME_GROUPS.filter(function (g) { return g.n === x.group; })[0];
+        G.v.forEach(function (v) { if (v[0] === G.n) return; lines.forEach(function (L) { v[1].lastIndex = 0; var m; while ((m = v[1].exec(L.t))) R.edits.push(E1(L, m.index, m[0].length, G.n)); }); });
+        R.apply = R.edits.length > 0; R.fix = '‘' + G.n + '’ 하나로 통일합니다.';
+      } else if (x.type === '결정 주체' && La) {
+        var w = x.a.hl[0], p2 = findIn(La, w);
+        if (p2 >= 0) {
+          var to2 = /결정$/.test(w) ? '인사자문위원회의 자문을 거쳐 학교장이 결정' : /정한다$/.test(w) ? '인사자문위원회의 자문을 거쳐 학교장이 정한다' : w.replace(/^(교직원\s*협의회|교원\s*업무\s*전담팀|교무\s*업무\s*전담팀|업무\s*지원팀)(에서|의)?/, '인사자문위원회의 자문을 거쳐 ');
+          to2 = to2.replace(/\s*(의\s*)?추천을\s*받아\s*$/, ' ');
+          var tail = La.t.slice(p2 + w.length), ext = 0, tm;
+          if ((tm = /^\s*에\s*따른다/.exec(tail)) && /결정$/.test(w)) { ext = tm[0].length; to2 = to2.replace(/결정$/, '정한다'); }
+          else if ((tm = /^\s*(의\s*)?추천을\s*받아\s*/.exec(tail)) && / $/.test(to2)) { ext = tm[0].length; }
+          if (/^\s/.test(La.t.slice(p2 + w.length + ext))) to2 = to2.replace(/\s+$/, '');
+          R.edits.push(E1(La, p2, w.length + ext, to2)); R.apply = true; R.fix = '‘인사자문위원회의 자문을 거쳐 학교장이’ 정하도록 맞춥니다.';
+        }
+      } else if (x.type === '논리' && La && /정원과\s*동일/.test(La.t)) {
+        var m3 = /\)?\s*(이?나|또는)\s*정원과\s*동일하게\s*지원한\s*경우/.exec(La.t);
+        if (m3) { var st = m3.index + (m3[0].charAt(0) === ')' ? 1 : 0); R.edits.push(E1(La, st, m3.index + m3[0].length - st, '')); R.apply = true; R.fix = '‘정원과 동일하게 지원한 경우’를 지워 경합(정원 초과)일 때만 순위를 적용합니다.'; }
+      } else if (x.type === '중복 문장' && x.lv === 'hi' && Lb) {
+        var hm = /^(제\s*\d+\s*조(?:의\s*\d+)?\s*\(([^)]*)\)\s*)/.exec(Lb.t);
+        if (hm && hm[2]) { var tt2 = hm[2].replace(/\s+$/, ''), lc = tt2.charCodeAt(tt2.length - 1), jo = (lc >= 0xAC00 && lc <= 0xD7A3 && (lc - 0xAC00) % 28) ? '은' : '는';
+          R.edits.push(E1(Lb, hm[1].length, Lb.t.length - hm[1].length, tt2 + jo + ' 다음 각 항에 따른다.')); R.fix = '조 제목은 두고, 앞 조항을 베낀 문장만 이 조의 내용에 맞게 고칩니다.'; }
+        else { R.edits.push(E1(Lb, 0, Lb.t.length, '')); R.fix = '뒤에 나오는 같은 문장을 지우고 한 곳에만 둡니다.'; }
+        R.apply = true;
+      } else if (x.type === '반대 기준' && x.labs) {
+        R.options = ['안 1: ' + x.dn + ' 기준을 ‘' + x.labs[0] + '’으로 통일', '안 2: ‘' + x.labs[1] + '’으로 통일', '안 3: 두 경우를 일부러 다르게 둔다면 각각 적용되는 경우를 문장에 밝힘'];
+      } else if (x.type === '숫자 불일치' && x.vals) {
+        R.options = x.vals.map(function (v, k) { return '안 ' + (k + 1) + ': ' + x.what + '을 ' + v + '으로 통일'; });
+      }
+      recs.push(R);
+    });
+    recs.forEach(function (R) { R.group = R.apply && R.lv === 'hi' ? 'must' : 'talk'; });
+    recs.sort(function (a, b) { return (a.group === 'must' ? 0 : 1) - (b.group === 'must' ? 0 : 1); });
+    recs.forEach(function (R, i) { R.no = i + 1; });
+    return { recs: recs, cf: cf, map: map };
+  }
+  function applyEdits(t, eds) {
+    eds.slice().sort(function (a, b) { return b.pos - a.pos; }).forEach(function (e) { t = t.slice(0, e.pos) + e.to + t.slice(e.pos + e.len); });
+    return t;
+  }
+
   return {
+    proposeFixes: proposeFixes, applyEdits: applyEdits, compareSectionXml: compareSectionXml,
     DEFAULT_V: DEFAULT_V, OPTIONS: OPTIONS, BOARD_ROWS: BOARD_ROWS, BOARD_NOTE: BOARD_NOTE, boardQuota: boardQuota,
     blocks: blocks, plainText: plainText, stripRich: function (t) { return String(t).replace(/[\uE000](.*?)[\uE001]/g, '').replace(/[\uE002\uE003\uE004]/g, ''); }, sectionXml: sectionXml, plainSectionXml: plainSectionXml, tableNote: tableNote,
     hwpToText: hwpToText, owpmlToText: owpmlToText, docxToText: docxToText, checkText: checkText, checkConflicts: checkConflicts, TOPICS: TOPICS,
@@ -2953,11 +3077,12 @@ function showCheck(text, name, src){
   var h = '<div class="result-head"><span class="big">' + ok + '<small> / ' + r.length + '</small></span><span style="color:var(--muted)">' + esc(name) + '에서 확인된 항목</span></div>' +
     '<div class="meter" aria-hidden="true"><i style="width:' + Math.round(ok / r.length * 100) + '%"></i></div>';
   var cf = E.checkConflicts(text), cfHi = cf.filter(function(x){ return x.lv === 'hi'; }).length;
-  lastCheck = { name: name, ext: src && src.ext || 'txt', buf: src && src.buf || null, text: text, r: r, cf: cf };
+  lastCheck = { name: name, ext: src && src.ext || 'txt', buf: src && src.buf || null, text: text, r: r, cf: cf, fx: E.proposeFixes(text) };
   h += '<div class="sum2"><a role="button" tabindex="0" data-jump="cf-sec" class="s-cf"><b>' + cf.length + '</b><span>충돌 의심' + (cf.length ? ' (확실 ' + cfHi + ' · 확인 필요 ' + (cf.length - cfHi) + ')' : '') + '</span></a><a role="button" tabindex="0" data-jump="miss-sec" class="s-miss"><b>' + (r.length - ok) + '</b><span>빠진 항목 (보충 필요 ' + r.filter(function(x){ return !x.ok && !isSoftTopic(x); }).length + ' · 필요 시 추가 ' + r.filter(function(x){ return !x.ok && isSoftTopic(x); }).length + ')</span></a></div>';
   h += '<p class="lead s" style="margin:8px 0 0"><b>보충 필요</b>는 대부분의 학교에 있어야 할 항목이고, <b>필요 시 추가</b>는 학교 사정에 따라 고르는 배려·예외 조항입니다. <b>인사 내규 만들기에 넣기</b>는 올린 파일이 아니라 ③ 인사 내규 만들기의 문안에 그 조항을 켭니다.</p>';
   var keepFmt = lastCheck.ext === 'hwpx';
-  h += '<div class="mark-box"><div><b>점검 표시본 내려받기</b><p>' + (keepFmt ? '올린 HWPX의 서식은 그대로 두고, 점검 결과를 붉은색으로 표시한 한글 파일을 만듭니다.' : '붙여넣은 본문을 옮긴 새 한글 파일에 점검 결과를 붉은색으로 표시합니다.') + ' 원문은 지우지 않고 충돌 메모, 고칠 곳이 분명한 수정안(취소선), 문서 끝의 보충 조항을 붙입니다.</p></div><button class="btn primary" type="button" id="mark-dl">점검 표시본 HWPX 내려받기</button></div>';
+  var fx = lastCheck.fx, nMust = fx.recs.filter(function(R){ return R.group === 'must'; }).length, nTalk = fx.recs.length - nMust, nAdd = missingSnips(r.filter(function(x){ return !x.ok && !isSoftTopic(x); })).length;
+  h += '<div class="mark-box"><div><b>고칠 문장 내려받기</b><p>꼭 고칠 것 ' + nMust + '건 · 협의할 것 ' + nTalk + '건 · 신설 제안 ' + nAdd + '개를 ‘현행 → 개정안’으로 정리합니다. <b>신구조문 대비표</b>로 협의하고, <b>수정안</b>(' + (keepFmt ? '원본 서식에' : '본문에') + ' 취소선·붉은 글자만 표시)에서 확정하세요.</p></div><div class="mark-btns"><button class="btn primary" type="button" data-dl="cmp">신구조문 대비표</button><button class="btn" type="button" data-dl="rev">수정안</button></div></div>';
   h += '<div class="note-box">낱말과 규칙으로 판단하는 자동 점검이라 실제 내용과 다를 수 있습니다. 결과는 원문에서 한 번 더 확인하고, 최종 판단은 사람이 합니다.</div>';
   h += '<div class="chk-g" id="cf-sec">충돌 의심</div>';
   if (!cf.length) h += '<div class="cf-none">규칙으로 찾은 충돌 의심이 없습니다.</div>';
@@ -3065,19 +3190,81 @@ function hxSetRuns(p, chars, cf){
   runs.forEach(function(r){ var ru = doc.createElementNS(HX.hp, 'hp:run'); ru.setAttribute('charPrIDRef', r.c); var t = doc.createElementNS(HX.hp, 'hp:t'); t.textContent = r.t; ru.appendChild(t); p.appendChild(ru); });
 }
 function hxFind(chars, s){ var str = chars.map(function(x){ return x.ch; }).join(''); return s ? str.indexOf(s) : -1; }
-function refArticleText(id){
-  var t = GROUP_TEXT[targetId(id)] || '';
-  return t.replace(/^(\s*)제\s*\d+\s*조(의\s*\d+)?(?=\s*\()/, '$1제○조').replace(/제\s*(\d+)\s*조/g, function(m, n, i){ return i < 4 ? m : '참고안 제' + n + '조'; });
+/* 빠진 항목 → 참고안의 해당 문장만 (항 단위) */
+var TOPIC_SNIP = {
+  '인사자문위원회 구성': ['compose'], '위원 임기와 결원 충원': ['term'], '소집 요건': ['convene'],
+  '개의·의결 정족수': ['vote', /개의/], '위원장 표결·가부동수 처리': ['vote', /동수/], '서면 자문(방학·긴급)': ['vote', /서면/],
+  '위원 제척·회피': ['vote', /당사자/], '회의록 작성': ['vote', /회의록/],
+  '학년 희망 방식(희망서·배정표)': ['policy', /배정표|희망서/], '희망 경합 시 적용 순서': ['policy', /겹칠 경우/], '인사점수(서열) 기준 배정': ['criteria', /인사점수\(/],
+  '6학년 경합 처리': ['criteria', /6학년 경합/], '원로교사 우대': ['pref', /원로교사/], '병약·장애 교원 우대': ['pref', /병약|장애/], '임신·출산 예정자 배려': ['criteria', /출산이 예정/],
+  '교담교사 배정': ['subj', /희망자 중|경합 시에는/], '전입교사 배정': ['newcomer', /결원이 있는|전입교사끼리/], '학기 중 담임 교체': ['replace'], '임시 담임 배정': ['tempHome'],
+  '학기 중 학급 증설·감축': ['classAdj', /늘어나는|줄어드는/], '학년 안 학급(반) 배정': ['classroom'],
+  '학년별 담임 경력 배점표': ['points', null, '학년·연도별 담임 경력 배점표(참고안 제10조 제2항의 표)를 두고, 해마다 다음 연도 배점을 정합니다.'],
+  '1년 미만 월 환산': ['points', /월 점수로 환산/], '본교 경력점과 상한': ['points', /본교 경력점은/], '통합학급 부가점': ['points', /통합학급의 담임/], '산정 기간': ['points', /최근 .*(년간|개 학년도)/], '동점자 처리': ['tie'],
+  '배정 자료 공개': ['open', /공개한다/], '배정 결과 이의신청': ['open', /이의를 신청/],
+  '부장 정원(보직교사+학교 임명 부장)': ['head', 'body'], '부장 희망 경합 순위': ['head', /정원을 초과하여 경합/], '희망자 미달 시 강제 배정 순위': ['head', /희망자가 정원에 미달한 경우/, null, /^\s{4}(가|나)\./],
+  '강제 배정 제외 대상': ['head', /임용 대상에서 제외/], '전입교사 부장 기회': ['head', /전입교사에게 공개/], '보직 연임 제한': ['head', /연속 .*회를 초과/], '부장 임기·해임·결원 보충': ['hTerm'],
+  '일반 교원 업무분장 기준': ['work', /배정표\(업무분장서 안\)를 작성|함께 선택하며|업무 희망서에/], '교무업무전담팀 선발': ['tPolicy', /먼저 선발|경합 시\(같은 업무/],
+  '학교폭력 기여 가산점 선정': ['award1', /3명 이상|이의 제기 기간/], '포상(표창) 추천': ['prize1', /경합 시에는 서류/], '정원 감축 전출자 선정': ['cut1'], '연수 대상자 추천': ['train'],
+  '보직교사 배치 기준': ['x-board', null, '학급 수별 보직교사 정원 별표(참고안 [별표 1])를 둡니다.'], '내규 개정 절차': ['revArt'], '용어의 정의': ['defs', null, '부장교사·보직교사·인사점수 등 내규에 쓰는 낱말의 뜻을 ‘용어의 정의’로 모아 둡니다.']
+};
+function snipOf(name){
+  var S = TOPIC_SNIP[name] || [TOPIC_ART[name]]; if (!S || !S[0]) return null;
+  var id = S[0], gid = targetId(id), raw = (GROUP_TEXT[gid] || '').split('\n');
+  var headM = /^(제\s*\d+\s*조(?:의\s*\d+)?)\(([^)]*)\)\s*(.*)$/.exec(raw[0] || '');
+  var head = headM ? '제○조(' + headM[2] + ')' : (raw[0] || '').replace(/^\[별표\s*\d+\]\s*/, '');
+  var key = gid + (S[1] instanceof RegExp ? '|' + S[1].source : '');
+  if (S[2]) return { key: key, head: head, lines: [S[2]], custom: true };
+  var out = [];
+  if (!S[1] || S[1] === 'body') { if (headM && headM[3]) out.push(headM[3]); }
+  if (!S[1]) { for (var i = 1; i < raw.length; i++) out.push(raw[i]); }
+  else if (S[1] instanceof RegExp) {
+    for (var j = 1; j < raw.length; j++) {
+      if (!S[1].test(raw[j])) continue;
+      var ind = raw[j].match(/^\s*/)[0].length; out.push(raw[j]);
+      for (var k = j + 1; k < raw.length && raw[k].match(/^\s*/)[0].length > ind; k++) {
+        if (S[3] && raw[k].match(/^\s*/)[0].length === ind + 2 && !S[3].test(raw[k])) { var ind2 = raw[k].match(/^\s*/)[0].length; while (k + 1 < raw.length && raw[k + 1].match(/^\s*/)[0].length > ind2) k++; continue; }
+        out.push(raw[k]);
+      }
+      j = k - 1;
+    }
+    if (!out.length) { for (var q = 1; q < raw.length; q++) out.push(raw[q]); if (headM && headM[3]) out.unshift(headM[3]); }
+  }
+  out = out.map(function(l){ return l.replace(/^(\s{2})\d+\.\s/, '$1○ ').replace(/제\s*(\d+)\s*조/g, '참고안 제$1조'); });
+  return { key: key, gid: gid, head: head, lines: out };
 }
-async function buildMarkedHwpx(LC){
+function missingSnips(miss){
+  var by = [], seen = {};
+  miss.forEach(function(x){
+    var s = snipOf(x.n); if (!s) return;
+    var k = s.gid || s.key, g = seen[k];
+    if (!g) { g = seen[k] = { head: s.head, names: [], lines: [] }; by.push(g); }
+    g.names.push(x.n); s.lines.forEach(function(l){ if (g.lines.indexOf(l) < 0) g.lines.push(l); });
+  });
+  return by;
+}
+function todayStr(){ var d = new Date(); return d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.'; }
+async function loadPkg(LC){
   var src;
   if (LC.ext === 'hwpx') src = await JSZip.loadAsync(LC.buf);
-  else {
-    src = await JSZip.loadAsync(PKG_B64, { base64: true });
-    src.file('Contents/section0.xml', E.plainSectionXml(TPL, LC.text));
-    src.file('Preview/PrvText.txt', LC.text.slice(0, 1024));
+  else { src = await JSZip.loadAsync(PKG_B64, { base64: true }); src.file('Contents/section0.xml', E.plainSectionXml(TPL, LC.text)); src.file('Preview/PrvText.txt', LC.text.slice(0, 1024)); }
+  return src;
+}
+async function repack(src, repl){
+  var z = new JSZip(); z.file('mimetype', 'application/hwp+zip', { compression: 'STORE' });
+  var names = Object.keys(src.files);
+  for (var n2 = 0; n2 < names.length; n2++) {
+    var nm = names[n2], f = src.files[nm];
+    if (f.dir || nm === 'mimetype') continue;
+    var data = repl[nm] != null ? repl[nm] : null;
+    if (data && !/^<\?xml/.test(data)) data = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>' + data;
+    z.file(nm, data != null ? data : await f.async('uint8array'), { compression: 'DEFLATE' });
   }
-  var parser = new DOMParser(), ser = new XMLSerializer();
+  return z.generateAsync({ type: 'blob', mimeType: 'application/hwp+zip' });
+}
+/* ① 수정안: 원본에 취소선·붉은 새 글자만 */
+async function buildRevisedHwpx(LC){
+  var src = await loadPkg(LC), parser = new DOMParser(), ser = new XMLSerializer();
   var hName = Object.keys(src.files).filter(function(n){ return /^Contents\/header\.xml$/i.test(n); })[0];
   if (!hName) throw new Error('HWPX 서식 정보(header.xml)를 찾지 못했습니다.');
   var hdoc = parser.parseFromString(await src.file(hName).async('string'), 'application/xml');
@@ -3086,17 +3273,15 @@ async function buildMarkedHwpx(LC){
   var secs = [];
   for (var i = 0; i < sNames.length; i++) secs.push({ name: sNames[i], doc: parser.parseFromString(await src.file(sNames[i]).async('string'), 'application/xml') });
   if (!secs.length) throw new Error('HWPX 본문을 찾지 못했습니다.');
-  /* 문단 목록과 본문 문단 모양 */
   var paras = [], freqP = {}, freqC = {};
   secs.forEach(function(S){ hxPostOrder(S.doc.documentElement, []).forEach(function(p){ var t = hxOwnText(p); paras.push({ p: p, n: hxNsp(t) });
     if (p.parentNode === S.doc.documentElement && t.trim().length > 15) { var k = p.getAttribute('paraPrIDRef') + '|' + (p.getAttribute('styleIDRef') || '0'); freqP[k] = (freqP[k] || 0) + 1;
       hxKids(p, HX.hp, 'run').forEach(function(r){ if (hxKids(r, HX.hp, 't').length) freqC[r.getAttribute('charPrIDRef')] = (freqC[r.getAttribute('charPrIDRef')] || 0) + 1; }); } }); });
-  function top(o){ var k = Object.keys(o).sort(function(a, b){ return o[b] - o[a]; })[0]; return k; }
+  function top(o){ return Object.keys(o).sort(function(a, b){ return o[b] - o[a]; })[0]; }
   var pk = (top(freqP) || (secs[0].doc.documentElement.getElementsByTagNameNS(HX.hp, 'p')[0].getAttribute('paraPrIDRef') + '|0')).split('|');
   var PP = pk[0], ST = pk[1], BC = top(freqC) || '0';
   if (LC.ext !== 'hwpx') { PP = '78'; ST = '0'; BC = '92'; }
   var cRed = cf(BC, 'red'), cBold = cf(BC, 'bold');
-  /* 줄 번호 → 문단 */
   var lines = LC.text.replace(/\r/g, '').split('\n');
   function locate(idx, full){
     if (idx == null || idx < 0) idx = lines.length;
@@ -3105,99 +3290,133 @@ async function buildMarkedHwpx(LC){
     var hits = paras.filter(function(x){ return x.n === target; });
     if (hits.length) return hits[Math.min(k, hits.length - 1)].p;
     var part = paras.filter(function(x){ return x.n && x.n.indexOf(target) >= 0; });
-    if (part.length) return part[0].p;
-    var sub = paras.filter(function(x){ return x.n.length >= 6 && target.indexOf(x.n) >= 0; });
-    return sub.length ? sub[0].p : null;
+    return part.length ? part[0].p : null;
   }
-  var cf0 = LC.cf, notes = new Map(), inl = new Map(), lost = [], fixed = 0;
+  var FX = LC.fx, ops = new Map(), notes = new Map(), applied = 0, failed = [];
+  function addOp(p, o){ if (!ops.has(p)) ops.set(p, []); ops.get(p).push(o); }
   function addNote(p, t){ var tp = hxTop(p); if (!notes.has(tp)) notes.set(tp, []); notes.get(tp).push(t); }
-  function addInl(p, op){ if (!inl.has(p)) inl.set(p, []); inl.get(p).push(op); }
-  cf0.forEach(function(x, i){
-    var no = i + 1, lab = x.lv === 'hi' ? '충돌' : '확인 필요';
-    var pa = x.a ? locate(x.a.idx, x.a.full) : null, pb = x.b ? locate(x.b.idx, x.b.full) : null;
-    var msg = '[점검 ' + no + ' · ' + lab + '] ' + x.why + ' → 고칠 방향: ' + x.fix;
-    if (pa) {
-      addNote(pa, msg);
-      (x.a.hl || []).forEach(function(h){ addInl(pa, { hl: h }); });
-      if (x.rep) addInl(pa, { from: x.rep.from, to: x.rep.to, no: no });
-    } else lost.push(msg + (x.a ? ' (' + x.a.at + ')' : ''));
-    if (pb && pb !== pa) { addNote(pb, '[점검 ' + no + '] 위 문장은 ' + (x.a ? hxWa(x.a.at) : '다른 조항과') + ' 함께 보세요.'); (x.b.hl || []).forEach(function(h){ addInl(pb, { hl: h }); }); }
+  FX.recs.forEach(function(R){
+    if (R.apply) {
+      var okAll = true;
+      R.edits.forEach(function(e){ var p = locate(e.idx, e.full); if (p) addOp(p, { e: e, R: R }); else okAll = false; });
+      if (!okAll) failed.push(R.no);
+    } else {
+      var pa = R.a && locate(R.a.idx, R.a.full), pb = R.b && locate(R.b.idx, R.b.full);
+      if (pa) { (R.a.hl || []).forEach(function(h){ addOp(pa, { hl: h }); }); addNote(pa, '[협의 ' + R.no + '] ' + (R.options ? '신구조문 대비표 ' + R.no + '번의 안 중에서 고르세요.' : '신구조문 대비표 ' + R.no + '번을 보고 정하세요.')); }
+      if (pb && pb !== pa) (R.b.hl || []).forEach(function(h){ addOp(pb, { hl: h }); });
+    }
   });
-  /* 문단 안 표시: 붉은 글씨, 확실한 수정은 취소선 + 붉은 새 글자 */
-  inl.forEach(function(ops, p){
-    var ch = hxChars(p); if (!ch) return;
-    var changed = false;
-    ops.forEach(function(o){
-      if (o.hl) { var a = hxFind(ch, o.hl); if (a < 0) return; for (var q = a; q < a + o.hl.length; q++) if (!ch[q].m) ch[q].m = 'red'; changed = true; }
+  ops.forEach(function(list, p){
+    var ch = hxChars(p); if (!ch) { list.forEach(function(o){ if (o.e) failed.push(o.R.no); }); return; }
+    var s = ch.map(function(x){ return x.ch; }).join('');
+    list.forEach(function(o){ if (!o.hl) return; var a = s.indexOf(o.hl); if (a < 0) return; for (var q = a; q < a + o.hl.length; q++) if (!ch[q].m) ch[q].m = 'red'; });
+    var eds = list.filter(function(o){ return o.e; }).map(function(o){
+      var base = s.indexOf(o.e.full), st = base >= 0 ? base + o.e.pos : -1;
+      if (st < 0 || s.substr(st, o.e.len) !== o.e.from) { var k = s.indexOf(o.e.from); st = k >= 0 && s.indexOf(o.e.from, k + 1) < 0 ? k : -1; }
+      return { st: st, o: o };
+    }).filter(function(x){ if (x.st < 0) failed.push(x.o.R.no); return x.st >= 0; }).sort(function(a, b){ return b.st - a.st; });
+    eds.forEach(function(x){
+      var e = x.o.e, st = x.st;
+      for (var q = st; q < st + e.len; q++) ch[q].m = 'del';
+      var baseC = ch[Math.max(0, Math.min(ch.length - 1, st + e.len - 1))].c;
+      if (e.to) ch.splice.apply(ch, [st + e.len, 0].concat(e.to.split('').map(function(c){ return { ch: c, c: baseC, m: 'red' }; })));
+      applied++;
     });
-    ops.forEach(function(o){
-      if (!o.from) return;
-      var s = ch.map(function(x){ return x.ch; }).join('');
-      var a = s.indexOf(o.from); if (a < 0 || s.indexOf(o.from, a + 1) >= 0) return;
-      for (var q = a; q < a + o.from.length; q++) ch[q].m = 'del';
-      var base = ch[a + o.from.length - 1].c;
-      ch.splice.apply(ch, [a + o.from.length, 0].concat(o.to.split('').map(function(c){ return { ch: c, c: base, m: 'red' }; })));
-      changed = true; fixed++;
-    });
-    if (changed) hxSetRuns(p, ch, cf);
+    hxSetRuns(p, ch, cf);
   });
-  notes.forEach(function(arr, tp){
-    var ref = tp.nextSibling;
-    arr.forEach(function(t){ tp.parentNode.insertBefore(hxNewPara(tp.ownerDocument, PP, ST, [{ c: cRed, t: t }]), ref); });
-  });
-  /* 첫머리 요약 */
-  var r = LC.r, ok = r.filter(function(x){ return x.ok; }).length, miss = r.filter(function(x){ return !x.ok; });
-  var hard = miss.filter(function(x){ return !isSoftTopic(x); }), soft = miss.filter(isSoftTopic), hi = cf0.filter(function(x){ return x.lv === 'hi'; }).length;
-  var d = new Date(), today = d.getFullYear() + '. ' + (d.getMonth() + 1) + '. ' + d.getDate() + '.';
+  notes.forEach(function(arr, tp){ var ref = tp.nextSibling; arr.forEach(function(t){ tp.parentNode.insertBefore(hxNewPara(tp.ownerDocument, PP, ST, [{ c: cRed, t: t }]), ref); }); });
+  var miss = LC.r.filter(function(x){ return !x.ok; }), hard = miss.filter(function(x){ return !isSoftTopic(x); });
+  var snips = missingSnips(hard);
+  var talk = FX.recs.filter(function(R){ return !R.apply; }).length;
   var sum = [
-    { c: cBold, t: '[자동 점검 결과] 교내 인사 내규 길잡이 · ' + today },
-    { c: cRed, t: '점검 항목 ' + r.length + '개 중 ' + ok + '개 확인 · 충돌 의심 ' + cf0.length + '건(충돌 ' + hi + ' · 확인 필요 ' + (cf0.length - hi) + ') · 빠진 항목 ' + miss.length + '개(보충 필요 ' + hard.length + ' · 필요 시 추가 ' + soft.length + ')' + (fixed ? ' · 바로 고친 곳 ' + fixed + '곳' : '') },
-    { c: cRed, t: '붉은 [점검] 문단은 충돌 의심 메모, 취소선과 붉은 글자는 고칠 곳이 분명한 수정안, 문서 끝은 보충이 필요한 조항입니다. 원문은 지우지 않았습니다.' },
-    { c: cRed, t: '낱말과 규칙으로 판단한 자동 점검이라 실제와 다를 수 있습니다. 협의를 거쳐 확정한 뒤 [점검] 문단은 지우고 붉은 글씨는 검정으로 바꾸세요.' }
+    { c: cBold, t: '[자동 점검 수정안] 교내 인사 내규 길잡이 · ' + todayStr() },
+    { c: cRed, t: '취소선과 붉은 글자로 고친 곳 ' + applied + '곳, [협의] 표시 ' + talk + '곳, 문서 끝 신설 제안 ' + snips.length + '개. 고친 이유와 협의할 안은 함께 내려받는 「신구조문 대비표」에 있습니다.' },
+    { c: cRed, t: '자동 점검이라 실제와 다를 수 있습니다. 협의를 거쳐 확정한 뒤 취소선 글자는 지우고 붉은 글씨는 검정으로 바꾸세요.' }
   ];
-  lost.forEach(function(t){ sum.push({ c: cRed, t: t }); });
   var root0 = secs[0].doc.documentElement, tops = hxKids(root0, HX.hp, 'p'), after = tops[0];
   for (var a2 = 0; a2 < Math.min(tops.length, 5); a2++) { var tt = tops[a2].getElementsByTagNameNS(HX.hp, 't'), all = ''; for (var q2 = 0; q2 < tt.length; q2++) all += tt[q2].textContent; if (all.trim()) { after = tops[a2]; break; } }
   var ref0 = after ? after.nextSibling : null;
   [{ c: cRed, t: '' }].concat(sum, [{ c: cRed, t: '' }]).forEach(function(x){ root0.insertBefore(hxNewPara(secs[0].doc, PP, ST, [x]), ref0); });
-  /* 문서 끝: 보충 조항 */
-  var rootN = secs[secs.length - 1].doc.documentElement, add = function(c, t){ rootN.appendChild(hxNewPara(secs[secs.length - 1].doc, PP, ST, [{ c: c, t: t }])); };
-  if (miss.length) {
-    add(cRed, ''); add(cBold, '[자동 점검] 보충이 필요한 조항');
-    add(cRed, '아래 조문은 「교내 인사 내규 길잡이」의 인사 내규 참고안에서 가져왔습니다. 조 번호(제○조)와 위원회·팀 이름, 숫자는 우리 학교 내규에 맞게 고쳐 넣으세요.');
-    [['보충 필요 — 대부분의 학교에 있어야 할 항목', hard], ['필요 시 추가 — 학교 사정에 따라 고르는 배려·예외 항목', soft]].forEach(function(G){
-      if (!G[1].length) return;
-      add(cRed, ''); add(cBold, '■ ' + G[0]);
-      var byArt = [], seen = {};
-      G[1].forEach(function(x){ var id = TOPIC_ART[x.n]; if (!id) { byArt.push({ id: null, ns: [x.n] }); return; } if (seen[id]) { seen[id].ns.push(x.n); return; } seen[id] = { id: id, ns: [x.n] }; byArt.push(seen[id]); });
-      byArt.forEach(function(A){
-        add(cRed, ''); add(cBold, '▸ 빠진 항목: ' + A.ns.join(', '));
-        if (A.id) refArticleText(A.id).split('\n').forEach(function(l){ add(cRed, l); });
-      });
-    });
+  if (snips.length) {
+    var rootN = secs[secs.length - 1].doc.documentElement, add = function(c, t){ rootN.appendChild(hxNewPara(secs[secs.length - 1].doc, PP, ST, [{ c: c, t: t }])); };
+    add(cRed, ''); add(cBold, '[신설 제안] 빠진 조항');
+    add(cRed, '알맞은 장에 넣고 조 번호(제○조)와 이름·숫자를 우리 학교에 맞게 고치세요.');
+    snips.forEach(function(g){ add(cRed, ''); add(cBold, g.head + ' — ' + g.names.join(', ')); g.lines.forEach(function(l){ add(cRed, l); }); });
   }
-  /* 다시 묶기 */
-  var z = new JSZip();
-  z.file('mimetype', 'application/hwp+zip', { compression: 'STORE' });
-  var names = Object.keys(src.files);
-  for (var n2 = 0; n2 < names.length; n2++) {
-    var nm = names[n2], f = src.files[nm];
-    if (f.dir || nm === 'mimetype') continue;
-    var data = nm === hName ? ser.serializeToString(hdoc) : null;
-    secs.forEach(function(S){ if (S.name === nm) data = ser.serializeToString(S.doc); });
-    if (data && !/^<\?xml/.test(data)) data = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>' + data;
-    z.file(nm, data != null ? data : await f.async('uint8array'), { compression: 'DEFLATE' });
-  }
-  return { blob: await z.generateAsync({ type: 'blob', mimeType: 'application/hwp+zip' }), fixed: fixed, lost: lost.length, notes: cf0.length };
+  var repl = {}; repl[hName] = ser.serializeToString(hdoc); secs.forEach(function(S){ repl[S.name] = ser.serializeToString(S.doc); });
+  return { blob: await repack(src, repl), applied: applied, failed: failed };
+}
+/* ② 신구조문 대비표 */
+function runsWithEdits(full, eds, mode, others){
+  var marks = []; eds.forEach(function(e){ marks.push({ s: e.pos, e: e.pos + e.len, to: e.to, own: 1 }); });
+  (others || []).forEach(function(e){ marks.push({ s: e.pos, e: e.pos + e.len, to: e.to, own: 0 }); });
+  marks.sort(function(a, b){ return a.s - b.s || b.own - a.own; });
+  var out = [], i = 0;
+  marks.forEach(function(m){ if (m.s < i) return; if (m.s > i) out.push({ t: full.slice(i, m.s), k: 'n' });
+    if (mode === 'cur') out.push({ t: full.slice(m.s, m.e), k: m.own ? 'del' : 'n' }); else if (m.to) out.push({ t: m.to, k: m.own ? 'add' : 'n' }); i = m.e; });
+  if (i < full.length) out.push({ t: full.slice(i), k: 'n' });
+  return out.filter(function(r){ return r.t; });
+}
+function hlRuns(full, hls){
+  var out = [{ t: full, k: 'n' }];
+  (hls || []).forEach(function(h){ if (!h) return; out = [].concat.apply([], out.map(function(r){ if (r.k !== 'n') return [r]; var i = r.t.indexOf(h); if (i < 0) return [r]; return [{ t: r.t.slice(0, i), k: 'n' }, { t: h, k: 'b' }, { t: r.t.slice(i + h.length), k: 'n' }].filter(function(x){ return x.t; }); })); });
+  return out;
+}
+function compareRows(LC){
+  var FX = LC.fx, must = [], talk = [], add = [], allEd = {};
+  FX.recs.forEach(function(R){ if (R.apply) R.edits.forEach(function(e){ (allEd[e.idx] = allEd[e.idx] || []).push({ e: e, r: R }); }); });
+  function othersOn(ix, R){ return (allEd[ix] || []).filter(function(o){ return o.r !== R; }).map(function(o){ return o.e; }); }
+  FX.recs.forEach(function(R){
+    var row = { no: R.no, cur: [], neu: [], why: [[{ t: R.why, k: 'n' }]] };
+    if (R.type === '조 번호' && R.heads) {
+      var hd = R.edits.filter(function(e){ return /^제\s*\d+\s*조/.test(e.from) && e.pos === 0; });
+      hd.forEach(function(e){ var rest = e.full.replace(/^제\s*\d+\s*조/, ''), mt = /^\s*\([^)]*\)/.exec(rest), tl = mt ? mt[0] : rest.slice(0, 20) + (rest.length > 20 ? '…' : ''); row.cur.push([{ t: e.from, k: 'del' }, { t: tl, k: 'n' }]); row.neu.push([{ t: e.to, k: 'add' }, { t: tl, k: 'n' }]); });
+      if (R.refCount) row.neu.push([{ t: '본문 속 참조 번호 ' + R.refCount + '곳도 함께 고침', k: 'n' }]);
+    } else if (R.apply) {
+      var by = {}, order = []; R.edits.forEach(function(e){ if (!by[e.idx]) { by[e.idx] = []; order.push(e.idx); } by[e.idx].push(e); });
+      order.slice(0, 4).forEach(function(ix){ var e0 = by[ix][0], ot = othersOn(ix, R); row.cur.push(runsWithEdits(e0.full, by[ix], 'cur', ot)); var nu = runsWithEdits(e0.full, by[ix], 'neu', ot); row.neu.push(nu.length && nu.map(function(r){ return r.t; }).join('').trim() ? nu : [{ t: '(삭제)', k: 'add' }]); });
+      if (order.length > 4) row.neu.push([{ t: '… 외 ' + (order.length - 4) + '곳 같은 방식으로 고침', k: 'n' }]);
+    } else {
+      if (R.a) row.cur.push(hlRuns(R.a.full || R.a.t, R.a.hl));
+      if (R.b) row.cur.push(hlRuns(R.b.full || R.b.t, R.b.hl));
+      if (R.options) R.options.forEach(function(o){ row.neu.push([{ t: o, k: 'add' }]); });
+      else row.neu.push([{ t: '(협의 후 결정) ' + R.fix, k: 'n' }]);
+    }
+    row.cur = row.cur.map(function(p){ return p.filter(function(r){ return r.t; }); });
+    (R.group === 'must' ? must : talk).push(row);
+  });
+  var miss = LC.r.filter(function(x){ return !x.ok; }), hard = miss.filter(function(x){ return !isSoftTopic(x); }), soft = miss.filter(isSoftTopic);
+  var n0 = must.length + talk.length;
+  missingSnips(hard).forEach(function(g, i){
+    add.push({ no: n0 + i + 1, cur: [[{ t: '(없음)', k: 'n' }]], neu: [[{ t: g.head + '에 신설', k: 'b' }]].concat(g.lines.map(function(l){ return [{ t: l.replace(/^\s+/, function(sp){ return sp.length > 2 ? '  ' : ''; }), k: 'add' }]; })), why: [[{ t: '빠진 항목: ' + g.names.join(', '), k: 'n' }]] });
+  });
+  return { groups: [
+    { title: '■ 꼭 고칠 것 (' + must.length + '건) — 문장이 서로 맞지 않거나 번호가 틀린 곳', rows: must },
+    { title: '■ 협의할 것 (' + talk.length + '건) — 학교가 정해야 하는 곳, 안 중에서 고르기', rows: talk },
+    { title: '■ 더하면 좋은 것 (' + add.length + '건) — 빠진 조항 신설', rows: add } ], soft: soft };
+}
+async function buildCompareHwpx(LC, title){
+  var src = await JSZip.loadAsync(PKG_B64, { base64: true }), parser = new DOMParser(), ser = new XMLSerializer();
+  var hdoc = parser.parseFromString(await src.file('Contents/header.xml').async('string'), 'application/xml');
+  var del = hxCharFactory(hdoc)('94', 'del');
+  var C = compareRows(LC), r = LC.r, ok = r.filter(function(x){ return x.ok; }).length;
+  var intro = ['점검 날짜 ' + todayStr() + ' · 점검 항목 ' + r.length + '개 중 ' + ok + '개 확인 · 교내 인사 내규 길잡이 자동 점검',
+    '현행의 붉은 취소선은 지울 글자, 개정안의 붉은 글자는 새로 쓸 글자입니다. ‘협의할 것’은 안 중에서 골라 개정안을 확정하세요.'];
+  var outro = [];
+  if (C.soft.length) { outro.push({ t: '' }); outro.push({ t: '※ 학교 사정에 따라 더할 수 있는 조항: ' + C.soft.map(function(x){ return x.n; }).join(', '), b: 0 }); outro.push({ t: '  각 조문은 「교내 인사 내규 길잡이」의 인사 내규 참고안에서 볼 수 있습니다.' }); }
+  outro.push({ t: '※ 자동 점검이라 실제와 다를 수 있습니다. 인사자문위원회 협의를 거쳐 확정하세요.' });
+  var sec = E.compareSectionXml(TPL, title, intro, C.groups, outro).split('__DEL__').join(del);
+  var repl = { 'Contents/header.xml': ser.serializeToString(hdoc), 'Contents/section0.xml': sec, 'Preview/PrvText.txt': title };
+  return repack(src, repl);
 }
 $('#check-out').addEventListener('click', async function(ev){
-  var b = ev.target.closest && ev.target.closest('#mark-dl'); if (!b || !lastCheck) return;
+  var b = ev.target.closest && ev.target.closest('[data-dl]'); if (!b || !lastCheck) return;
   b.disabled = true; var old = b.textContent; b.textContent = '만드는 중…';
+  var base = lastCheck.name.replace(/\.[^.]+$/, '').replace(/[\\/:*?"<>|]/g, '').trim() || '교내 인사 내규';
   try {
-    var o = await buildMarkedHwpx(lastCheck);
-    var base = lastCheck.name.replace(/\.[^.]+$/, '').replace(/[\\/:*?"<>|]/g, '').trim() || '교내 인사 내규';
-    await offer(o.blob, base + ' (점검 표시본).hwpx', true);
-  } catch (e) { toast('점검 표시본을 만들지 못했습니다: ' + (e && e.message || e)); }
+    if (b.dataset.dl === 'cmp') await offer(await buildCompareHwpx(lastCheck, base + ' 신구조문 대비표(안)'), base + ' 신구조문 대비표.hwpx', true);
+    else { var o = await buildRevisedHwpx(lastCheck); await offer(o.blob, base + ' 수정안.hwpx', true); }
+  } catch (e) { toast('파일을 만들지 못했습니다: ' + (e && e.message || e)); }
   finally { b.disabled = false; b.textContent = old; }
 });
 
