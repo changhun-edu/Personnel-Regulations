@@ -1729,7 +1729,7 @@ var ENGINE = (function () {
   }
   /* 신구조문 대비표: groups [{title, rows:[{no, cur:[para], neu:[para], why:[para]}]}], para = [{t, k:'n'|'del'|'add'|'b'}] */
   function compareSectionXml(TPL, title, intro, groups, outro) {
-    var W = [2600, 14400, 15200, 11913], TW = 44113, K = { n: '94', del: '__DEL__', add: '119', b: '91' };
+    var W = [2600, 14400, 15200, 11913], TW = 44113, K = { n: '94', del: '__DEL__', add: '__ADD__', b: '91' };
     function lines(paras, w) { var per = Math.max(4, Math.floor((w - 600) / 1150)), n = 0; paras.forEach(function (p) { var len = p.reduce(function (s, r) { return s + String(r.t).length; }, 0); n += Math.max(1, Math.ceil(len / per)); }); return Math.max(1, n); }
     function cell(paras, col, row, span, bf, pp, h, head) {
       var w = 0; for (var i = col; i < col + span; i++) w += W[i];
@@ -1746,16 +1746,16 @@ var ENGINE = (function () {
     groups.forEach(function (G) {
       if (!G.rows.length) return;
       ri++; var gh = 1900; H += gh;
-      rows.push('<hp:tr>' + cell([[{ t: G.title, k: 'b' }]], 0, ri, 4, '12', '143', gh) + '</hp:tr>');
+      rows.push('<hp:tr>' + cell([[{ t: G.title, k: 'b' }]], 0, ri, 4, '12', '__PL__', gh) + '</hp:tr>');
       G.rows.forEach(function (r) {
         ri++;
         var n = Math.max(lines(r.cur, W[1]), lines(r.neu, W[2]), lines(r.why, W[3]));
         var h = 600 + n * 1750; H += h;
-        rows.push('<hp:tr>' + cell([[{ t: String(r.no), k: 'n' }]], 0, ri, 1, '10', '59', h) + cell(r.cur, 1, ri, 1, '10', '143', h) + cell(r.neu, 2, ri, 1, '10', '143', h) + cell(r.why, 3, ri, 1, '10', '143', h) + '</hp:tr>');
+        rows.push('<hp:tr>' + cell([[{ t: String(r.no), k: 'n' }]], 0, ri, 1, '10', '59', h) + cell(r.cur, 1, ri, 1, '10', '__PL__', h) + cell(r.neu, 2, ri, 1, '10', '__PL__', h) + cell(r.why, 3, ri, 1, '10', '__PL__', h) + '</hp:tr>');
       });
     });
     var tbl = '<hp:p id="2147483648" paraPrIDRef="125" styleIDRef="0" pageBreak="0" columnBreak="0" merged="0"><hp:run charPrIDRef="94"><hp:tbl id="1326637491" zOrder="3" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="CELL" repeatHeader="1" rowCnt="' + rows.length + '" colCnt="4" cellSpacing="0" borderFillIDRef="4" noAdjust="0">' +
-      '<hp:sz width="' + TW + '" widthRelTo="ABSOLUTE" height="' + H + '" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="1" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="140" right="140" top="140" bottom="140"/>' +
+      '<hp:sz width="' + TW + '" widthRelTo="ABSOLUTE" height="' + H + '" heightRelTo="ABSOLUTE" protect="0"/><hp:pos treatAsChar="0" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="PARA" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/><hp:outMargin left="141" right="141" top="141" bottom="141"/><hp:inMargin left="140" right="140" top="140" bottom="140"/>' +
       rows.join('') + '</hp:tbl><hp:t/></hp:run></hp:p>';
     var out = [TPL.secOpen, TPL.para0.replace('{{TITLE}}', esc(title)), P('21', [{ c: '88', t: '' }])];
     (intro || []).forEach(function (t) { out.push(P('132', [{ c: '92', t: t }])); });
@@ -3398,14 +3398,20 @@ function compareRows(LC){
 async function buildCompareHwpx(LC, title){
   var src = await JSZip.loadAsync(PKG_B64, { base64: true }), parser = new DOMParser(), ser = new XMLSerializer();
   var hdoc = parser.parseFromString(await src.file('Contents/header.xml').async('string'), 'application/xml');
-  var del = hxCharFactory(hdoc)('94', 'del');
+  var cf = hxCharFactory(hdoc), del = cf('94', 'del'), addc = cf('94', 'red'), pl = '143';
+  var pps = hdoc.getElementsByTagNameNS(HX.hh, 'paraProperties')[0];
+  if (pps) { var pl0 = hxKids(pps, HX.hh, 'paraPr').filter(function(x){ return x.getAttribute('id') === '143'; })[0];
+    if (pl0) { var mx = 0; hxKids(pps, HX.hh, 'paraPr').forEach(function(x){ mx = Math.max(mx, +x.getAttribute('id')); });
+      var pc = pl0.cloneNode(true); pl = String(mx + 1); pc.setAttribute('id', pl);
+      var al = pc.getElementsByTagNameNS(HX.hh, 'align')[0]; if (al) al.setAttribute('horizontal', 'JUSTIFY');
+      pps.appendChild(pc); pps.setAttribute('itemCnt', String(hxKids(pps, HX.hh, 'paraPr').length)); } }
   var C = compareRows(LC), r = LC.r, ok = r.filter(function(x){ return x.ok; }).length;
   var intro = ['점검 날짜 ' + todayStr() + ' · 점검 항목 ' + r.length + '개 중 ' + ok + '개 확인 · 교내 인사 내규 길잡이 자동 점검',
     '현행의 붉은 취소선은 지울 글자, 개정안의 붉은 글자는 새로 쓸 글자입니다. ‘협의할 것’은 안 중에서 골라 개정안을 확정하세요.'];
   var outro = [];
   if (C.soft.length) { outro.push({ t: '' }); outro.push({ t: '※ 학교 사정에 따라 더할 수 있는 조항: ' + C.soft.map(function(x){ return x.n; }).join(', '), b: 0 }); outro.push({ t: '  각 조문은 「교내 인사 내규 길잡이」의 인사 내규 참고안에서 볼 수 있습니다.' }); }
   outro.push({ t: '※ 자동 점검이라 실제와 다를 수 있습니다. 인사자문위원회 협의를 거쳐 확정하세요.' });
-  var sec = E.compareSectionXml(TPL, title, intro, C.groups, outro).split('__DEL__').join(del);
+  var sec = E.compareSectionXml(TPL, title, intro, C.groups, outro).split('__DEL__').join(del).split('__ADD__').join(addc).split('__PL__').join(pl);
   var repl = { 'Contents/header.xml': ser.serializeToString(hdoc), 'Contents/section0.xml': sec, 'Preview/PrvText.txt': title };
   return repack(src, repl);
 }
