@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>교내 인사 내규 길잡이</title>
-<meta name="description" content="우리 학교 교내 인사 내규의 빠진 조항과 충돌을 점검하고, 참고안과 비교해 학교에 맞는 내규를 만들고, 해마다 인사점수 순위표와 보직교사 정원을 계산하는 길잡이입니다.">
+<meta name="description" content="우리 학교 교내 인사 내규의 빠진 조항과 충돌을 점검하고, 참고안과 비교해 학교에 맞는 내규를 만들고, 부장교사 임용 절차를 안내하는 길잡이입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -489,6 +489,70 @@ tr.k-육아휴직 td.kind select,tr.k-유예 td.kind select{color:var(--warn)}
 .calc-nav button:hover{border-color:var(--accent-2)}
 .calc-nav b{font-size:14px;color:var(--accent)} .calc-nav b::before{content:"↓ ";color:var(--muted);font-weight:600} .calc-nav span{font-size:12.5px;color:var(--muted)}
 @media (max-width:620px){.calc-nav span{display:none}}
+/* 부장 임용 안내 */
+.ap-ref{font:inherit;font-size:12.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:0;border-radius:6px;padding:1px 7px;cursor:pointer;white-space:nowrap}
+.ap-ref:hover{text-decoration:underline;text-underline-offset:3px}
+.ap-refs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ap-tog{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:10px 12px;border-radius:10px;background:var(--soft);font-size:14px;margin-bottom:14px}
+.ap-tog > span{font-weight:700;color:var(--muted);font-size:13px}
+.ap-tog label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.ap-now-note{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+.ap-line{list-style:none;margin:0;padding:0;position:relative}
+.ap-line::before{content:"";position:absolute;left:13px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.ap-st{position:relative;padding:0 0 14px 40px}
+.ap-when{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}
+.ap-no{position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:99px;display:grid;place-items:center;background:var(--panel);border:2px solid var(--accent);color:var(--accent);font-size:13px;font-weight:800}
+.ap-st.now .ap-no{background:var(--accent);color:var(--accent-ink)}
+.ap-when em{font-style:normal;background:var(--seal);color:#fff;border-radius:99px;padding:1px 9px;font-size:12px}
+.ap-card{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--panel)}
+.ap-st.now .ap-card{border:2px solid var(--accent);box-shadow:var(--shadow)}
+.ap-card > b{font-size:16px;font-weight:800;color:var(--ink)}
+.ap-card p{margin:6px 0 0;font-size:14px;line-height:1.7;color:var(--ink-2)}
+.ap-card p b{color:var(--ink)}
+.ap-tag{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;color:var(--warn);background:var(--warn-soft);border-radius:6px;padding:1px 7px;vertical-align:2px}
+.ap-fork{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.ap-fork > div{border-radius:10px;padding:8px 10px;background:var(--soft);border-top:4px solid var(--c)}
+.ap-fork .ok{--c:var(--ok)} .ap-fork .warn{--c:var(--warn)}
+.ap-fork em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--c)}
+.ap-fork p{margin:4px 0 0;font-size:13.5px}
+.ap-ways{display:grid;grid-template-columns:1fr;gap:10px}
+.ap-ways .fl-case{padding:12px 14px}
+.ap-ord{margin:6px 0 0;padding-left:22px;font-size:14px;line-height:1.75;color:var(--ink-2)}
+.ap-ord li::marker{font-weight:700;color:var(--c)}
+.ap-ord.abc{list-style:none;padding-left:0} .ap-ord.abc li{margin-bottom:4px} .ap-ord.abc b{color:var(--c);margin-right:4px}
+.ap-ord small{margin-left:6px;font-size:12px;color:var(--seal);font-weight:700}
+.ap-note{margin:6px 0 0;padding-left:18px;font-size:13px;line-height:1.7;color:var(--muted)}
+.ap-ex{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.ap-ex > div{border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.ap-ex b{font-size:13.5px} .ap-ex p{margin:4px 0 6px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.ap-proc{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--warn-soft)}
+.ap-proc > b{font-size:14.5px}
+.ap-proc ol{margin:6px 0 0;padding-left:20px;font-size:14px;line-height:1.75;color:var(--ink-2)}
+.ap-proc li b{color:var(--ink);margin-right:4px}
+.ap-more{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.ap-more summary{cursor:pointer;font-weight:700;font-size:14px}
+.ap-more > div{margin-top:10px} .ap-more p{margin:4px 0;font-size:13.5px;line-height:1.7;color:var(--ink-2)}
+.ap-qs{display:grid;gap:12px}
+.ap-q > b{display:block;font-size:14.5px;margin-bottom:6px}
+.ap-opts{display:flex;flex-wrap:wrap;gap:6px}
+.ap-opts button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:6px 14px;cursor:pointer;color:var(--ink)}
+.ap-opts button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.ap-chk{display:grid;gap:6px;font-size:14px} .ap-chk label{display:flex;align-items:center;gap:8px;cursor:pointer}
+.ap-res{margin-top:16px;border:2px solid var(--accent);border-radius:14px;padding:14px 16px;background:var(--accent-soft)}
+.ap-badge{display:inline-block;font-weight:800;font-size:15px;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:3px 12px;margin-bottom:8px}
+.ap-res ol{margin:0;padding-left:20px;font-size:14px;line-height:1.8;color:var(--ink)}
+.ap-res li{margin-bottom:4px} .ap-res .ap-ref{background:var(--panel)}
+.ap-wait{margin:14px 0 0;font-size:14px;color:var(--muted)}
+.ap-faq{display:grid;gap:8px}
+.ap-faq details{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--panel)}
+.ap-faq summary{cursor:pointer;font-weight:700;font-size:14.5px}
+.ap-faq p{margin:8px 0 0;font-size:14px;line-height:1.75;color:var(--ink-2)}
+.ap-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 20px;font-size:13.5px;color:var(--muted)}
+.ap-foot p{margin:0}
+@media (max-width:620px){.ap-fork,.ap-ex{grid-template-columns:1fr}}
+@media print{body[data-tab="appoint"] header,body[data-tab="appoint"] .calc-nav,body[data-tab="appoint"] .ap-foot button,body[data-tab="appoint"] .ap-tog,body[data-tab="appoint"] #ap-me,body[data-tab="appoint"] .toast{display:none!important}
+body[data-tab="appoint"] .ap-faq details{break-inside:avoid} body[data-tab="appoint"] .ap-st{break-inside:avoid}}
+
 .sc-save{margin:4px 0 14px;padding:10px 12px;border-radius:10px;background:var(--accent-soft);color:var(--ink);font-size:13.5px;line-height:1.65}
 .sc-save > b:first-child{color:var(--accent);margin-right:6px}
 .sc-start{border:2px solid var(--accent);border-radius:14px;padding:14px;background:var(--panel)}
@@ -718,14 +782,14 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
   <div class="wrap">
     <button class="brand" id="home" type="button" aria-label="첫 화면으로">
       <span class="stamp" aria-hidden="true">인사<br>내규</span>
-      <span><b>교내 인사 내규 길잡이</b><small>점검하고 · 비교하고 · 만들고 · 계산하는 학교 인사 도구</small></span>
+      <span><b>교내 인사 내규 길잡이</b><small>점검하고 · 비교하고 · 만들고 · 안내하는 학교 인사 도구</small></span>
     </button>
     <nav class="tabs" role="tablist">
       <button type="button" role="tab" data-tab="home" aria-selected="true">소개</button>
       <button type="button" role="tab" data-tab="check" aria-selected="false"><i class="tn">1</i><span class="tl">우리 학교 내규 점검</span><span class="ts">점검</span></button>
       <button type="button" role="tab" data-tab="model" aria-selected="false"><i class="tn">2</i><span class="tl">인사 내규 참고안</span><span class="ts">참고안</span></button>
       <button type="button" role="tab" data-tab="make" aria-selected="false"><i class="tn">3</i><span class="tl">인사 내규 만들기</span><span class="ts">만들기</span></button>
-      <span class="tab-sep" aria-hidden="true"></span><button type="button" role="tab" data-tab="calc" aria-selected="false" title="해마다 쓰는 인사점수 순위표·보직교사 정원"><span class="tl">인사점수 계산</span><span class="ts">인사점수</span></button>
+      <span class="tab-sep" aria-hidden="true"></span><button type="button" role="tab" data-tab="appoint" aria-selected="false" title="부장교사 임용 절차와 순위를 쉽게 안내"><span class="tl">부장 임용 안내</span><span class="ts">부장 임용</span></button>
     </nav>
   </div>
 </header>
@@ -847,17 +911,17 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 
     <div class="sec">
       <div class="kicker">이렇게 쓰세요</div>
-      <h2>점검하고, 비교하고, 만들고, 해마다 계산합니다</h2>
+      <h2>점검하고, 비교하고, 만들고, 부장 임용까지 안내합니다</h2>
       <div class="how" style="margin-top:14px">
         <div><span class="n" aria-hidden="true"></span><div><h3>우리 학교 내규 점검</h3><p>지금 쓰는 내규 파일(한글 HWPX)을 올리거나 본문을 붙여넣으면, 58개 점검 항목 중 <b>빠진 조항</b>과 조항끼리 엇갈리는 <b>충돌 의심</b>을 보여 줍니다. 파일이 없으면 예시 내규로 먼저 해 볼 수 있습니다.</p></div></div>
         <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 참고안</h3><p>모든 항목을 갖춘 참고 내규를 조문별 해설과 함께 읽습니다. 상황별 길잡이로 “부장 희망자가 모자라면?” 같은 경우에 어떤 조문이 적용되는지 따라가 봅니다.</p></div></div>
         <div><span class="n" aria-hidden="true"></span><div><h3>인사 내규 만들기</h3><p>조문을 켜고 끄고 숫자와 배점표를 학교에 맞게 고칩니다. 조 번호와 본문 속 참조 번호가 자동으로 다시 매겨지고, 한글(HWPX) 파일로 내려받습니다.</p></div></div>
-        <div><span class="n yr" aria-hidden="true"></span><div><h3>인사점수 계산 <small style="font-size:13px;color:var(--muted);font-weight:600">해마다 따로 쓰는 메뉴</small></h3><p>해마다 업무분장서의 담임 명단을 붙여넣어 <b>인사점수 순위와 학년 선택 순서</b>를 계산하고 엑셀로 내려받아 공개합니다. 학급 수로 보직교사 정원도 확인합니다.</p></div></div>
+        <div><span class="n yr" aria-hidden="true"></span><div><h3>부장 임용 안내 <small style="font-size:13px;color:var(--muted);font-weight:600">교사 누구나 보는 메뉴</small></h3><p>부장교사를 언제, 어떤 순서로 뽑는지 1년 흐름으로 봅니다. 희망자가 많을 때와 모자랄 때의 순위, <b>“나는 어떻게 되나요?”</b> 확인, 자주 묻는 질문과 보직교사 정원을 함께 담았습니다.</p></div></div>
       </div>
       <div class="privacy"><span aria-hidden="true">●</span><span><b>파일은 서버로 보내지 않습니다.</b> 올린 내규와 입력한 교사 정보는 이 브라우저 안에서만 읽고 계산합니다.</span></div>
       <div class="end-cta">
         <button class="btn primary lg" type="button" data-go="check">① 우리 학교 내규 점검부터 시작하기</button>
-        <button class="btn lg" type="button" data-go="calc">인사점수 계산 바로 쓰기</button>
+        <button class="btn lg" type="button" data-go="appoint">부장 임용 안내 보기</button>
       </div>
     </div>
   </div>
@@ -927,7 +991,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 
     <section class="panel">
       <div class="ph"><span class="no">3</span><h2>숫자 기준</h2></div>
-      <p class="lead s">내규 본문 문장 속 숫자를 바꿉니다. (‘인사점수 계산’ 메뉴는 학년도별 배점을 따로 정합니다.)</p>
+      <p class="lead s">내규 본문 문장 속 숫자를 바꿉니다.</p>
       <div class="grid2">
         <label class="f">본교 경력점(1개월당)<input type="number" step="0.01" id="v-ownPt"></label>
         <label class="f">본교 경력점 상한<input type="number" step="0.1" id="v-ownCap"></label>
@@ -943,13 +1007,12 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="pm-row" role="radiogroup" aria-label="담임 경력점 산정 방식"><b>휴직·파견 연도 처리</b>
         <label><input type="radio" name="pm" value="recent"> 최근 ○년 고정(휴직 연도도 기간에 포함)</label>
         <label><input type="radio" name="pm" value="actual"> 본교 실제 근무 연도만 ○개(휴직 연도는 건너뜀)</label>
-        <small>‘인사점수 계산’ 메뉴는 최근 ○년 고정 방식으로 계산합니다.</small>
       </div>
     </section>
 
     <section class="panel">
       <div class="ph"><span class="no">4</span><h2>담임 경력 배점표</h2></div>
-      <p class="lead s">연도별 학년 점수와 부장 가산점입니다. 비고를 비워 두면 “보직교사 +○, 학교 임명 부장 +○”로 자동 작성됩니다. ‘인사점수 계산’ 메뉴는 처음에 이 표를 가져가고, 그 뒤로는 그 메뉴의 학년도별 배점을 씁니다.</p>
+      <p class="lead s">연도별 학년 점수와 부장 가산점입니다. 비고를 비워 두면 “보직교사 +○, 학교 임명 부장 +○”로 자동 작성됩니다.</p>
       <div class="scroll"><table class="edit" id="score-table"></table></div>
       <div class="row" style="margin-top:12px">
         <button class="btn sm" type="button" id="add-year">연도 추가</button>
@@ -965,7 +1028,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <p class="lead s">내려받는 HWPX 파일과 같은 내용입니다.</p>
       <div class="sheet-wrap"><div class="sheet" id="preview" aria-live="polite"></div></div>
       <details class="gloss" data-gloss><summary>낯선 낱말 풀이</summary><dl></dl></details>
-      <div class="next-step"><p><b>다음 단계</b> 내규가 확정되면 해마다 ‘인사점수 계산’ 메뉴로 순위표를 만들어 공개하세요.</p><button class="btn primary sm" type="button" data-go="calc">인사점수 계산 →</button></div>
+      <div class="next-step"><p><b>다음 단계</b> 내규가 확정되면 교직원에게 부장 임용 절차를 안내하세요.</p><button class="btn primary sm" type="button" data-go="appoint">부장 임용 안내 →</button></div>
     </section>
   </div>
 
@@ -1005,82 +1068,22 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
     </section>
   </div>
 
-  <!-- ========== 계산기 ========== -->
-  <div id="tab-calc" hidden>
-    <nav class="calc-nav" aria-label="인사점수 계산 바로가기"><span class="cn-l">바로가기</span>
-      <button type="button" data-cgo="calc-score"><b>인사점수 순위표</b><span>학년 배정 순위·엑셀</span></button>
-      <button type="button" data-cgo="calc-quota"><b>보직교사 정원</b><span>학급 수로 확인</span></button>
+  <!-- ========== 부장 임용 안내 ========== -->
+  <div id="tab-appoint" hidden>
+    <nav class="calc-nav" aria-label="부장 임용 안내 바로가기"><span class="cn-l">바로가기</span>
+      <button type="button" data-cgo="ap-year"><b>1년 흐름</b><span>언제 무엇을</span></button>
+      <button type="button" data-cgo="ap-ways"><b>경합·미달 순위</b><span>희망자 수별</span></button>
+      <button type="button" data-cgo="ap-me"><b>나는 어떻게 되나요?</b><span>내 경로</span></button>
+      <button type="button" data-cgo="ap-faq"><b>자주 묻는 질문</b></button>
+      <button type="button" data-cgo="calc-quota"><b>보직교사 정원</b><span>학급 수로</span></button>
     </nav>
-    <section class="panel" id="calc-score">
-      <div class="ph"><h2>인사점수 순위표</h2></div>
-      <p class="lead s">해마다 만드는 <b>업무분장서의 담임 명단</b>만 있으면 됩니다. 이름을 붙여넣으면 학년도마다 정한 배점으로 점수를 더해 <b>인사점수 순위</b>와 <b>학년 선택 순서</b>를 만들고, 엑셀로 내려받을 수 있습니다.</p>
-      <div class="sc-save"><b>저장 안내</b> 입력한 내용은 지금 쓰는 이 컴퓨터의 이 브라우저에만 남습니다. 다른 컴퓨터에서 이어 하거나 내년에 다시 쓰려면, 마지막 단계에서 <b>엑셀을 꼭 내려받아</b> 보관하세요.</div>
-
-      <div class="sc-start" id="s-start">
-        <div class="sc-start-h">어떻게 시작할까요?</div>
-        <div class="sc-start-b">
-          <button type="button" data-start="new"><b>처음 시작하기</b><span>빈 표에서 시작합니다. 이 사이트를 처음 쓰는 학교는 여기서 시작하세요.</span></button>
-          <label class="sc-start-file" for="s-xlsx-in"><b>작년에 받은 엑셀로 이어 하기</b><span>이 사이트에서 내려받았던 ‘인사점수 순위표’ 엑셀만 올릴 수 있습니다. 학교에서 따로 만든 엑셀은 읽지 못합니다.</span></label>
-          <button type="button" data-start="sample"><b>예시로 둘러보기</b><span>가상의 교사 10명으로 어떻게 계산되는지 먼저 봅니다.</span></button>
-        </div>
-      </div>
-      <input type="file" id="s-xlsx-in" accept=".xlsx" hidden>
-
-      <div id="s-work" hidden>
-        <div class="sc-sample" id="s-sample-bar" hidden><span><b>지금 보이는 것은 예시 자료입니다.</b> 실제 교사 정보가 아닙니다.</span><button class="btn sm primary" type="button" data-start="new">지우고 우리 학교로 시작</button></div>
-        <div class="sc-tools">
-          <label class="btn sm" for="s-xlsx-in">작년 엑셀 불러오기</label>
-          <button class="btn sm ghost" type="button" data-start="sample">예시 보기</button>
-          <button class="btn sm ghost" type="button" id="s-clear">처음부터 다시</button>
-        </div>
-        <div class="note-box" id="s-confirm" hidden style="margin-top:12px">
-          입력한 배점·명단·교원 정보를 모두 지우고 처음 화면으로 돌아갈까요? 필요하면 먼저 엑셀을 내려받아 두세요.
-          <div class="row" style="margin-top:8px"><button class="btn sm" type="button" id="s-clear-yes">모두 지우기</button><button class="btn sm ghost" type="button" id="s-clear-no">취소</button></div>
-        </div>
-
-        <div class="sc-year">
-          <label class="f">올해 학년도<input type="number" id="s-last" min="2000" max="2100"></label>
-          <p class="sc-span" id="s-span"></p>
-        </div>
-
-        <div class="sc-step"><span class="no">1</span><b>학년도를 고르고 그해 배점 확인</b></div>
-        <p class="sc-help">학교마다, 해마다 배점이 다를 수 있어 학년도별로 따로 둡니다. 처음 한 번 확인하고, 다른 해는 숫자가 다를 때만 고치면 됩니다. 탭의 “명단 ○명”은 그해에 입력한 이름 수입니다.</p>
-        <div class="sc-years" id="s-years" role="group" aria-label="학년도 고르기"></div>
-        <div class="sc-rule" id="s-rule"></div>
-
-        <div class="sc-step"><span class="no">2</span><b id="s-step2">그해 명단 붙여넣기</b></div>
-        <div class="sc-howto">
-          <div><b>이렇게 적어요</b> 업무분장서에서 이름을 복사해 칸에 붙여넣습니다. 이름 사이는 쉼표, 줄바꿈, 띄어쓰기 모두 됩니다. 이름에 띄어쓰기가 있으면 쉼표로 나눠 주세요.</div>
-          <div><b>일부만 근무</b> 휴직 등으로 몇 달만 맡았으면 <code>김하늘(6)</code>처럼 괄호에 개월 수를 적습니다.</div>
-          <div><b>노란 칸</b> 위 명단에 이미 적은 사람 가운데 그해 부장을 맡은 사람을 <u>한 번 더</u> 적는 칸입니다. 적으면 부장 가산점이 더해집니다.</div>
-        </div>
-        <div class="sc-grid" id="s-grid"></div>
-        <div id="s-ywarn"></div>
-
-        <div class="sc-step"><span class="no">3</span><b>교원 정보 확인</b><span>대부분 비워 둬도 됩니다</span></div>
-        <div class="sc-kinds">
-          <div><b>구분</b>을 바꾸면 순서가 달라집니다.</div>
-          <span><i class="k1">우대배정</i> 학년 선택 순서 맨 앞</span><span><i class="k2">교담 희망</i> 학년 선택 순서 맨 뒤</span><span><i class="k3">육아휴직 · 유예</i> 표시만 (순위는 점수대로)</span>
-        </div>
-        <p class="sc-help"><b>포함</b>: 체크한 사람만 순위에 들어갑니다. 올해 명단에 있는 사람은 자동으로 체크되고, 올해 휴직·파견 중인 사람은 직접 체크하세요. <b>본교 전입</b>: 이 학교에 온 연월(예: 2023-03)을 넣으면 본교 경력점을 정확히 계산합니다. 비우면 명단에 나온 개월 수로 셉니다.</p>
-        <label class="sc-more"><input type="checkbox" id="s-more"> 통합학급 학생 수·동점자 처리 정보도 입력하기</label>
-        <div class="scroll" style="max-height:520px"><table class="calc sc-people" id="s-people"></table></div>
-
-        <div class="sc-step"><span class="no">4</span><b>결과 확인하고 엑셀 내려받기</b></div>
-        <div id="s-warn"></div>
-        <p class="sc-help"><b>순위</b>: 인사점수 순위 · <b>학년 선택</b>: 학년 선택 순서(우대배정 먼저, 교담 희망 맨 뒤) · <b>본교</b>: 본교 경력점 · <b>통합</b>: 통합학급 부가점. 이름을 누르면 연도별 점수 근거가 펼쳐집니다.</p>
-        <div class="scroll" style="max-height:620px"><table class="calc sc-res" id="s-result"></table></div>
-        <div class="legend"><span><i></i>부장 가산이 들어간 연도</span></div>
-        <div class="row" style="margin-top:14px">
-          <button class="btn primary" type="button" id="s-xlsx">엑셀 내려받기</button>
-        </div>
-        <p class="sc-help" style="margin-top:8px">엑셀에는 ① 인사점수 표와 연도별 배점 기준 ② 인사점수 순위·학년 선택 순서 ③ 본인 확인용 개인별 확인표 ④ 다음 해에 다시 올릴 입력 자료가 시트별로 들어갑니다.</p>
-      </div>
-      <details class="gloss" data-gloss><summary>낯선 낱말 풀이</summary><dl></dl></details>
-    </section>
+    <section class="panel" id="ap-year"></section>
+    <section class="panel" id="ap-ways"></section>
+    <section class="panel" id="ap-me"></section>
+    <section class="panel" id="ap-faq"></section>
     <section class="panel" id="calc-quota">
       <div class="ph"><h2>보직교사 정원</h2></div>
-      <p class="lead s">특수학급과 한국어학급을 포함한 학급 수를 넣으세요.</p>
+      <p class="lead s">부장 정원은 보직교사와 학교 임명 부장을 합한 전체 정원입니다. 그중 보직교사 정원을 학급 수(특수학급·한국어학급 포함)로 확인하세요.</p>
       <div class="quota">
         <label class="f" style="width:150px">학급 수<input type="number" id="q-classes" min="1" max="99" value="24"></label>
         <div><div class="big" id="q-big">–</div><div id="q-label" style="color:var(--muted);font-size:14px;margin-top:6px"></div></div>
@@ -1088,6 +1091,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <table class="qtable" id="q-table"></table>
       <p class="lead s" style="margin-top:12px" id="q-note"></p>
     </section>
+    <div class="ap-foot"><p>이 안내는 <b>② 인사 내규 참고안</b>을 기준으로 정리했습니다. 학교마다 내규가 다르므로 실제 임용은 우리 학교 내규를 따릅니다.</p><button class="btn sm" type="button" data-apprint>이 안내 인쇄하기</button></div>
 
   </div>
 <!--LIC-->
@@ -1095,30 +1099,10 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 <div class="lic" id="lic" hidden><div class="lic-panel" role="dialog" aria-modal="true" aria-labelledby="lic-h" tabindex="-1">
 <div class="lic-head"><h2 id="lic-h">오픈소스 라이선스</h2><button type="button" class="btn sm ghost" id="lic-close" aria-label="닫기">닫기 ✕</button></div>
 <p class="lic-lead">이 사이트의 기획·문구·화면 구성·점검 규칙은 만든이(최창훈)가 직접 만들었습니다. 파일을 읽고 만드는 기능과 화면 글꼴에는 아래 오픈소스를 각 라이선스 조건에 따라 그대로 불러와 씁니다. 수정하지 않았으며, 각 저작권은 원저작자에게 있습니다.</p>
-<div class="lic-tw"><table class="lic-tb"><thead><tr><th>구성 요소</th><th>쓰는 곳</th><th>라이선스</th><th>저작권자</th></tr></thead><tbody><tr><td><b>ExcelJS</b> <small>4.4.0</small></td><td data-l="쓰는 곳"><span>인사점수 순위표 엑셀 파일 만들기</span></td><td data-l="라이선스"><span>MIT</span></td><td data-l="저작권자"><span>Copyright (c) 2014-2019 Guyon Roche</span></td></tr><tr><td><b>JSZip</b> <small>3.10.1</small></td><td data-l="쓰는 곳"><span>한글(HWPX) 파일 읽기·만들기, 엑셀 파일 읽기</span></td><td data-l="라이선스"><span>MIT<br><small>MIT·GPLv3 이중 라이선스 중 MIT 선택</small></span></td><td data-l="저작권자"><span>Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso</span></td></tr><tr><td><b>Noto Sans KR</b> <small>Google Fonts</small></td><td data-l="쓰는 곳"><span>화면 글꼴</span></td><td data-l="라이선스"><span>SIL OFL 1.1</span></td><td data-l="저작권자"><span>Copyright Google Inc. / Adobe (Source Han Sans 기반, Reserved Font Name ‘Source’)</span></td></tr></tbody></table></div>
+<div class="lic-tw"><table class="lic-tb"><thead><tr><th>구성 요소</th><th>쓰는 곳</th><th>라이선스</th><th>저작권자</th></tr></thead><tbody><tr><td><b>JSZip</b> <small>3.10.1</small></td><td data-l="쓰는 곳"><span>한글(HWPX) 파일 읽기·만들기, 엑셀 파일 읽기</span></td><td data-l="라이선스"><span>MIT<br><small>MIT·GPLv3 이중 라이선스 중 MIT 선택</small></span></td><td data-l="저작권자"><span>Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso</span></td></tr><tr><td><b>Noto Sans KR</b> <small>Google Fonts</small></td><td data-l="쓰는 곳"><span>화면 글꼴</span></td><td data-l="라이선스"><span>SIL OFL 1.1</span></td><td data-l="저작권자"><span>Copyright Google Inc. / Adobe (Source Han Sans 기반, Reserved Font Name ‘Source’)</span></td></tr></tbody></table></div>
 <p class="lic-note">한글·HWP·HWPX는 ㈜한글과컴퓨터, Excel은 Microsoft Corporation의 상표 또는 파일 형식 이름이며, 이 사이트는 해당 회사와 관계가 없습니다. 법령 조문(보직교사 배치 기준 등)은 저작권법 제7조에 따라 보호받지 않는 저작물입니다.</p>
 <h3 class="lic-h3">라이선스 전문</h3>
-<details class="lic-t" id="lic-mit-exceljs"><summary>MIT License — ExcelJS</summary><pre>The MIT License (MIT)
-
-Copyright (c) 2014-2019 Guyon Roche
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</pre></details><details class="lic-t" id="lic-mit-jszip"><summary>MIT License — JSZip</summary><pre>The MIT License
+<details class="lic-t" id="lic-mit-jszip"><summary>MIT License — JSZip</summary><pre>The MIT License
 
 Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
 
@@ -1265,7 +1249,7 @@ var ENGINE = (function () {
   /* ---------- 기본값 ---------- */
   var DEFAULT_V = {
     school: '○○초등학교', year: 2026,
-    age: 55, ageMax: 58, ageFrom: 2027,
+    age: 56, ageMax: 58, ageFrom: 2027,
     ownPt: 0.1, ownCap: 3.6, inclPt: 0.05, inclStart: 2024, yearCnt: 5, deferYears: 5,
     objDays: 3, opinionDays: 7, teamMonth: 7, newYears: 2, consecYears: 3, termYears: 2, teamYears: 2,
     effDate: '공고한 날', workMethod: 'bundle',
@@ -1564,7 +1548,7 @@ var ENGINE = (function () {
 
   var ADDENDA = [
     { id: 'adEff', t: '시행일', body: '이 내규는 {{v:effDate}}부터 시행한다.' },
-    { id: 'adAge', t: '연령 기준 상향', when: 'ageStep', body: '원로교사의 연령 기준(만 {{v:age}}세)은 {{v:ageFrom}}학년도부터 매년 1세씩 상향하여 만 {{v:ageMax}}세까지로 하며, 이 내규에서 원로교사를 정한 모든 조항에 같이 적용한다.' }
+    { id: 'adAge', t: '연령 기준 상향', when: 'ageStep', body: '원로교사의 연령 기준은 {{v:ageFrom}}학년도 만 {{v:age}}세로 하고, 그다음 학년도부터 매년 1세씩 상향하여 만 {{v:ageMax}}세까지로 하며, 이 내규에서 원로교사를 정한 모든 조항에 같이 적용한다.' }
   ];
 
   var DEFS = [
@@ -3197,7 +3181,7 @@ function showTab(name, push){
   document.body.dataset.tab = name;
   if (name === 'make') setTimeout(function(){ var d = document.getElementById('dock'); if (d) document.body.style.setProperty('--dock-h', d.offsetHeight + 'px'); }, 0);
   document.querySelector('main').classList.toggle('home-mode', name === 'home');
-  ['home','model','make','check','calc'].forEach(function(n){ $('#tab-' + n).hidden = n !== name; });
+  ['home','model','make','check','appoint'].forEach(function(n){ $('#tab-' + n).hidden = n !== name; });
   document.querySelectorAll('nav.tabs button').forEach(function(b){ b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false'); });
   $('#dock').hidden = name !== 'make';
   if (typeof syncDock === 'function') syncDock();
@@ -3251,7 +3235,7 @@ document.querySelectorAll('input[name="isv"]').forEach(function(r){ r.checked = 
 /* ---------- 2. 조문 구성 ---------- */
 var EXTRA = {
   elderPref: [['age','만','세 이상']],
-  ageStep: [['ageFrom','','학년도부터 매년 1세씩'],['ageMax','만','세까지']],
+  ageStep: [['ageFrom','','학년도 기준, 이후 매년 1세씩'],['ageMax','만','세까지']],
   innov: [['deferYears','유예자 서열: 최근','년 담임 경력점']],
   newT: [['newYears','임용 후','년 이내']],
   termLimit: [['termYears','연속','회 초과 금지']],
@@ -4093,243 +4077,6 @@ function renderQuota(){
 }
 $('#q-classes').addEventListener('input', renderQuota);
 
-/* ---------- 계산기: 인사점수 순위표 (학년도별 명단 방식) ---------- */
-var KEY_SCORE = 'naegyu-score-v1';
-var S = load(KEY_SCORE) || null;
-function sampleScore(){
-  var y = +V.year || 2026;
-  var Y = {};
-  Y[y] = { g1: '예시교사가, 예시교사나', g2: '예시교사다', g3: '예시교사라(6)', g6: '예시교사마, 예시교사바', subj: '예시교사사', team: '예시교사아', bojik: '예시교사가, 예시교사마', extra: '' };
-  Y[y - 1] = { g1: '예시교사가', g2: '예시교사나, 예시교사다', g5: '예시교사라', g6: '예시교사마', subj: '예시교사자', team: '예시교사아', bojik: '예시교사가' };
-  Y[y - 2] = { g4: '예시교사가', g6: '예시교사다', subj: '예시교사자', g3: '예시교사차' };
-  Y[y - 3] = { g3: '예시교사자', g5: '예시교사차' };
-  Y[y - 4] = { g6: '예시교사자', g2: '예시교사차' };
-  return { last: y, cur: y, years: Y, sample: true, started: true, people: {
-    '예시교사나': { kind: '우대배정' }, '예시교사사': { kind: '교담 희망' }, '예시교사바': { inYM: y + '-03' },
-    '예시교사자': { kind: '유예', inc: true, incl: {} }, '예시교사차': { kind: '육아휴직', inc: true },
-    '예시교사다': { inYM: (y - 2) + '-03', birth: '1980-01-01', career: '20', incl: {} } } };
-}
-function emptyScore(){ var y = +V.year || 2026; return { last: y, cur: y, years: {}, people: {}, rules: {}, started: true }; }
-if (!S) S = { last: +V.year || 2026, cur: +V.year || 2026, years: {}, people: {}, rules: {}, started: false };
-else if (S.started == null) S.started = true;
-S.people = S.people || {}; S.years = S.years || {}; S.rules = S.rules || {};
-function persistScore(){ save(KEY_SCORE, S); }
-var lastScore = null, xlP = null;
-function loadExcelJS(){
-  if (window.ExcelJS) return Promise.resolve(window.ExcelJS);
-  if (xlP) return xlP;
-  xlP = new Promise(function(ok){
-    var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';
-    sc.onload = function(){ ok(window.ExcelJS || null); }; sc.onerror = function(){ xlP = null; ok(null); };
-    document.head.appendChild(sc); setTimeout(function(){ ok(window.ExcelJS || null); }, 15000);
-  });
-  return xlP;
-}
-function scoreYears(){ var ys = []; for (var i = 0; i < Math.max(1, +V.yearCnt || 5); i++) ys.push(S.last - i); return ys; }
-function nameCount(R){ var n = 0; Object.keys(R || {}).forEach(function(k){ if (k === 'bojik' || k === 'bujang' || k === 'extra') return; n += (String(R[k] || '').split(/[,\n\r、;·\t]+|\s+/).filter(function(t){ return t.trim(); })).length; }); return n; }
-function renderScoreCalc(){
-  $('#s-start').hidden = !!S.started; $('#s-work').hidden = !S.started;
-  if (!S.started) return;
-  $('#s-sample-bar').hidden = !S.sample;
-  $('#s-last').value = S.last;
-  var ys = scoreYears();
-  if (ys.indexOf(+S.cur) < 0) S.cur = ys[0];
-  $('#s-span').innerHTML = '→ <b>' + ys[ys.length - 1] + '~' + ys[0] + '학년도</b>(최근 ' + ys.length + '년)의 담임 경력으로 <b>' + (S.last + 1) + '학년도</b> 학년 배정 순위를 만듭니다.<br><small style="color:var(--muted)">‘최근 ○년’은 인사 내규 만들기의 산정 기간 값입니다. 해가 바뀌면 아래 ‘+ 새 학년도’를 누르세요.</small>';
-  $('#s-step2').textContent = S.cur + '학년도 명단 붙여넣기';
-  var res = E.scoreRoster(S, V), wy = {};
-  res.warn.forEach(function(w){ var m = /^(\d{4})학년도/.exec(w); if (m) wy[m[1]] = 1; });
-  $('#s-years').innerHTML = ys.map(function(y){
-    var n = nameCount(S.years[y]);
-    return '<button type="button" data-sy="' + y + '" class="' + (wy[y] ? 'warn' : '') + '" aria-pressed="' + (y === +S.cur) + '" title="' + y + '학년도 담임·교담·전담팀·추가 직위 칸에 입력한 이름 수(부장 가산 칸은 빼고 셉니다)">' + y + '<small>' + (wy[y] ? '⚠ 확인 필요' : n ? '명단 ' + n + '명' : '비어 있음') + '</small></button>';
-  }).join('') + '<button type="button" class="add" data-sadd="1">+ ' + (S.last + 1) + '학년도<small>새 학년도 추가</small></button>';
-  renderScoreGrid(); renderScoreResult();
-}
-function cloneRule(r){ return r ? JSON.parse(JSON.stringify(r)) : null; }
-function ensureRule(y, preferPrev){
-  S.rules = S.rules || {};
-  if (S.rules[y]) return S.rules[y];
-  var r = null;
-  if (preferPrev && S.rules[y - 1]) r = cloneRule(S.rules[y - 1]);
-  if (!r) r = cloneRule(E.ruleFromTable(V, y));
-  if (!r) { for (var k = 1; k < 30 && !r; k++) r = cloneRule(S.rules[y - k]) || cloneRule(E.ruleFromTable(V, y - k)); }
-  if (!r) r = cloneRule(E.ruleFromTable(V, V.table.length ? V.table[V.table.length - 1].year : y)) || { g: [5, 3, 3, 3, 4, 5], subj: 2, team: 9, bojik: 4, bujang: 4, inclOn: false, inclPt: 0.05, extras: [] };
-  r.extras = r.extras || [];
-  S.rules[y] = r; persistScore();
-  return r;
-}
-function rosterFields(y){
-  var r = ensureRule(y), base = E.ROSTER_FIELDS.slice(0, 8), tail = E.ROSTER_FIELDS.slice(8);
-  return base.concat((r.extras || []).filter(function(x){ return x.n; }).map(function(x){ return ['x:' + x.n, x.n, 'x']; }), tail);
-}
-var ruleOpen = false;
-function renderScoreRule(){
-  var y = +S.cur, r = ensureRule(y);
-  if (!ruleOpen) {
-    $('#s-rule').innerHTML = '<div class="sc-rule-sum"><p><b>' + y + '학년도 배점</b> · ' + esc(E.ruleText(r)) + '</p><span class="row" style="gap:6px"><button class="btn sm" type="button" data-ropen="1">배점 고치기</button></span></div>';
-    return;
-  }
-  var num = function(k, i, lab){ var v = i == null ? r[k] : r[k][i]; return '<label>' + lab + '<input type="number" step="0.5" min="0" data-r="' + k + '"' + (i == null ? '' : ' data-ri="' + i + '"') + ' value="' + esc(v) + '"></label>'; };
-  var h = '<div class="sc-rule-h"><b>' + y + '학년도 배점 (그해 1년 담임했을 때의 점수)</b><span class="row" style="gap:6px"><button class="btn sm" type="button" data-rcopy="1">' + (y - 1) + '학년도 배점 그대로 가져오기</button><button class="btn sm ghost" type="button" data-rtable="1">내규 배점표에서 가져오기</button><button class="btn sm primary" type="button" data-rclose="1">다 고쳤어요</button></span></div>';
-  h += '<div class="sc-rule-g">' + [0,1,2,3,4,5].map(function(i){ return num('g', i, (i + 1) + '학년 담임'); }).join('') + num('subj', null, '교담') + num('team', null, '교무업무전담팀') + num('bojik', null, '보직교사 가산') + num('bujang', null, '학교 임명 부장 가산') + '</div>';
-  h += '<div class="sc-rule-row"><label class="on"><input type="checkbox" data-r="inclOn"' + (r.inclOn ? ' checked' : '') + '> 이 해에 통합학급 부가점을 준다</label>' +
-    (r.inclOn ? '<span>학생 1인당 월</span><input type="number" step="0.01" min="0" data-r="inclPt" value="' + esc(r.inclPt) + '"><span>점 (예: 학생 1명 12개월 × 0.05 = 0.6점)</span>' : '<span style="color:var(--muted)">이 해에는 통합학급 점수를 주지 않습니다.</span>') + '</div>';
-  h += '<div class="sc-rule-row"><span style="font-weight:700;color:var(--ink)">추가 직위</span><span style="color:var(--muted)">배점표에 없는 직위(예: 기초학력 전담)를 만들면 명단 칸이 생깁니다.</span><div class="sc-rule-x" style="width:100%">' + (r.extras || []).map(function(x, i){
-    return '<span class="xi"><label>직위 이름<input type="text" data-xn="' + i + '" value="' + esc(x.n) + '" placeholder="예: 기초학력 전담"></label><label>점수<input type="number" step="0.5" min="0" data-xp="' + i + '" value="' + esc(x.p) + '"></label><button class="x" type="button" data-xdel="' + i + '" aria-label="삭제">✕</button></span>';
-  }).join('') + '<button class="btn sm ghost" type="button" data-xadd="1">+ 직위 추가</button></div></div>';
-  $('#s-rule').innerHTML = h;
-}
-function renderScoreGrid(){
-  var y = +S.cur, R = S.years[y] || {}, r = ensureRule(y);
-  renderScoreRule();
-  var tip = { bojik: '위에 적은 사람 중 그해 보직교사(부장 수당을 받은 부장)', bujang: '위에 적은 사람 중 그해 학교에서 임명한 부장', extra: '배점표에 없는 점수를 한 사람에게만 더할 때. “이름 점수” (예: 김하늘 3)' };
-  $('#s-grid').innerHTML = rosterFields(y).map(function(f){
-    var sub = tip[f[0]] || (f[2] === 'x' ? '추가 직위 · 그해 ' + ((r.extras || []).filter(function(x){ return 'x:' + x.n === f[0]; })[0] || {}).p + '점' : '그해 ' + (f[2] === 'subj' ? r.subj : f[2] === 'team' ? r.team : r.g[+f[2] - 1]) + '점');
-    return '<label' + (f[2] ? '' : ' class="bu"') + '>' + esc(f[1]) + '<span>' + esc(sub) + '</span><textarea data-sf="' + esc(f[0]) + '" rows="2" placeholder="' + (f[0] === 'extra' ? '예: 김하늘 3' : '예: 김하늘, 이바다') + '">' + esc(R[f[0]] || '') + '</textarea></label>';
-  }).join('');
-}
-$('#s-rule').addEventListener('change', function(ev){
-  var t = ev.target, y = +S.cur, r = ensureRule(y);
-  if (t.dataset.r === 'inclOn') { r.inclOn = t.checked; if (r.inclOn && !(+r.inclPt)) r.inclPt = +V.inclPt || 0.05; persistScore(); renderScoreRule(); renderScoreResult(); return; }
-  if (t.dataset.r) { var v = parseFloat(t.value); v = isNaN(v) ? 0 : v; if (t.dataset.ri != null) r[t.dataset.r][+t.dataset.ri] = v; else r[t.dataset.r] = v; }
-  else if (t.dataset.xn != null) {
-    var i = +t.dataset.xn, old = r.extras[i].n, nn = t.value.trim();
-    if (nn && r.extras.some(function(x, j){ return j !== i && x.n === nn; })) { toast('같은 이름의 직위가 이미 있습니다.'); t.value = old; return; }
-    r.extras[i].n = nn;
-    var R = S.years[y] = S.years[y] || {}; if (old && R['x:' + old] != null) { if (nn) R['x:' + nn] = R['x:' + old]; delete R['x:' + old]; }
-    persistScore(); renderScoreGrid(); renderScoreResult(); return;
-  }
-  else if (t.dataset.xp != null) { var p = parseFloat(t.value); r.extras[+t.dataset.xp].p = isNaN(p) ? 0 : p; }
-  S.sample = false; persistScore(); renderScoreGrid(); renderScoreResult();
-});
-$('#s-rule').addEventListener('click', function(ev){
-  var b = ev.target.closest('button'); if (!b) return;
-  var y = +S.cur, r = ensureRule(y);
-  if (b.dataset.ropen) { ruleOpen = true; renderScoreRule(); return; }
-  if (b.dataset.rclose) { ruleOpen = false; renderScoreRule(); return; }
-  if (b.dataset.xadd) { r.extras.push({ n: '', p: 0 }); persistScore(); renderScoreRule(); var ins = document.querySelectorAll('#s-rule [data-xn]'); if (ins.length) ins[ins.length - 1].focus(); return; }
-  if (b.dataset.xdel != null) { var i = +b.dataset.xdel, n = r.extras[i].n; r.extras.splice(i, 1); if (n && S.years[y] && S.years[y]['x:' + n]) toast('‘' + n + '’ 명단은 직위를 다시 만들면 되살아납니다.'); persistScore(); renderScoreGrid(); renderScoreResult(); return; }
-  if (b.dataset.rcopy) { var pr = S.rules[y - 1] || E.ruleFromTable(V, y - 1); if (!pr) { toast((y - 1) + '학년도 배점이 없습니다.'); return; } S.rules[y] = cloneRule(pr); persistScore(); renderScoreGrid(); renderScoreResult(); toast((y - 1) + '학년도 배점을 가져왔습니다. 바뀐 숫자만 고치세요.'); return; }
-  if (b.dataset.rtable) { var tr = E.ruleFromTable(V, y); if (!tr) { toast('내규 배점표에 ' + y + '년이 없습니다.'); return; } S.rules[y] = cloneRule(tr); persistScore(); renderScoreGrid(); renderScoreResult(); toast('내규 배점표의 ' + y + '년 값을 가져왔습니다.'); }
-});
-var moreCols = false, openDet = {};
-function warnBox(list){ return list.length ? '<div class="sc-warn"><b>확인해 주세요</b><ul style="margin:4px 0 0;padding:0">' + list.slice(0, 12).map(function(w){ return '<li>' + esc(w) + '</li>'; }).join('') + (list.length > 12 ? '<li>외 ' + (list.length - 12) + '건</li>' : '') + '</ul></div>' : ''; }
-function renderScoreResult(){
-  var res = lastScore = E.scoreRoster(S, V), ys = res.ys, iys = res.iys;
-  var cy = String(S.cur);
-  $('#s-ywarn').innerHTML = warnBox(res.warn.filter(function(w){ return w.indexOf(cy + '학년도') === 0; }));
-  $('#s-warn').innerHTML = warnBox(res.warn);
-  $('#s-more').checked = moreCols;
-  var ph = '<thead><tr><th>포함</th><th>이름</th><th>구분</th><th>본교 전입<br>(연-월)</th>' + (moreCols ? '<th>본교 개월<br>(직접 입력)</th>' + iys.map(function(y){ return '<th>통합학급<br>' + y + ' 학생 수</th>'; }).join('') + '<th>교육경력<br>(년)</th><th>생년월일</th>' : '') + '</tr></thead><tbody>';
-  if (!res.rows.length) ph += '<tr><td colspan="4" style="padding:14px;color:var(--muted);text-align:left">2번에 명단을 붙여넣으면 이름이 여기에 자동으로 올라옵니다.</td></tr>';
-  res.rows.forEach(function(r){
-    var p = S.people[r.name] || {};
-    ph += '<tr data-pn="' + esc(r.name) + '"><td><input type="checkbox" data-pf="inc"' + (r.inc ? ' checked' : '') + ' aria-label="순위에 포함"></td><td style="text-align:left;font-weight:600">' + esc(r.name) + (r.inLast ? '' : ' <small style="color:var(--muted)">(올해 명단에 없음)</small>') + '</td>' +
-      '<td><select data-pf="kind">' + E.SCORE_KINDS.map(function(k){ return '<option' + (k === r.kind ? ' selected' : '') + '>' + k + '</option>'; }).join('') + '</select></td>' +
-      '<td><input type="text" class="ym" data-pf="inYM" placeholder="예: 2023-03" value="' + esc(p.inYM || '') + '"></td>' +
-      (moreCols ? '<td><input type="text" class="inc" data-pf="ownM" placeholder="자동 ' + r.ownM + '" value="' + esc(p.ownM == null ? '' : p.ownM) + '" title="비우면 자동 계산(' + r.ownM + '개월)"></td>' +
-      iys.map(function(y){ return '<td><input type="text" class="inc" data-pi="' + y + '" placeholder="예: 1" value="' + esc((p.incl || {})[y] || '') + '" title="학생 수. 일부 개월이면 1(6)"></td>'; }).join('') +
-      '<td><input type="text" class="inc" data-pf="career" value="' + esc(p.career || '') + '"></td><td><input type="text" data-pf="birth" placeholder="1980-01-01" value="' + esc(p.birth || '') + '"></td>' : '') + '</tr>';
-  });
-  $('#s-people').innerHTML = ph + '</tbody>';
-  var nc = 6 + ys.length + (iys.length ? 1 : 0);
-  var h = '<thead><tr><th title="인사점수 순위">순위</th><th title="학년 선택 순서">학년<br>선택</th><th>구분</th><th>이름</th>' + ys.map(function(y){ return '<th>' + y + '</th>'; }).join('') + '<th title="본교 경력점">본교</th>' + (iys.length ? '<th title="통합학급 부가점">통합</th>' : '') + '<th>합계</th></tr></thead><tbody>';
-  res.byRank.forEach(function(r){
-    var inc = 0; Object.keys(r.incl).forEach(function(k){ inc += r.incl[k]; });
-    h += '<tr class="main k-' + esc(r.kind) + '" data-det="' + esc(r.name) + '"><td class="rk">' + r.rank + '</td><td class="ch">' + r.choice + '</td><td class="kd">' + (r.kind === '일반' ? '' : esc(r.kind)) + '</td><td class="nm"><u>' + esc(r.name) + '</u></td>' +
-      ys.map(function(y){ var c = r.y[y]; return '<td' + (c && c.bu ? ' class="bu"' : '') + '>' + (c ? (c.p == null ? '?' : c.p) : '') + '</td>'; }).join('') +
-      '<td>' + r.own + '</td>' + (iys.length ? '<td>' + (inc ? Math.round(inc * 100) / 100 : '') + '</td>' : '') + '<td class="tot">' + r.total + '</td></tr>';
-    if (openDet[r.name]) {
-      var parts = ys.filter(function(y){ return r.y[y]; }).map(function(y){ var c = r.y[y]; return y + '학년도 ' + c.label + (c.bu ? (c.bu === 'bojik' ? '+보직교사' : '+학교 임명 부장') : '') + (c.m !== 12 ? ' ' + c.m + '개월' : '') + (c.ex ? ' +개인 ' + c.ex : '') + ' = ' + (c.p == null ? '?' : c.p) + '점'; });
-      parts.push('본교 ' + r.ownM + '개월 = ' + r.own + '점');
-      Object.keys(r.incl).forEach(function(y){ parts.push(y + '학년도 통합학급 = ' + r.incl[y] + '점'); });
-      h += '<tr class="det"><td colspan="' + nc + '"><div class="det-in">' + parts.map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '<b>합계 ' + r.total + '점</b></div></td></tr>';
-    }
-  });
-  if (!res.byRank.length) h += '<tr><td colspan="' + nc + '" style="padding:16px;color:var(--muted)">2번에 명단을 넣으면 순위가 나옵니다.</td></tr>';
-  $('#s-result').innerHTML = h + '</tbody>';
-}
-$('#s-result').addEventListener('click', function(ev){ var tr = ev.target.closest('tr[data-det]'); if (!tr) return; var n = tr.dataset.det; openDet[n] = !openDet[n]; renderScoreResult(); });
-$('#s-more').addEventListener('change', function(){ moreCols = this.checked; renderScoreResult(); });
-var scoreT = null;
-$('#s-grid').addEventListener('input', function(ev){
-  var t = ev.target; if (!t.dataset.sf) return;
-  var y = +S.cur; S.years[y] = S.years[y] || {}; S.years[y][t.dataset.sf] = t.value; S.sample = false; persistScore();
-  clearTimeout(scoreT); scoreT = setTimeout(function(){
-    var res = E.scoreRoster(S, V), bad = res.warn.some(function(w){ return w.indexOf(y + '학년도') === 0; }), cnt = nameCount(S.years[y]);
-    var bt = document.querySelector('[data-sy="' + y + '"]'); if (bt) { bt.classList.toggle('warn', bad); bt.querySelector('small').textContent = bad ? '⚠ 확인 필요' : cnt ? '명단 ' + cnt + '명' : '비어 있음'; }
-    renderScoreResult();
-  }, 350);
-});
-$('#s-years').addEventListener('click', function(ev){
-  var b = ev.target.closest('button'); if (!b) return;
-  if (b.dataset.sadd) {
-    var ny = S.last + 1; S.last = ny; S.cur = ny; S.rules = S.rules || {}; if (!S.rules[ny]) { ensureRule(ny - 1); S.rules[ny] = cloneRule(S.rules[ny - 1]); } persistScore(); renderScoreCalc();
-    toast(ny + '학년도를 추가했습니다. ' + (ny - 1) + '학년도 배점을 복사했으니 바뀐 숫자만 고치고 명단을 붙여넣으세요.');
-    return;
-  }
-  S.cur = +b.dataset.sy; persistScore(); renderScoreCalc();
-});
-function personOf(tr){ var n = tr.dataset.pn; S.people[n] = S.people[n] || {}; return S.people[n]; }
-$('#s-people').addEventListener('change', function(ev){
-  var t = ev.target, tr = t.closest('tr'); if (!tr) return;
-  var p = personOf(tr);
-  if (t.dataset.pf === 'inc') p.inc = t.checked;
-  else if (t.dataset.pf) p[t.dataset.pf] = t.value.trim();
-  else if (t.dataset.pi) { p.incl = p.incl || {}; p.incl[t.dataset.pi] = t.value.trim(); }
-  S.sample = false; persistScore(); renderScoreResult();
-});
-$('#s-last').addEventListener('change', function(){ var v = +this.value; if (v > 1990 && v < 2200) { S.last = v; S.cur = v; persistScore(); renderScoreCalc(); } });
-document.querySelectorAll('[data-start]').forEach(function(b){ b.addEventListener('click', function(){
-  if (b.dataset.start === 'sample') { S = sampleScore(); toast('예시 자료를 불러왔습니다. 실제 교사 정보가 아닙니다.'); }
-  else { S = emptyScore(); toast('빈 표로 시작합니다. 1번에서 배점을 확인하고 2번에 명단을 붙여넣으세요.'); }
-  ruleOpen = false; openDet = {}; persistScore(); renderScoreCalc();
-  var w = document.getElementById('s-work'); if (w) w.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}); });
-document.querySelectorAll('[data-cgo]').forEach(function(b){ b.addEventListener('click', function(){ var el = document.getElementById(b.dataset.cgo); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
-$('#s-clear').addEventListener('click', function(){ $('#s-confirm').hidden = false; });
-$('#s-clear-no').addEventListener('click', function(){ $('#s-confirm').hidden = true; });
-$('#s-clear-yes').addEventListener('click', function(){ S = { last: +V.year || S.last, cur: +V.year || S.last, years: {}, people: {}, rules: {}, started: false }; persistScore(); renderScoreCalc(); $('#s-confirm').hidden = true; toast('모두 지웠습니다.'); });
-$('#s-xlsx').addEventListener('click', async function(){
-  var res = lastScore || E.scoreRoster(S, V);
-  if (!res.act.length) { toast('먼저 명단을 넣어 주세요.'); return; }
-  var btn = this; btn.disabled = true; btn.textContent = '만드는 중…';
-  try {
-    var blob, XT = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    var XL = await loadExcelJS();
-    if (XL) {
-      var d = new Date(), today = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-      var buf = await E.scoreWorkbook(XL, res, S, V, today).xlsx.writeBuffer();
-      blob = new Blob([buf], { type: XT });
-    } else {
-      var F = E.scoreXlsxFiles(res, S, V), z = new JSZip();
-      Object.keys(F).forEach(function(k){ z.file(k, F[k]); });
-      blob = await z.generateAsync({ type: 'blob', mimeType: XT, compression: 'DEFLATE' });
-    }
-    await offer(blob, res.last + '학년도 인사점수 순위표.xlsx', false);
-  } catch (e) { toast('엑셀을 만들지 못했습니다: ' + (e && e.message || e)); }
-  finally { btn.disabled = false; btn.textContent = '엑셀 내려받기'; }
-});
-$('#s-xlsx-in').addEventListener('change', async function(){
-  var f = this.files[0]; this.value = ''; if (!f) return;
-  try {
-    var z = await JSZip.loadAsync(await f.arrayBuffer());
-    var wb = await z.file('xl/workbook.xml').async('string'), rels = await z.file('xl/_rels/workbook.xml.rels').async('string');
-    var sm = /<sheet\b[^>]*name="입력 자료"[^>]*r:id="([^"]+)"/.exec(wb) || /<sheet\b[^>]*r:id="([^"]+)"[^>]*name="입력 자료"/.exec(wb);
-    if (!sm) throw new Error('이 사이트에서 내려받은 ‘인사점수 순위표’ 엑셀이 아닙니다(‘입력 자료’ 시트가 없음). 처음이라면 ‘처음 시작하기’를 눌러 주세요.');
-    var tm = new RegExp('<Relationship\\b[^>]*Id="' + sm[1] + '"[^>]*Target="([^"]+)"').exec(rels) || new RegExp('<Relationship\\b[^>]*Target="([^"]+)"[^>]*Id="' + sm[1] + '"').exec(rels);
-    var path = tm[1].replace(/^\/?(xl\/)?/, 'xl/');
-    var ss = z.file('xl/sharedStrings.xml') ? E.xlsxShared(await z.file('xl/sharedStrings.xml').async('string')) : [];
-    var D = E.rosterFromRows(E.xlsxSheetRows(await z.file(path).async('string'), ss));
-    if (!D.last) throw new Error('입력 자료에서 학년도 명단을 찾지 못했습니다.');
-    S = { last: D.last, cur: D.last, years: D.years, people: D.people, rules: D.rules || {}, started: true };
-    persistScore(); renderScoreCalc();
-    toast(D.last + '학년도까지의 배점과 명단을 불러왔습니다. 올해 명단은 ‘+ ' + (D.last + 1) + '학년도’를 눌러 더하세요.');
-  } catch (e) { toast('엑셀을 읽지 못했습니다: ' + (e && e.message || e)); }
-});
-function refreshCalcHelper(){ renderScoreCalc(); }
-function renderCalc(){ renderScoreCalc(); }
-
-
 /* ---------- 인사 내규 참고안 ---------- */
 var MODEL_OPT = {}; E.OPTIONS.forEach(function(o){ MODEL_OPT[o.key] = true; });
 var MODEL_V = clone(E.DEFAULT_V); MODEL_V.innovSchool = true;
@@ -4749,8 +4496,204 @@ $('#home-items').addEventListener('click', function(ev){ var c = ev.target.close
 function setHdr(){ document.documentElement.style.setProperty('--hdr', document.querySelector('header.top').offsetHeight + 'px'); }
 setHdr(); window.addEventListener('resize', setHdr);
 
+/* ---------- 부장 임용 안내 (참고안 기준) ---------- */
+var KEY_AP = 'naegyu-appoint-v1';
+var AP = Object.assign({ team: true, innov: true, me: {} }, load(KEY_AP) || {});
+function apSave(){ save(KEY_AP, AP); }
+/* 참고안 조문 번호를 그때그때 찾아 씀(조문을 켜고 끄면 번호가 바뀌므로) */
+function apLines(key){ return (GROUP_TEXT[targetId(key)] || '').split('\n'); }
+function apArt(key){ var m = /^(제\d+조(?:의\d+)?)/.exec(apLines(key)[0] || ''); return m ? m[1] : ''; }
+function apRef(key, itemRe, mokRe){
+  var s = apArt(key); if (!s || !itemRe) return s;
+  var L = apLines(key), cur = null, it = '', mk = '';
+  for (var i = 1; i < L.length; i++) {
+    var im = /^ {2}(\d+)\.\s(.*)$/.exec(L[i]); if (im) { cur = im[1]; if (!it && itemRe.test(im[2])) it = im[1]; if (!mokRe && it) break; continue; }
+    if (mokRe && it && cur === it) { var mm = /^ {4}([가-하])\.\s(.*)$/.exec(L[i]); if (mm && mokRe.test(mm[2])) { mk = mm[1]; break; } }
+    if (!it && /^ {2}※/.test(L[i]) && itemRe.test(L[i])) it = cur;
+  }
+  return s + (it ? ' 제' + it + '항' : '') + (mk ? ' ' + mk + '목' : '');
+}
+function apBtn(key, itemRe, mokRe){ var t = apRef(key, itemRe, mokRe); return t ? '<button type="button" class="ap-ref" data-apart="' + key + '">' + esc(t) + '</button>' : ''; }
+function apElder(){ var v = MODEL_V; return '만 ' + v.age + '세 이상' + (MODEL_OPT.ageStep ? ', ' + v.ageFrom + '학년도 기준·해마다 1세씩 올라 만 ' + v.ageMax + '세까지' : ''); }
+var R7 = /정원에 미달한 경우/;
+function apStages(){
+  var s = [];
+  if (AP.team) s.push({ m: [7, 8], when: '7월', t: '교무업무전담팀 선발', b: '부장교사보다 먼저 희망을 받아 뽑습니다. 같은 업무에 희망이 겹치면 <b>전보 유예 희망자 → 기존 업무자 → 본교 보직교사 경력이 짧은 사람 → 인사점수 → 교육 총경력 → 생년월일</b> 순입니다.', r: [['tPolicy', /7월/], ['tPolicy', /경합 시/]] });
+  s.push({ m: [9, 10, 11], when: '10월~11월', t: '교무부장·연구부장 먼저', b: '새 학년 준비를 위해 다른 부장보다 먼저 정합니다. 초빙교사제로 확보하거나, 11월까지 경합·미달 절차를 이 두 보직에 먼저 적용합니다. 2월 전입교사 절차는 쓰지 않습니다.' + (AP.team ? ' 필요하면 초빙교사제로 교무업무전담팀 교원도 확보합니다.' : ''), r: [['head', /교무부장과 연구부장/]].concat(AP.team ? [['tPolicy', /초빙교사제/]] : []) });
+  if (AP.innov) s.push({ m: [11, 12], when: '11월~12월', t: '혁신학교 전보유예 대상자 선정', b: '부장교사 희망서를 받기 전에 정합니다. 맡을 역할을 적은 제안서를 내고, 교원 회의 무기명 투표에서 참석자 ' + MODEL_V.votePct + '% 이상의 동의를 받아야 하며, 인사자문위원회 심의를 거쳐 학교장이 확정합니다.', r: [['innov1', /제안서/], ['innov1', /심의/]] });
+  s.push({ m: [12], when: '12월 희망 마감일까지', t: '부장 칸 공고와 희망서 제출', b: '학년부장을 겸하는 보직은 학년과 묶은 <b>부장 칸</b>으로 공고합니다. 희망하는 보직명을 적은 희망서를 마감일까지 내면, 보직마다 <b>희망자 수를 정원과 견줍니다.</b>', r: [['head', /부장 칸/], ['head', /희망서/]] });
+  s.push({ m: [12, 1], when: '희망 마감 직후', t: '12월에 끝낼까, 2월에 정할까', fork: [['ok', '미달 보직이 없으면', '부장 임용과 기 근무 교원의 학년·업무 배정을 <b>12월에 마칩니다.</b> 전입교사는 2월에 남은 학년·업무를 고릅니다.'], ['warn', '미달 보직이 하나라도 있으면', '희망자가 있는 보직만 12월에 확정하고, <b>강제 배정 명부</b>를 공개한 뒤 <b>자원 전환 기간</b>을 둡니다. 남은 보직은 2월에 정합니다.']], r: [['head', /부장교사 임용과 학년·업무 배정의 시기/, /하나도 없으면/], ['head', /부장교사 임용과 학년·업무 배정의 시기/, /하나라도 있으면/]] });
+  s.push({ m: [2], when: '2월 전보 발표 뒤', t: '남은 미달 보직 결정', tag: '미달 보직이 있을 때만', b: '남은 미달 보직을 <b>전입교사에게 먼저</b> 공개해 희망을 받습니다. 그래도 남으면 12월 명부 순위가 높은 사람부터, 미리 낸 <b>보직 선호 순위</b>에 따라 배정합니다.', r: [['head', R7, /전입교사에게 공개/], ['head', R7, /명부 순위가 높은/]] });
+  s.push({ m: [2, 3], when: '새 학년 준비 전', t: '업무분장서 확정과 이의신청', b: '부장교사' + (AP.team ? '와 교무업무전담팀' : '') + '이 먼저 학년·업무를 정하고, 나머지 교원은 배정표에서 고릅니다. 결과는 개별 통보하며, <b>통보일부터 3일 이내</b>에 이의를 신청할 수 있습니다.', r: [['work', /먼저 정하고/], ['head', R7, /이의를 신청/]] });
+  return s;
+}
+function apRefs(r){ return '<div class="ap-refs">' + r.map(function(x){ return apBtn(x[0], x[1], x[2]); }).join('') + '</div>'; }
+function renderApYear(){
+  var mo = new Date().getMonth() + 1, st = apStages(), any = st.some(function(x){ return x.m.indexOf(mo) >= 0; });
+  var h = '<div class="ph"><h2>부장 임용, 1년 흐름</h2></div>' +
+    '<p class="lead s">② 인사 내규 참고안을 기준으로 정리했습니다. 조문 번호를 누르면 참고안의 그 조문으로 갑니다.</p>' +
+    '<div class="ap-tog" role="group" aria-label="우리 학교에 맞추기"><span>우리 학교에 맞추기</span>' +
+      '<label><input type="checkbox" data-ap="team"' + (AP.team ? ' checked' : '') + '> 교무업무전담팀을 둡니다</label>' +
+      '<label><input type="checkbox" data-ap="innov"' + (AP.innov ? ' checked' : '') + '> 혁신학교 전보유예가 있습니다</label></div>' +
+    (any ? '' : '<p class="ap-now-note"><b>지금(' + mo + '월)</b>은 새 학년을 운영하는 때입니다. 다음 인사는 ' + st[0].when + '부터 시작합니다.</p>') +
+    '<ol class="ap-line">';
+  st.forEach(function(x, i){
+    var now = x.m.indexOf(mo) >= 0;
+    h += '<li class="ap-st' + (now ? ' now' : '') + '"><div class="ap-when"><span class="ap-no">' + (i + 1) + '</span>' + esc(x.when) + (now ? '<em>지금 ' + mo + '월</em>' : '') + '</div><div class="ap-card"><b>' + esc(x.t) + '</b>' + (x.tag ? '<span class="ap-tag">' + esc(x.tag) + '</span>' : '');
+    if (x.fork) h += '<div class="ap-fork">' + x.fork.map(function(f){ return '<div class="' + f[0] + '"><em>' + esc(f[1]) + '</em><p>' + f[2] + '</p></div>'; }).join('') + '</div>';
+    else h += '<p>' + x.b + '</p>';
+    h += apRefs(x.r) + '</div></li>';
+  });
+  return h + '</ol>';
+}
+function renderApWays(){
+  var h = '<div class="ph"><h2>희망자 수에 따라 갈리는 세 길</h2></div><p class="lead s">희망과 경합은 <b>보직별로</b> 판단합니다. 부장 정원은 보직교사와 학교 임명 부장을 합한 전체 정원입니다. ' + apBtn('head') + '</p>';
+  h += '<div class="ap-ways">';
+  h += '<div class="fl-case fit"><em>희망자가 정원 이내</em><b>그대로 임용</b><span>희망한 사람을 그 보직에 임용합니다.</span></div>';
+  h += '<div class="fl-case over"><em>희망자가 정원보다 많다</em><b>경합 순위</b><ol class="ap-ord"><li>전보 유예자가 아닌 희망자<small>전보 유예자는 최하위</small></li><li>전년도에 본교에서 같은 보직을 맡았던 희망자</li><li>인사점수가 높은 사람</li><li>교육 총경력이 많은 사람</li><li>생년월일이 빠른 사람</li></ol>' +
+    '<ul class="ap-note"><li>같은 보직은 연속 2회를 넘겨 맡지 않습니다(다른 희망자가 없으면 예외). 이 규정이 위 순위보다 먼저입니다.</li><li>체육·정보 같은 특수 기능 보직은 실적과 기능을 참작할 수 있습니다.</li><li>밀린 사람은 희망자가 없거나 모자란 다른 보직을 희망할 수 있습니다.</li></ul>' + apRefs([['head', /초과하여 경합/], ['head', /연속 2회/], ['head', /특수 기능/]]) + '</div>';
+  h += '<div class="fl-case under"><em>희망자가 정원보다 적다</em><b>미달 보직 지정</b><ol class="ap-ord abc"><li><b>가목</b> 본교 부장 경력이 없는 1급 정교사 중, 본교 근무 1년 이상인 사람을 <b>본교 근무 연수가 긴 순</b>으로(같으면 인사점수가 낮은 사람, 그다음 교육 총경력이 적은 사람, 생년월일이 늦은 사람)</li><li><b>나목</b> 가목으로 못 채우면 <b>본교 부장 경력이 1년 이하</b>인 사람을 부장 경력이 적은 순으로</li><li><b>마목</b> 그래도 못 채우면 인사자문위원회 자문을 거쳐 학교장이 임용</li></ol>' +
+    apRefs([['head', R7, /부장교사 경력이 없는 자/], ['head', R7, /가목의 방법으로/], ['head', R7, /나목의 방법으로도/]]) + '</div>';
+  h += '</div>';
+  h += '<div class="ap-ex"><div><b>가·나목 대상에서 빠지는 사람</b><p>' + (AP.team ? '교무업무전담팀에 배정된 교원, ' : '') + '원로교사(' + esc(apElder()) + '), 임용 후 ' + MODEL_V.newYears + '년 이내의 신규 교사</p>' + apBtn('head', R7, /가목 및 나목에 따른 부장교사 임용 대상에서 제외/) + '</div>' +
+    '<div><b>위원회 자문을 거쳐 뺄 수 있는 사람</b><p>병약자, 장애교원, 임신 중이거나 출산이 예정된 교원</p>' + apBtn('head', R7, /병약자/) + '</div>' +
+    '<div><b>포함하되 배려하는 사람</b><p>모성보호시간·육아시간을 쓰는 교원은 업무량이 적은 보직을 먼저 고를 수 있습니다.</p>' + apBtn('head', R7, /모성보호시간/) + '</div></div>';
+  h += '<div class="ap-proc"><b>미달 보직이 있을 때의 진행</b><ol>' +
+    '<li><b>명부 공개</b> 가·나목 대상자를 보직 없이 순위만 정해 12월 마감일 기준으로 공개합니다. 이 순위는 2월에 다시 정하지 않습니다. 대상자는 미달 보직 전체의 선호 순위를 냅니다. ' + apBtn('head', R7, /순위 명부를 작성/) + '</li>' +
+    '<li><b>자원 전환 기간</b> 명부 대상자가 이 기간에 미달 보직을 희망하면 희망자로 봅니다. ' + apBtn('head', R7, /자원 전환 기간/) + '</li>' +
+    '<li><b>2월 전입교사 먼저</b> 전보 발표 뒤 남은 미달 보직을 전입교사에게 공개하고, 희망하면 먼저 임용합니다. 전입교사끼리 겹치면 교육 총경력이 많은 사람이 앞입니다. ' + apBtn('head', R7, /전입교사에게 공개/) + '</li>' +
+    '<li><b>명부 순 배정</b> 그래도 남은 보직은 명부 순위가 높은 사람부터, 낸 선호 순위대로 배정합니다. 보직이 다 차면 나머지는 임용하지 않습니다. ' + apBtn('head', R7, /명부 순위가 높은/) + '</li></ol></div>';
+  if (AP.team || AP.innov) {
+    h += '<details class="ap-more"><summary>' + [AP.team ? '교무업무전담팀' : '', AP.innov ? '전보유예' : ''].filter(Boolean).join('·') + '의 순위도 보기</summary>';
+    if (AP.team) h += '<div><b>교무업무전담팀 경합</b><p>① 전보 유예 희망자 ② 기존 업무자(같은 업무를 연속 2년 맡은 사람 제외) ③ 본교 보직교사 경력이 짧은 사람 ④ 인사점수가 높은 사람 ⑤ 교육 총경력이 많은 사람 ⑥ 생년월일이 빠른 사람</p>' + apBtn('tPolicy', /경합 시/) + '</div>' +
+      '<div><b>교무업무전담팀 미달</b><p>① 전보 유예 희망자 ② 그 밖에는 부장교사 미달 순서(가목~마목)를 준용합니다.</p>' + apBtn('tPolicy', /미달한 경우/) + '</div>';
+    if (AP.innov) h += '<div><b>전보 유예 희망자 경합</b><p>① 교무업무전담팀 희망서 제출자 ② 보직교사 희망서 제출자 ③ 본교 근무 경력이 짧은 사람 ④ 교육 총경력이 많은 사람 ⑤ 생년월일이 빠른 사람</p>' + apBtn('innov1', /경합하는 경우/) + '</div>';
+    h += '</details>';
+  }
+  return h;
+}
+var AP_Q = [
+  { k: 'who', q: '12월에 우리 학교에 근무하고 있나요?', o: [['old', '네, 근무 중입니다'], ['new', '아니요, 2월에 새로 옵니다(전입교사)']] },
+  { k: 'hope', q: '부장교사를 희망하나요?', o: [['yes', '희망합니다'], ['no', '희망하지 않습니다']] },
+  { k: 'cnt', q: '희망하는 보직의 희망자는 몇 명인가요?', o: [['fit', '정원 이내'], ['over', '정원보다 많음'], ['?', '아직 모름']], when: function(m){ return m.who === 'old' && m.hope === 'yes'; } },
+  { k: 'hist', q: '우리 학교에서 부장교사를 맡은 적이 있나요?', o: [['0', '없습니다'], ['1', '1년 이하'], ['2', '2년 이상']], when: function(m){ return m.who === 'old' && m.hope === 'no'; } },
+  { k: 'yrs', q: '우리 학교 근무 기간은?', o: [['lt', '1년 미만'], ['ge', '1년 이상']], when: function(m){ return m.who === 'old' && m.hope === 'no' && m.hist === '0'; } }
+];
+function apChecks(m){
+  var c = [];
+  if (m.who === 'old' && m.hope === 'yes') { c.push(['major', '교무부장·연구부장을 희망합니다']); if (AP.innov) c.push(['defer', '전보 유예자입니다']); }
+  if (m.who === 'old' && m.hope === 'no') {
+    if (AP.team) c.push(['team', '교무업무전담팀에 배정되었습니다']);
+    c.push(['elder', '원로교사입니다(' + apElder() + ')'], ['newbie', '임용 후 ' + MODEL_V.newYears + '년 이내의 신규 교사입니다'], ['no1', '1급 정교사 자격이 아직 없습니다'], ['sick', '병약·장애가 있거나 임신 중·출산 예정입니다'], ['care', '모성보호시간·육아시간을 씁니다']);
+  }
+  return c;
+}
+function apResult(m){
+  var o = [], badge = '', ref = function(a, b, c){ return ' ' + apBtn(a, b, c); };
+  if (!m.who || !m.hope) return '';
+  var x = m.x || {};
+  if (m.who === 'new') {
+    if (m.hope === 'yes') {
+      badge = '2월에 희망 가능';
+      o.push('교무부장·연구부장은 전입교사 절차를 쓰지 않으므로 그 두 자리는 희망할 수 없습니다.' + ref('head', /교무부장과 연구부장/));
+      o.push('2월 전보 발표 뒤 <b>남은 미달 보직</b>이 공개되면 희망할 수 있고, 전입교사 희망자를 먼저 임용합니다. 전입교사끼리 겹치면 교육 총경력이 많은 사람이 앞입니다.' + ref('head', R7, /전입교사에게 공개/));
+      o.push('12월에 미달 보직이 없으면 2월에 남는 부장 자리가 없을 수 있습니다.' + ref('head', /부장교사 임용과 학년·업무 배정의 시기/, /하나도 없으면/));
+    } else {
+      badge = '지정 명부 대상 아님';
+      o.push('강제 배정 명부는 <b>12월 희망 마감일 기준</b>으로 만들므로 전입교사는 명부에 들지 않습니다. 남은 미달 보직은 명부 순으로 배정합니다.' + ref('head', R7, /순위 명부를 작성/) + ref('head', R7, /명부 순위가 높은/));
+      o.push('그래도 남으면 인사자문위원회 자문을 거쳐 학교장이 정합니다.' + ref('head', R7, /나목의 방법으로도/));
+    }
+    o.push('학년·업무는 기 근무 교원이 고른 뒤 남은 것 가운데서 고릅니다.' + ref('work', /전입교사는/));
+  } else if (m.hope === 'yes') {
+    o.push('학교장이 공고하는 <b>12월 희망 마감일까지</b> 희망 보직명(부장 칸은 학년과 보직명)을 적은 희망서를 냅니다.' + ref('head', /희망서/));
+    if (x.major) o.push('교무부장·연구부장은 <b>11월까지 먼저</b> 정합니다. 초빙교사제로 확보할 수도 있습니다.' + ref('head', /교무부장과 연구부장/));
+    if (m.cnt === 'fit') { badge = '그대로 임용'; o.push('희망자가 정원 이내이므로 <b>그 보직에 임용됩니다.</b>' + ref('head')); }
+    else if (m.cnt === 'over') {
+      badge = '경합 순위로 결정';
+      o.push('경합 순위를 따릅니다: 전보 유예자가 아닌 희망자 → 전년도 같은 보직 → 인사점수 → 교육 총경력 → 생년월일.' + ref('head', /초과하여 경합/));
+      if (x.defer) o.push('<b>전보 유예자는 이 경합에서 최하위</b>입니다. 다만 희망자가 없거나 모자란 보직을 희망하면 그 보직에 임용합니다.' + ref('innov1', /우선 임용/));
+      o.push('같은 보직을 연속 2회 맡았다면 다른 희망자가 있을 때 더 맡을 수 없습니다.' + ref('head', /연속 2회/));
+      o.push('밀리면 희망자가 없거나 모자란 <b>다른 보직을 희망</b>할 수 있습니다.' + ref('head', /초과하여 경합/));
+    } else if (m.cnt === '?') { badge = '마감일에 결정'; o.push('마감일에 보직별로 희망자 수를 정원과 견줍니다. 정원 이내면 그대로 임용되고, 많으면 경합 순위를 따릅니다.' + ref('head', /초과하여 경합/)); }
+    o.push('희망해서 임용된 사람은 2월 미달 배정 절차의 영향을 받지 않습니다.' + ref('head', R7, /희망하여 임용된 자/));
+    o.push('부장 칸(학년부장을 겸하는 보직)에 임용되면 그 학년 담임이 됩니다. 학년이 묶이지 않은 보직이면 우대 대상자 다음 순서로 학년을 고릅니다.' + ref('head', /부장 칸/) + ref('head', /학년이 묶이지 않은/));
+  } else {
+    o.push('희망자가 모자란 <b>미달 보직이 남을 때만</b> 지정 절차가 적용됩니다. 미달 보직이 없으면 지정되지 않습니다.' + ref('head', R7));
+    var out = x.team || x.elder || x.newbie;
+    if (out) {
+      badge = '가·나목 대상 아님';
+      o.push((x.team ? '교무업무전담팀에 배정된 교원' : x.elder ? '원로교사' : '임용 ' + MODEL_V.newYears + '년 이내 신규 교사') + '는 가·나목 지정 대상에서 빠집니다.' + ref('head', R7, /가목 및 나목에 따른 부장교사 임용 대상에서 제외/));
+      o.push('가·나목으로도 채우지 못하면 인사자문위원회 자문을 거쳐 학교장이 정합니다.' + ref('head', R7, /나목의 방법으로도/));
+    } else {
+      if (x.sick) o.push('인사자문위원회 자문을 거쳐 <b>지정 대상에서 뺄 수 있습니다.</b> 빠지지 않으면 아래 순서를 따릅니다.' + ref('head', R7, /병약자/));
+      if (!m.hist) return '<p class="ap-wait">위 질문에 답하면 결과가 나옵니다.</p>';
+      if (m.hist === '0' && m.yrs === 'ge' && !x.no1) { badge = '가목 명부 대상'; o.push('<b>가목 대상</b>입니다. 본교 근무 연수가 긴 사람부터 앞 순위이고, 같으면 인사점수가 낮은 사람이 앞입니다.' + ref('head', R7, /부장교사 경력이 없는 자/)); }
+      else if (m.hist === '0' || m.hist === '1') {
+        if (m.hist === '0' && !m.yrs) return '<p class="ap-wait">위 질문에 답하면 결과가 나옵니다.</p>';
+        badge = '나목 대상'; o.push((m.hist === '0' ? '가목 대상은 아닙니다(' + (x.no1 ? '1급 정교사 자격' : '본교 근무 1년') + ' 조건). ' : '') + '가목으로 다 채우지 못하면 <b>나목 대상</b>입니다. 본교 부장 경력이 적은 사람이 앞이고, 같으면 인사점수가 낮은 사람이 앞입니다.' + ref('head', R7, /가목의 방법으로/));
+      } else { badge = '가·나목 대상 아님'; o.push('본교 부장 경력이 2년 이상이면 가·나목 대상이 아닙니다. 그래도 남으면 인사자문위원회 자문을 거쳐 학교장이 정합니다.' + ref('head', R7, /나목의 방법으로도/)); }
+      if (badge !== '가·나목 대상 아님') {
+        o.push('12월 명부에서 순위가 공개되고, 미달 보직 전체의 <b>선호 순위</b>를 냅니다.' + ref('head', R7, /순위 명부를 작성/));
+        o.push('<b>자원 전환 기간</b>에 원하는 미달 보직을 직접 희망하면 희망자로 봅니다. 먼저 고를 수 있는 기회입니다.' + ref('head', R7, /자원 전환 기간/));
+        o.push('2월에 전입교사가 그 보직을 희망하면 전입교사가 먼저 맡습니다. 남은 보직만 명부 순으로 배정합니다.' + ref('head', R7, /전입교사에게 공개/) + ref('head', R7, /명부 순위가 높은/));
+      }
+      if (x.care) o.push('모성보호시간·육아시간을 쓰므로 미달 보직을 배정할 때 <b>업무량이 적은 보직을 먼저</b> 고를 수 있습니다.' + ref('head', R7, /모성보호시간/));
+    }
+  }
+  return '<div class="ap-res"><div class="ap-badge">' + esc(badge || '확인') + '</div><ol>' + o.map(function(t){ return '<li>' + t + '</li>'; }).join('') + '</ol></div>';
+}
+function renderApMe(){
+  var m = AP.me, h = '<div class="ph"><h2>나는 어떻게 되나요?</h2></div><p class="lead s">몇 가지에 답하면 참고안에서 나에게 적용되는 길만 골라 보여 줍니다. 점수는 계산하지 않고, 답한 내용은 이 브라우저에만 남습니다.</p><div class="ap-qs">';
+  AP_Q.forEach(function(Q){
+    if (Q.when && !Q.when(m)) return;
+    h += '<div class="ap-q"><b>' + esc(Q.q) + '</b><div class="ap-opts" role="group">' + Q.o.map(function(op){ return '<button type="button" data-apq="' + Q.k + '" data-v="' + op[0] + '" aria-pressed="' + (m[Q.k] === op[0]) + '">' + esc(op[1]) + '</button>'; }).join('') + '</div></div>';
+  });
+  var cs = apChecks(m);
+  if (cs.length) h += '<div class="ap-q"><b>해당하는 것이 있으면 고르세요</b><div class="ap-chk">' + cs.map(function(c){ return '<label><input type="checkbox" data-apx="' + c[0] + '"' + ((m.x || {})[c[0]] ? ' checked' : '') + '> ' + esc(c[1]) + '</label>'; }).join('') + '</div></div>';
+  h += '</div>' + (apResult(m) || '<p class="ap-wait">위 질문에 답하면 결과가 나옵니다.</p>') + (m.who ? '<button type="button" class="btn sm ghost" data-apreset style="margin-top:10px">처음부터 다시</button>' : '');
+  return h;
+}
+function renderApFaq(){
+  var F = [
+    ['교무부장·연구부장은 왜 먼저 뽑나요?', '새 학년 교육과정과 업무를 준비해야 해서 다른 부장보다 먼저, 11월까지 정합니다. 초빙교사제로 확보하거나 내규의 경합·미달 절차를 먼저 적용합니다.', [['head', /교무부장과 연구부장/]]],
+    ['희망하지 않았는데 부장이 될 수 있나요?', '희망자가 모자란 미달 보직이 남을 때만 가능합니다. 이때도 정해진 명부 순서(가목 → 나목 → 마목)를 따르고, 원로교사·신규 교사' + (AP.team ? '·교무업무전담팀' : '') + '은 가·나목 대상에서 빠집니다.', [['head', R7, /부장교사 경력이 없는 자/], ['head', R7, /임용 대상에서 제외한다/]]],
+    ['전입교사도 부장을 할 수 있나요?', '교무부장·연구부장은 안 됩니다. 그 밖의 보직은 2월 전보 발표 뒤 남은 미달 보직이 공개되면 희망할 수 있고, 전입교사 희망자를 먼저 임용합니다.', [['head', R7, /전입교사에게 공개/]]],
+    ['같은 부장을 계속 맡을 수 있나요?', '같은 보직은 연속 2회를 넘겨 맡지 않습니다. 다만 그 보직에 다른 희망자가 없으면 계속 맡을 수 있습니다.', [['head', /연속 2회/]]],
+    ['결과는 언제 알 수 있나요?', '미달 보직이 없으면 12월에 끝납니다. 미달 보직이 있으면 희망자가 있는 보직만 12월에 확정하고, 나머지는 2월 전보 발표 뒤 새 학년 준비 기간 전에 정합니다.', [['head', /부장교사 임용과 학년·업무 배정의 시기/]]],
+    ['결과에 이의가 있으면요?', '명부·미달 배정 결과는 개별 통보하며, 통보일부터 3일 이내에 이의를 신청할 수 있습니다.', [['head', R7, /이의를 신청/]]],
+    ['부장이 되면 학년은 어떻게 정하나요?', '학년부장을 겸하는 보직은 학년과 묶은 부장 칸으로 공고하므로 그 학년 담임이 됩니다. 학년이 묶이지 않은 보직은 우대 대상자 다음 순서로 학년을 고릅니다.', [['head', /부장 칸/], ['hGrade']]],
+    ['학기 중에 부장이 비면요?', '부장교사의 임기·해임과 학기 중 결원 보충은 따로 정한 조문을 따릅니다.', [['hTerm']]]
+  ];
+  return '<div class="ph"><h2>자주 묻는 질문</h2></div><div class="ap-faq">' + F.map(function(f){ return '<details><summary>' + esc(f[0]) + '</summary><p>' + esc(f[1]) + '</p>' + apRefs(f[2]) + '</details>'; }).join('') + '</div>';
+}
+function renderAppoint(){
+  $('#ap-year').innerHTML = renderApYear();
+  $('#ap-ways').innerHTML = renderApWays();
+  $('#ap-me').innerHTML = renderApMe();
+  $('#ap-faq').innerHTML = renderApFaq();
+}
+$('#tab-appoint').addEventListener('click', function(ev){
+  var r = ev.target.closest('[data-apart]'); if (r) { openModelAt(targetId(r.dataset.apart)); return; }
+  var q = ev.target.closest('[data-apq]');
+  if (q) {
+    var m = AP.me, k = q.dataset.apq; m[k] = q.dataset.v;
+    if (k === 'who' || k === 'hope') { delete m.cnt; delete m.hist; delete m.yrs; m.x = {}; }
+    if (k === 'hist') delete m.yrs;
+    apSave(); $('#ap-me').innerHTML = renderApMe(); return;
+  }
+  if (ev.target.closest('[data-apreset]')) { AP.me = {}; apSave(); $('#ap-me').innerHTML = renderApMe(); return; }
+  if (ev.target.closest('[data-apprint]')) { window.print(); return; }
+});
+$('#tab-appoint').addEventListener('change', function(ev){
+  var t = ev.target;
+  if (t.dataset.ap) { AP[t.dataset.ap] = t.checked; apSave(); renderAppoint(); return; }
+  if (t.dataset.apx) { AP.me.x = AP.me.x || {}; AP.me.x[t.dataset.apx] = t.checked; apSave(); $('#ap-me').innerHTML = renderApMe(); }
+});
+document.querySelectorAll('[data-cgo]').forEach(function(b){ b.addEventListener('click', function(){ var el = document.getElementById(b.dataset.cgo); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+renderAppoint();
+
 /* ---------- 시작 ---------- */
-renderOpts(); renderScore(); renderPreview(); renderQuota(); renderCalc(); renderGloss(); showTab('home', false);
+renderOpts(); renderScore(); renderPreview(); renderQuota(); renderGloss(); showTab('home', false);
 /* ---------- 학교 연장통 바로가기 ----------
    ① 참고안 조문에 있는 말 → ‘인사 내규 참고안’의 조문 검색에 넣어 그 조문을 보여 줌
    ② 아니면 그 말이 있는 탭(소개·점검·만들기·계산)을 열고 그 자리를 표시. 뒤로가기는 소개로 */
@@ -4770,7 +4713,7 @@ renderOpts(); renderScore(); renderPreview(); renderQuota(); renderCalc(); rende
       mark(m ? (m.closest('.m-item, .m-sub, .m-after, .m-lead, .m-arow, tr, .m-art') || m) : document.querySelector('#model-doc .m-art'));
       return;
     }
-    var tabs = ['home', 'check', 'make', 'calc'];
+    var tabs = ['home', 'check', 'make', 'appoint'];
     for (var j = 0; j < tabs.length; j++) {
       var page = document.getElementById('tab-' + tabs[j]);
       if (!page || norm(page.textContent).indexOf(qn) < 0) continue;
