@@ -773,6 +773,49 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 /* 학교 연장통 바로가기로 찾아온 자리 표시 */
 .qfind{animation:qfind 1.2s 3;border-radius:10px;scroll-margin-top:140px}
 @keyframes qfind{0%,40%{box-shadow:0 0 0 4px rgba(37,99,235,.4)}100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}}
+/* 소개: 내규 찾기 */
+.hs{margin:4px 0 22px;max-width:640px}
+.hs-lb{display:block;font-size:13px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.hs-box{display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid var(--accent);border-radius:14px;padding:0 8px 0 14px;box-shadow:var(--shadow);transition:box-shadow .15s}
+.hs-box:focus-within{box-shadow:0 0 0 4px var(--accent-soft),var(--shadow)}
+.hs-box svg{flex:none;color:var(--accent)}
+.hs-box input[type=search]#hs-q{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16.5px;padding:14px 0;color:var(--ink);outline:none;box-shadow:none}
+.hs-box input#hs-q::-webkit-search-cancel-button{display:none}
+.hs-box kbd{font:600 12px var(--f-ui);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;color:var(--muted);background:var(--soft)}
+@media (hover:none),(max-width:560px){.hs-box kbd{display:none}}
+.hs-x{flex:none;border:0;background:var(--soft);color:var(--ink-2);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;line-height:1}
+.hs-x:hover{background:var(--accent-soft);color:var(--accent)}
+.hs-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
+.hs-chips .lb{font-size:12.5px;color:var(--muted);font-weight:700;margin-right:2px}
+.hs-chips .br{flex-basis:100%;height:0}
+.hs-chip{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:5px 12px;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink-2);cursor:pointer;line-height:1.35;text-align:left}
+.hs-chip:hover{border-color:var(--accent-2);color:var(--accent)}
+.hs-chip.rc{background:var(--soft)}
+.hs-chip.clr{border-style:dashed;color:var(--muted);font-weight:500}
+.hs-res{margin-top:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:14px 16px 10px;box-shadow:var(--shadow)}
+.hs-sum{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px 10px;font-size:14px;padding-bottom:10px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.hs-sum b{color:var(--ink)}
+.hs-warn{margin:10px 0 0;font-size:13px;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:6px 10px}
+.hs-grp h4{display:flex;align-items:center;gap:6px;margin:14px 0 6px;font-size:13px;color:var(--muted);font-weight:800}
+.hs-grp h4 i{font-style:normal;font-weight:700;font-size:11.5px;background:var(--soft);border-radius:99px;padding:0 8px}
+.hs-card{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:6px;background:var(--sheet);transition:border-color .12s}
+.hs-card:hover,.hs-card:focus-within{border-color:var(--accent-2)}
+.hs-go{flex:1;min-width:0;text-align:left;border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+.hs-go:focus-visible{outline-offset:4px}
+.hs-go small{display:block;color:var(--muted);font-size:12px;margin-bottom:1px}
+.hs-go b{color:var(--accent);font-size:15px;font-weight:700;margin-right:4px}
+.hs-go p{margin:4px 0 0;font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.hs-go .badge{vertical-align:2px;margin-left:2px}
+.hs-card .hs-side{flex:none;align-self:center;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.hs-on{font-size:12px;color:var(--ok);font-weight:700;white-space:nowrap}
+.hs-def{flex:1;font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.hs-def b{display:block;color:var(--ink);font-size:14.5px}
+.hs-more{display:flex;justify-content:center;margin:8px 0 4px}
+.hs-none{text-align:center;padding:14px 0 6px;color:var(--ink-2);font-size:14.5px}
+.hs-none .hs-chips{justify-content:center}
+@media (max-width:560px){.hs-card{flex-direction:column}.hs-card .hs-side{align-self:stretch;align-items:stretch}.hs-card .hs-side .btn{width:100%}}
+.m-none{text-align:center;margin:30px 0}
+.m-none .hs-chips{justify-content:center}
 </style>
 </head>
 <body>
@@ -801,6 +844,17 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
       <div class="kicker">학교 인사 내규 점검·작성 도구</div>
       <h1>인사철의 다툼은<br>내규의 <em>빈칸</em>에서 시작됩니다</h1>
       <p class="lead">담임 배정, 부장 임용, 업무분장은 해마다 돌아오지만 내규는 몇 해 전 문장 그대로인 경우가 많습니다. 조항끼리 부딪히거나, 정작 다툼이 생기는 순간을 정해 두지 않으면 결정은 관리자 재량이 되고 결과를 믿기 어려워집니다.</p>
+      <div class="hs" role="search">
+        <label class="hs-lb" for="hs-q">내규 조항 찾기</label>
+        <div class="hs-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+          <input type="search" id="hs-q" placeholder="어떤 상황인가요? 예: 학급감축, 부장 미달" autocomplete="off" enterkeyhint="search" aria-describedby="hs-chips" aria-controls="hs-res">
+          <kbd title="어느 화면에서든 / 키를 누르면 검색창으로 갑니다">/</kbd>
+          <button type="button" class="hs-x" id="hs-x" aria-label="검색어 지우기" hidden>×</button>
+        </div>
+        <div class="hs-chips" id="hs-chips"></div>
+        <div class="hs-res" id="hs-res" aria-live="polite" hidden></div>
+      </div>
       <div class="cta">
         <button class="btn primary lg" type="button" data-go="check">① 우리 학교 내규 점검</button>
         <button class="btn lg" type="button" data-go="model">② 인사 내규 참고안</button>
@@ -956,7 +1010,7 @@ button.chip:hover{border-color:var(--accent-2);color:var(--accent)}
 
     <div class="m-bar">
       <button class="btn sm toc-btn" type="button" id="toc-open" aria-label="목차 열기">☰ <span id="m-cur">목차</span></button>
-      <input type="search" id="m-search" placeholder="조문 검색 (예: 육아시간, 6학년)" aria-label="조문 검색">
+      <input type="search" id="m-search" placeholder="조문 검색 (예: 학급감축, 육아시간)" aria-label="조문 검색">
       <label class="switch"><input type="checkbox" id="m-notes"> 해설 모두 펼치기</label>
       <div class="count" id="m-count"></div>
     </div>
@@ -4080,7 +4134,7 @@ $('#q-classes').addEventListener('input', renderQuota);
 /* ---------- 인사 내규 참고안 ---------- */
 var MODEL_OPT = {}; E.OPTIONS.forEach(function(o){ MODEL_OPT[o.key] = true; });
 var MODEL_V = clone(E.DEFAULT_V); MODEL_V.innovSchool = true;
-var MODEL, MODEL_PLAIN, MODEL_GROUPS, PLAIN_GROUPS, GROUP_TEXT;
+var MODEL, MODEL_PLAIN, MODEL_GROUPS, PLAIN_GROUPS, GROUP_TEXT, GROUP_CH, GROUP_N;
 
 /* 점검 항목 → 조문 */
 var TOPIC_ART = {
@@ -4239,6 +4293,108 @@ var GLOSS = Object.assign({
   '산정 기간': '인사점수를 계산할 때 넣는 최근 몇 년의 범위(예: 최근 5년)',
   'HWPX': '한글 프로그램에서 여는 문서 파일 형식'
 }, TERMS);
+/* ---------- 찾기 엔진: 띄어쓰기 무시 + 비슷한 말 + 여러 낱말 ---------- */
+var SYN = [
+  ['감축', '감소', '축소', '줄어', '줄면', '줄이', '줄었', '증감'],
+  ['증설', '증가', '늘어', '늘면', '늘리', '증감'],
+  ['부장', '보직교사', '보직', '부장교사'],
+  ['전출', '전보', '전근', '다른학교'],
+  ['교담', '교과전담', '전담교사'],
+  ['육아', '육아시간', '모성보호', '어린자녀'],
+  ['임신', '출산', '모성보호'],
+  ['원로', '원로교사', '고령', '나이', '연령'],
+  ['동점', '동점자', '같은점수', '점수가같'],
+  ['이의', '이의신청', '불복', '동의할수없', '억울'],
+  ['미달', '모자라', '부족', '희망자가없', '희망자가적', '지원자가없'],
+  ['경합', '겹치', '몰리', '희망자가많', '경쟁'],
+  ['신규', '저경력', '신규교사', '초임', '발령'],
+  ['휴직', '복직', '육아휴직', '장기부재'],
+  ['인사점수', '배점', '경력점', '점수'],
+  ['인사자문위원회', '자문위원회', '위원회', '인사위원회'],
+  ['해임', '그만두', '사임', '결원', '공석'],
+  ['기간제', '기간제교원', '대체교원'],
+  ['전보유예', '유예', '혁신학교'],
+  ['교육활동침해', '교권침해', '교권', '침해'],
+  ['병약', '장애', '질병', '건강'],
+  ['담임교체', '담임변경', '담임을바꿔', '담임교사교체'],
+  ['업무분장', '업무배정', '업무'],
+  ['학년배정', '학년희망', '학년선택', '학년을고르'],
+  ['전입', '전입교사', '새로온'],
+  ['초빙', '초빙교원', '초빙교사'],
+  ['가산점', '승진가산점', '학교폭력']
+];
+function nrm(s){ return String(s == null ? '' : s).toLowerCase().replace(/[\s·・,.()\[\]{}<>「」『』“”"'‘’`\-–—~:;!?\/※…]+/g, ''); }
+var SYN_N = SYN.map(function(g){ return g.map(nrm); });
+function synOf(w){
+  var out = [w];
+  SYN_N.forEach(function(g){
+    g.forEach(function(m){
+      if (m.length < 2 || w.indexOf(m) < 0) return;
+      g.forEach(function(o){ if (o === m) return; var r = w.replace(m, o); if (out.indexOf(r) < 0) out.push(r); });
+    });
+  });
+  return out;
+}
+/* 검색어 → 낱말 목록 */
+function parseQ(q){
+  var toks = String(q || '').trim().split(/\s+/).map(nrm).filter(Boolean);
+  var all = nrm(q);
+  return { all: all, toks: toks.map(function(t){
+    var parts = [];
+    if (t.length >= 4) for (var i = 2; i <= t.length - 2; i++) parts.push([synOf(t.slice(0, i)), synOf(t.slice(i))]);
+    return { raw: t, alts: synOf(t), parts: parts };
+  }) };
+}
+/* 한 낱말이 정규화된 글(hay)에 맞는지: 그대로 1, 비슷한 말 .8, 쪼개서 .5 */
+function tokIn(tok, hay){
+  if (!hay) return null;
+  if (hay.indexOf(tok.raw) >= 0) return { s: 1, terms: [tok.raw] };
+  for (var i = 1; i < tok.alts.length; i++) if (hay.indexOf(tok.alts[i]) >= 0) return { s: .8, terms: [tok.alts[i]] };
+  for (var p = 0; p < tok.parts.length; p++) {
+    var L = tok.parts[p][0].filter(function(a){ return hay.indexOf(a) >= 0; }), R = tok.parts[p][1].filter(function(a){ return hay.indexOf(a) >= 0; });
+    if (L.length && R.length) return { s: .5, terms: [L[0], R[0]] };
+  }
+  return null;
+}
+/* fields: [[정규화된 글, 가중치], …] → { score, terms, miss } (mode 'and'면 모든 낱말이 맞아야 함) */
+function scoreFields(pq, fields, mode){
+  var score = 0, terms = [], miss = 0;
+  pq.toks.forEach(function(tok){
+    var best = 0, bt = null;
+    fields.forEach(function(f){ var m = tokIn(tok, f[0]); if (m && m.s * f[1] > best) { best = m.s * f[1]; bt = m.terms; } });
+    if (bt) { score += best; terms = terms.concat(bt); } else miss++;
+  });
+  if (!pq.toks.length || (mode !== 'or' && miss) || (mode === 'or' && miss === pq.toks.length)) return null;
+  if (pq.toks.length > 1 && pq.all.length >= 3) fields.forEach(function(f){ if (f[0] && f[0].indexOf(pq.all) >= 0) { score += f[1] * 1.5; terms.push(pq.all); } });
+  return { score: score, terms: terms, miss: miss };
+}
+/* 정규화된 낱말 → 원문에서 띄어쓰기·가운뎃점을 건너뛰며 찾는 정규식 */
+var SKIP = '[\\s·・,.()\\-]*';
+function termsRe(terms){
+  var uniq = terms.filter(function(t, i, a){ return t && a.indexOf(t) === i; }).sort(function(a, b){ return b.length - a.length; });
+  if (!uniq.length) return null;
+  return new RegExp('(' + uniq.map(function(t){ return t.split('').map(function(c){ return c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join(SKIP); }).join('|') + ')', 'gi');
+}
+function markTerms(html, terms){
+  var re = termsRe(terms || []);
+  if (!re) return html;
+  return html.replace(/(^|>)([^<]+)(?=<|$)/g, function(m0, a, txt){ return a + txt.replace(re, '<mark>$1</mark>'); });
+}
+/* 맞은 줄을 골라 앞뒤를 줄인 미리보기 */
+function snippetHtml(text, terms, fallback){
+  var re = termsRe(terms || []), lines = String(text || '').split('\n'), line = null, idx = 0, best = 0;
+  var uniq = (terms || []).filter(function(t, i, a){ return t && a.indexOf(t) === i; });
+  if (re) for (var i = 0; i < lines.length; i++) {
+    var nl = nrm(lines[i]), c = 0;
+    uniq.forEach(function(t){ if (nl.indexOf(t) >= 0) c++; });
+    if (c > best) { best = c; line = lines[i]; }
+  }
+  if (line == null) { line = fallback != null ? fallback : (lines[0] || ''); idx = 0; }
+  line = line.replace(/^\s+/, ''); if (re) { re.lastIndex = 0; var m2 = re.exec(line); idx = m2 ? m2.index : 0; }
+  var max = 96, st = 0;
+  if (line.length > max) { st = Math.max(0, Math.min(idx - 28, line.length - max)); line = (st ? '…' : '') + line.slice(st, st + max) + (st + max < line.length ? '…' : ''); }
+  return markTerms(esc(line), terms);
+}
 function renderGloss(){
   var keys = Object.keys(GLOSS).sort(function(a, b){ return a.localeCompare(b, 'ko'); });
   var html = keys.map(function(k){ return '<dt>' + esc(k) + '</dt><dd>' + esc(GLOSS[k]) + '</dd>'; }).join('');
@@ -4289,7 +4445,13 @@ function buildModelData(){
 MODEL = E.blocks(MODEL_OPT, MODEL_V, true);
 MODEL_PLAIN = E.blocks(MODEL_OPT, MODEL_V, false);
 MODEL_GROUPS = modelGroups(MODEL); PLAIN_GROUPS = modelGroups(MODEL_PLAIN);
-GROUP_TEXT = {};
+GROUP_TEXT = {}; GROUP_CH = {}; GROUP_N = {};
+var curCh = '';
+PLAIN_GROUPS.forEach(function(g){
+  if (g.kind === 'chapter') { curCh = g.b.text; return; }
+  if (g.kind === 'addTitle') { curCh = '부칙'; return; }
+  if (g.id) GROUP_CH[g.id] = g.kind === 'defs' || g.kind === 'annex' ? '' : curCh;
+});
 PLAIN_GROUPS.forEach(function(g){
   if (!g.id) return;
   var lines = [];
@@ -4304,6 +4466,7 @@ PLAIN_GROUPS.forEach(function(g){
     else if (b.text) lines.push('  ' + b.text);
   });
   GROUP_TEXT[g.id] = lines.join('\n');
+  GROUP_N[g.id] = nrm(GROUP_TEXT[g.id]);
 });
 var st = MODEL.layout;
 $('#m-stats').textContent = st.chapters.length + '장 ' + MODEL.blocks.filter(function(b){ return b.k === 'art'; }).length + '조 · 부칙 ' + st.addenda.length + '조 · 별표 ' + st.annex.length + '개';
@@ -4330,6 +4493,7 @@ function calTimeline(b){
 document.addEventListener('click', function(e){ var t = e.target.closest && e.target.closest('[data-cal]'); if (!t) return; modelState.cal = t.dataset.cal; renderModel(); var el = document.getElementById('m-x-cal'); if (el) el.scrollIntoView({ block: 'nearest' }); });
 function renderModel(){
   var q = modelState.q.trim(), route = routeOf(modelState.route);
+  var pq = q ? parseQ(q) : null;
   var stepsBy = {};
   if (route) route.steps.forEach(function(s, i){ var id = 'a-' + s[0]; (stepsBy[id] = stepsBy[id] || []).push(i + 1); });
   var h = [], hits = 0, chBuf = null;
@@ -4355,12 +4519,14 @@ function renderModel(){
         body += t + '</table><div class="m-tcap">배점은 학교가 정하는 값입니다.</div></div>';
       }
     });
-    if (q && (GROUP_TEXT[g.id] || '').indexOf(q) < 0) return;
-    if (q) { hits++; if (chBuf) { h.push(chBuf); chBuf = null; } body = markSearch(body, q); }
+    var sm = null;
+    if (q) { sm = scoreFields(pq, [[GROUP_N[g.id], 3], [nrm(GROUP_CH[g.id]), 2]], 'and'); if (!sm) return; }
+    if (q) { hits++; if (chBuf) { h.push(chBuf); chBuf = null; } body = markTerms(body, sm.terms); }
     var key = g.id.replace(/^a-/, '');
     var note = NOTES[key], topics = ART_TOPICS[g.kind === 'art' ? key : g.id] || [];
     var isOpt = g.b.red, steps = stepsBy[g.id];
     var headTxt = g.kind === 'art' ? '<b>' + esc(g.b.head) + '</b>' : '<b>' + esc(g.b.head || g.b.text) + '</b>';
+    if (sm) headTxt = markTerms(headTxt, sm.terms);
     var tools = '<span class="m-tools">' + (note || topics.length ? '<button type="button" class="m-tbtn" data-note="' + esc(g.id) + '">해설</button>' : '') +
       '<button type="button" class="m-tbtn" data-copy="' + esc(g.id) + '">복사</button></span>';
     var noteHtml = (note || topics.length) ? '<div class="m-note"' + (modelState.notes ? '' : ' hidden') + ' data-note-box="' + esc(g.id) + '">' +
@@ -4369,7 +4535,7 @@ function renderModel(){
       (steps ? '<div class="m-steps">' + steps.map(function(n){ return '<span>' + n + '</span>'; }).join('') + '</div>' : '') +
       '<div class="m-head">' + headTxt + (isOpt ? '<span class="badge">선택</span>' : '') + (g.b.io ? '<span class="badge io">혁신학교</span>' : '') + tools + '</div>' + body + noteHtml + '</article>');
   });
-  if (q && !hits) h.push('<p class="lead s" style="text-align:center;margin:30px 0">“' + esc(q) + '”이 들어간 조문이 없습니다.</p>');
+  if (q && !hits) h.push('<div class="m-none"><p class="lead s">“' + esc(q) + '”에 맞는 조문이 없습니다.</p>' + suggestHtml(q, 'm') + '</div>');
   $('#model-doc').innerHTML = h.join('');
   $('#m-count').textContent = q ? hits + '개 조문에서 찾았습니다' : '';
   renderRoute();
@@ -4692,6 +4858,217 @@ $('#tab-appoint').addEventListener('change', function(ev){
 document.querySelectorAll('[data-cgo]').forEach(function(b){ b.addEventListener('click', function(){ var el = document.getElementById(b.dataset.cgo); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
 renderAppoint();
 
+/* ---------- 소개: 내규 찾기 (조문·상황별 길잡이·부장 임용 FAQ·낱말 풀이·점검 항목) ---------- */
+var HS_PICK = ['학기 중에 학급이 늘거나 줄면?', '부장 희망자가 모자라면?', '6학년을 원하는 교사가 겹치면?', '휴직했다가 복직하면?', '결과에 동의할 수 없으면?'];
+var KEY_RECENT = 'naegyu-search-recent';
+var hsQ = '';
+function modelHas(q){ var pq = parseQ(q); if (!pq.toks.length) return false; return Object.keys(GROUP_N).some(function(k){ return !!scoreFields(pq, [[GROUP_N[k], 3], [nrm(GROUP_CH[k]), 2]], 'and'); }); }
+/* 조문이 어떤 선택 조항(만들기 ②)에 딸려 있는지: 그 조항만 끄면 사라지는 조문 */
+var OPT_OF = null;
+function optOf(){
+  if (OPT_OF) return OPT_OF;
+  OPT_OF = {};
+  var full = Object.keys(GROUP_TEXT), best = {};
+  E.OPTIONS.forEach(function(o){
+    var o2 = Object.assign({}, MODEL_OPT); o2[o.key] = false;
+    var ids = {};
+    try { modelGroups(E.blocks(o2, MODEL_V, false)).forEach(function(g){ if (g.id) ids[g.id] = 1; }); } catch(e){ return; }
+    var gone = full.filter(function(id){ return !ids[id]; });
+    gone.forEach(function(id){ if (!best[id] || best[id].n > gone.length) best[id] = { k: o.key, n: gone.length }; });
+  });
+  Object.keys(best).forEach(function(id){ OPT_OF[id] = best[id].k; });
+  return OPT_OF;
+}
+function optInfo(k){ return E.OPTIONS.filter(function(o){ return o.key === k; })[0]; }
+/* 찾을 대상 */
+function hsIndex(){
+  var list = [];
+  PLAIN_GROUPS.forEach(function(g){
+    if (!g.id) return;
+    var key = g.id.replace(/^a-/, ''), title = g.kind === 'art' ? g.b.head : (g.b.head || g.b.text);
+    var extra = (NOTES[key] || '') + ' ' + (ART_TOPICS[g.kind === 'art' ? key : g.id] || []).join(' ');
+    list.push({ type: 'art', id: g.id, title: title, ch: GROUP_CH[g.id] || '', text: GROUP_TEXT[g.id], red: g.b.red, io: g.b.io,
+      lead: g.kind === 'art' ? (g.b.text || '').trim() : null,
+      f: [[nrm(title), 10], [nrm(GROUP_CH[g.id]), 6], [GROUP_N[g.id], 3], [nrm(extra), 1]] });
+  });
+  ROUTES.forEach(function(r, i){
+    var txt = r.steps.map(function(s){ return (MODEL.layout.map.a[s[0]] || '') + ' ' + s[1]; }).join('\n');
+    list.push({ type: 'route', i: i, title: r.q, text: txt, f: [[nrm(r.q), 10], [nrm(txt), 3]] });
+  });
+  document.querySelectorAll('#ap-faq details').forEach(function(d, i){
+    var qs = d.querySelector('summary'), ps = d.querySelector('p');
+    var t = qs ? qs.textContent : '', a = ps ? ps.textContent : '';
+    list.push({ type: 'faq', i: i, title: t, text: a, f: [[nrm(t), 10], [nrm(a), 3]] });
+  });
+  Object.keys(GLOSS).forEach(function(k){ list.push({ type: 'term', title: k, text: GLOSS[k], f: [[nrm(k), 10], [nrm(GLOSS[k]), 2]] }); });
+  E.TOPICS.forEach(function(t){ if (TOPIC_ART[t.n]) list.push({ type: 'topic', title: t.n, text: t.g, f: [[nrm(t.n), 10]] }); });
+  return list;
+}
+function hsSearch(q, mode){
+  var pq = parseQ(q), out = [];
+  if (!pq.toks.length) return out;
+  hsIndex().forEach(function(it){ var m = scoreFields(pq, it.f, mode); if (m) { it.m = m; out.push(it); } });
+  out.sort(function(a, b){ return b.m.score - a.m.score; });
+  return out;
+}
+/* 0건일 때: 같은 두 글자를 품은 낱말 가운데 실제로 결과가 나오는 것 */
+function suggestWords(q){
+  var nq = nrm(q), grams = [];
+  for (var i = 0; i < nq.length - 1; i++) grams.push(nq.slice(i, i + 2));
+  if (!grams.length) return [];
+  var pool = [];
+  SYN.forEach(function(g){ g.forEach(function(w){ if (w.length >= 2 && pool.indexOf(w) < 0) pool.push(w); }); });
+  Object.keys(GLOSS).forEach(function(w){ if (pool.indexOf(w) < 0) pool.push(w); });
+  E.TOPICS.forEach(function(t){ if (pool.indexOf(t.n) < 0) pool.push(t.n); });
+  return pool.map(function(w){ var nw = nrm(w), c = 0; grams.forEach(function(gm){ if (nw.indexOf(gm) >= 0) c++; }); return { w: w, c: c }; })
+    .filter(function(x){ return x.c > 0 && nrm(x.w) !== nq; })
+    .sort(function(a, b){ return b.c - a.c || a.w.length - b.w.length; })
+    .filter(function(x){ return modelHas(x.w); })
+    .slice(0, 5).map(function(x){ return x.w; });
+}
+function suggestHtml(q, ctx){
+  var ws = suggestWords(q), at = ctx === 'm' ? 'data-ms' : 'data-hs-s';
+  var h = '<div class="hs-chips">';
+  if (ws.length) h += '<span class="lb">이 말로 찾아볼까요?</span>' + ws.map(function(w){ return '<button type="button" class="hs-chip" ' + at + '="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '<span class="br"></span>';
+  h += '<span class="lb">상황으로 찾기</span>' + HS_PICK.map(function(t){ var i = ROUTES.map(function(r){ return r.q; }).indexOf(t); return i < 0 ? '' : '<button type="button" class="hs-chip" data-hs-r="' + i + '">' + esc(t) + '</button>'; }).join('');
+  return h + '</div>';
+}
+/* 최근 검색어(이 브라우저에만 저장) */
+function recentGet(){ var r = load(KEY_RECENT); return Array.isArray(r) ? r.slice(0, 5) : []; }
+function recentAdd(q){ q = String(q || '').trim(); if (q.length < 2) return; var r = recentGet().filter(function(x){ return nrm(x) !== nrm(q); }); r.unshift(q); save(KEY_RECENT, r.slice(0, 5)); renderHsChips(); }
+function renderHsChips(){
+  var rc = recentGet(), h = '<span class="lb">자주 찾는 상황</span>';
+  h += HS_PICK.map(function(t){ var i = ROUTES.map(function(r){ return r.q; }).indexOf(t); return i < 0 ? '' : '<button type="button" class="hs-chip" data-hs-r="' + i + '">' + esc(t) + '</button>'; }).join('');
+  if (rc.length) h += '<span class="br"></span><span class="lb">최근 검색</span>' + rc.map(function(w){ return '<button type="button" class="hs-chip rc" data-hs-s="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '<button type="button" class="hs-chip clr" data-hs-clr="1" aria-label="최근 검색어 지우기">지우기</button>';
+  $('#hs-chips').innerHTML = h;
+}
+var HS_GROUPS = [['art', '조문', 6], ['route', '상황별 길잡이', 3], ['faq', '부장 임용 자주 묻는 질문', 3], ['term', '낱말 풀이', 3], ['topic', '채우는 점검 항목', 6]];
+function hsCard(it){
+  var t = it.m.terms;
+  if (it.type === 'art') {
+    var k = optOf()[it.id], o = k && optInfo(k), side = '';
+    if (o) {
+      var on = opt[k] || (k === 'defer' && V.innovSchool && opt.innov);
+      side = on ? '<span class="hs-on" title="③ 인사 내규 만들기에 이미 들어 있습니다">✓ 내 내규안에 포함</span>'
+                : '<button type="button" class="btn sm" data-hs-on="' + esc(k) + '" title="' + esc(o.label) + ' 조항을 켜고 ③ 만들기로 이동">③ 만들기에서 켜기</button>';
+    }
+    return '<div class="hs-card"><button type="button" class="hs-go" data-hs-a="' + esc(it.id) + '">' + (it.ch ? '<small>' + markTerms(esc(it.ch), t) + '</small>' : '') +
+      '<b>' + markTerms(esc(it.title), t) + '</b>' + (it.red ? '<span class="badge">선택</span>' : '') + (it.io ? '<span class="badge io">혁신학교</span>' : '') +
+      '<p>' + snippetHtml(it.text.split('\n').slice(1).join('\n') || it.lead || '', t, it.lead) + '</p></button>' + (side ? '<div class="hs-side">' + side + '</div>' : '') + '</div>';
+  }
+  if (it.type === 'route') return '<div class="hs-card"><button type="button" class="hs-go" data-hs-r="' + it.i + '"><small>상황별 길잡이 · 적용 조문을 순서대로</small><b>' + markTerms(esc(it.title), t) + '</b><p>' + snippetHtml(it.text, t) + '</p></button></div>';
+  if (it.type === 'faq') return '<div class="hs-card"><button type="button" class="hs-go" data-hs-f="' + it.i + '"><small>부장 임용 안내</small><b>' + markTerms(esc(it.title), t) + '</b><p>' + snippetHtml(it.text, t) + '</p></button></div>';
+  if (it.type === 'term') return '<div class="hs-card"><div class="hs-def"><b>' + markTerms(esc(it.title), t) + '</b>' + markTerms(esc(it.text), t) + '</div><div class="hs-side"><button type="button" class="btn sm ghost" data-hs-t="' + esc(it.title) + '">조문에서 찾기</button></div></div>';
+  return '';
+}
+function runHs(q){
+  hsQ = q = String(q || '').trim();
+  var box = $('#hs-res');
+  $('#hs-x').hidden = !q;
+  $('#hs-chips').hidden = !!q;
+  if (!q) { box.hidden = true; box.innerHTML = ''; return; }
+  var res = hsSearch(q, 'and'), partial = false;
+  if (!res.length && parseQ(q).toks.length > 1) { res = hsSearch(q, 'or'); partial = res.length > 0; }
+  box.hidden = false;
+  if (!res.length) { box.innerHTML = '<div class="hs-none"><p>“<b>' + esc(q) + '</b>”에 맞는 조문을 찾지 못했습니다.</p>' + suggestHtml(q, 'h') + '</div>'; return; }
+  var by = {}; res.forEach(function(it){ (by[it.type] = by[it.type] || []).push(it); });
+  var nArt = (by.art || []).length;
+  var sum = HS_GROUPS.filter(function(g){ return by[g[0]]; }).map(function(g){ return g[1].replace('부장 임용 자주 묻는 질문', 'FAQ').replace('채우는 ', '') + ' ' + by[g[0]].length; }).join(' · ');
+  var h = '<div class="hs-sum"><span>“<b>' + esc(q) + '</b>” · ' + esc(sum) + '</span>' + (nArt ? '<button type="button" class="btn sm ghost" data-hs-all="1">참고안에서 모두 보기 →</button>' : '') + '</div>';
+  if (partial) h += '<p class="hs-warn">모든 낱말이 들어간 결과가 없어, 일부 낱말만 맞는 결과를 보여 드립니다.</p>';
+  HS_GROUPS.forEach(function(g){
+    var items = by[g[0]]; if (!items) return;
+    h += '<div class="hs-grp"><h4>' + esc(g[1]) + ' <i>' + items.length + '</i></h4>';
+    if (g[0] === 'topic') h += '<div class="hs-chips" style="margin-top:0">' + items.slice(0, g[2]).map(function(it){ return '<button type="button" class="hs-chip" data-hs-topic="' + esc(it.title) + '">' + markTerms(esc(it.title), it.m.terms) + '</button>'; }).join('') + '</div>';
+    else h += items.slice(0, g[2]).map(hsCard).join('');
+    if (g[0] === 'art' && items.length > g[2]) h += '<div class="hs-more"><button type="button" class="btn sm" data-hs-all="1">조문 ' + (items.length - g[2]) + '건 더 보기 (참고안에서)</button></div>';
+    h += '</div>';
+  });
+  box.innerHTML = h;
+}
+/* 결과에서 옮겨 가기 */
+function modelSearch(q, thenId){
+  modelState.route = -1; modelState.q = q; $('#m-search').value = q;
+  showTab('model', true); renderModel();
+  setTimeout(function(){ if (thenId) goTo(thenId, false); else { var m = document.querySelector('#model-doc mark'); var el = m && m.closest('.m-art'); if (el) goTo(el.id, false); } }, 60);
+}
+function openRoute(i){
+  modelState.q = ''; $('#m-search').value = ''; modelState.route = i;
+  showTab('model', true); renderModel();
+  setTimeout(function(){ goTo('m-route', false); }, 60);
+}
+function openFaq(i){
+  showTab('appoint', true);
+  var d = document.querySelectorAll('#ap-faq details')[i]; if (!d) return;
+  d.open = true;
+  setTimeout(function(){ d.scrollIntoView({ block: 'center', behavior: 'smooth' }); d.classList.add('qfind'); setTimeout(function(){ d.classList.remove('qfind'); }, 4000); }, 80);
+}
+function enableOpt(k){
+  var o = optInfo(k); if (!o) return;
+  var needInnov = (o.school === 'innov' || o.need === 'innov') && !V.innovSchool;
+  if (!needInnov) {
+    opt[k] = true;
+    if (o.need && o.need !== 'innov') opt[o.need] = true;
+    renderOpts(); changed();
+  }
+  showTab('make', true);
+  setTimeout(function(){
+    var cb = document.getElementById('o-' + k), el = cb && cb.closest('.opt'); if (!el) return;
+    el.scrollIntoView({ block: 'center', behavior: 'smooth' }); el.classList.add('qfind'); setTimeout(function(){ el.classList.remove('qfind'); }, 4000);
+  }, 80);
+  toast(needInnov ? '혁신학교만 해당하는 조항입니다. ① 학교 정보에서 혁신학교 ‘예’를 고르면 켤 수 있습니다.' : '‘' + o.label + '’ 조항을 켰습니다. ⑤ 미리보기에서 확인하세요.');
+}
+var hsT;
+$('#hs-q').addEventListener('input', function(){ var v = this.value; clearTimeout(hsT); hsT = setTimeout(function(){ runHs(v); }, 140); });
+$('#hs-q').addEventListener('keydown', function(ev){
+  if (ev.key === 'Enter') { ev.preventDefault(); clearTimeout(hsT); runHs(this.value); recentAdd(this.value); if (matchMedia('(hover:none)').matches) this.blur(); }
+  else if (ev.key === 'Escape') { this.value = ''; runHs(''); }
+  else if (ev.key === 'ArrowDown') { var f = document.querySelector('#hs-res .hs-go, #hs-res button'); if (f) { ev.preventDefault(); f.focus(); } }
+});
+$('#hs-x').addEventListener('click', function(){ var i = $('#hs-q'); i.value = ''; runHs(''); i.focus(); });
+function hsClick(ev){
+  var t = ev.target.closest && ev.target.closest('button'); if (!t) return;
+  var d = t.dataset;
+  if (d.hsS != null) { $('#hs-q').value = d.hsS; runHs(d.hsS); recentAdd(d.hsS); return; }
+  if (d.hsClr) { save(KEY_RECENT, []); renderHsChips(); return; }
+  if (d.hsR != null) { if (hsQ) recentAdd(hsQ); openRoute(+d.hsR); return; }
+  if (d.hsA) { recentAdd(hsQ); modelSearch(hsQ, 'm-' + d.hsA); return; }
+  if (d.hsAll) { recentAdd(hsQ); modelSearch(hsQ); return; }
+  if (d.hsF != null) { recentAdd(hsQ); openFaq(+d.hsF); return; }
+  if (d.hsT) { recentAdd(hsQ); modelSearch(d.hsT); return; }
+  if (d.hsTopic) { recentAdd(hsQ); if (TOPIC_ART[d.hsTopic]) openModelAt(targetId(TOPIC_ART[d.hsTopic])); return; }
+  if (d.hsOn) { recentAdd(hsQ); enableOpt(d.hsOn); return; }
+}
+$('#hs-res').addEventListener('click', hsClick);
+$('#hs-chips').addEventListener('click', hsClick);
+/* 참고안 탭: 0건일 때 제안 낱말·상황 */
+$('#model-doc').addEventListener('click', function(ev){
+  var t = ev.target.closest && ev.target.closest('button'); if (!t) return;
+  if (t.dataset.ms != null) { $('#m-search').value = t.dataset.ms; modelState.q = t.dataset.ms; renderModel(); return; }
+  if (t.dataset.hsR != null) openRoute(+t.dataset.hsR);
+});
+/* 결과 안에서 위아래 화살표로 이동 */
+$('#hs-res').addEventListener('keydown', function(ev){
+  if (ev.key !== 'ArrowDown' && ev.key !== 'ArrowUp') return;
+  var all = [].slice.call(document.querySelectorAll('#hs-res button')), i = all.indexOf(document.activeElement); if (i < 0) return;
+  ev.preventDefault();
+  if (ev.key === 'ArrowUp' && i === 0) { $('#hs-q').focus(); return; }
+  var n = all[i + (ev.key === 'ArrowDown' ? 1 : -1)]; if (n) n.focus();
+});
+/* / 키: 소개에서는 내규 찾기, 참고안에서는 조문 검색으로 */
+document.addEventListener('keydown', function(ev){
+  if (ev.key !== '/' || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+  var a = document.activeElement, tag = a && a.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (a && a.isContentEditable)) return;
+  var lic = document.getElementById('lic'); if (lic && !lic.hidden) return;
+  var target = current === 'model' ? $('#m-search') : current === 'home' ? $('#hs-q') : null;
+  if (!target) { showTab('home', true); target = $('#hs-q'); }
+  ev.preventDefault();
+  if (current === 'home') target.scrollIntoView({ block: 'center' });
+  target.focus(); target.select();
+});
+renderHsChips();
+
 /* ---------- 시작 ---------- */
 renderOpts(); renderScore(); renderPreview(); renderQuota(); renderGloss(); showTab('home', false);
 /* ---------- 학교 연장통 바로가기 ----------
@@ -4703,9 +5080,31 @@ renderOpts(); renderScore(); renderPreview(); renderQuota(); renderGloss(); show
   var words = findQ.split(/\s+/).filter(function(w){ return w.length >= 2; }).sort(function(a, b){ return b.length - a.length; });
   var raw = [findQ].concat(words).filter(function(w, i, a){ return w && a.indexOf(w) === i; });
   function mark(el){ if (!el) return; setTimeout(function(){ el.scrollIntoView({ block: 'center' }); el.classList.add('qfind'); setTimeout(function(){ el.classList.remove('qfind'); }, 4000); }, 80); }
+  /* ⓪ 소개의 ‘내규 조항 찾기’와 같은 순위로 가장 잘 맞는 자리(조문·상황별 길잡이·부장 임용 FAQ)를 엽니다 */
+  try {
+    $('#hs-q').value = findQ; runHs(findQ);
+    var res = hsSearch(findQ, 'and');
+    if (!res.length) {   /* 연장통에서 넘어온 말 가운데 아무 데도 없는 낱말(‘하면’ 등)은 빼고 다시. 다만 소개·안내 글에만 있는 말이면 아래 ②로 */
+      var words = findQ.split(/\s+/).filter(Boolean);
+      var kept = words.filter(function(w){ return hsSearch(w, 'and').length; });
+      var pageTxt = nrm(['home', 'check', 'make', 'appoint'].map(function(n){ return document.getElementById('tab-' + n).textContent; }).join(' '));
+      var inPage = words.some(function(w){ return kept.indexOf(w) < 0 && nrm(w).length >= 3 && pageTxt.indexOf(nrm(w)) >= 0; });
+      if (kept.length && kept.length < words.length && !inPage) res = hsSearch(kept.join(' '), 'and');
+    }
+    /* 검색어가 그대로(띄어쓰기만 달리) 들어 있는 조문이 있으면 그 조문이 먼저 */
+    var nq = nrm(findQ);
+    var exact = nq.length >= 3 ? res.filter(function(x){ return x.type === 'art' && (GROUP_N[x.id] || '').indexOf(nq) >= 0; })[0] : null;
+    var top = exact || res.filter(function(x){ return x.type === 'art' || x.type === 'route' || x.type === 'faq'; })[0];
+    if (top) {
+      if (top.type === 'route') openRoute(top.i);
+      else if (top.type === 'faq') openFaq(top.i);
+      else modelSearch(findQ, 'm-' + top.id);
+      return;
+    }
+  } catch(e){}
   for (var i = 0; i < raw.length; i++) {
     var w = raw[i], qn = norm(w);
-    var inModel = Object.keys(GROUP_TEXT).some(function(k){ return (GROUP_TEXT[k] || '').indexOf(w) >= 0; });
+    var inModel = modelHas(w);
     if (inModel) {
       showTab('model', true);
       $('#m-search').value = w; modelState.q = w; renderModel();
